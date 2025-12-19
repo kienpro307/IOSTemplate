@@ -1,22 +1,17 @@
 import SwiftUI
+import ComposableArchitecture
+import Core
 
 @main
 struct iOSTemplateApp: App {
+    // Tạo Store với initial state
+    let store = Store(initialState: AppState()) {
+        AppReducer()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView(store: store)
         }
-    }
-}
-
-struct ContentView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, iOS Template!")
-        }
-        .padding()
     }
 }
