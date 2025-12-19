@@ -1,0 +1,32 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+
+# CocoaPods
+Pods/
+*.xcworkspace
+
+# Secrets
+*.plist.secret
+GoogleService-Info.plist
+
+# OS
+.DS_Store
+*.swp
+Thumbs.db
+
+# Others
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
