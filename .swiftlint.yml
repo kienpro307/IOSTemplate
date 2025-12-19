@@ -1,7 +1,6 @@
 disabled_rules:
   - trailing_comma
   - todo
-  - file_length
 
 opt_in_rules:
   - array_init
@@ -41,7 +40,7 @@ type_name:
   min_length: 3
   max_length: 50
 
-variable_name:
+identifier_name:
   min_length: 2
   max_length: 50
 
@@ -49,5 +48,6 @@ excluded:
   - DerivedData
   - .build
   - Pods
+  - Tests
 
 reporter: "xcode"

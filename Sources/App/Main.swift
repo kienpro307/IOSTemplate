@@ -1,11 +1,13 @@
-//
-//  ContentView.swift
-//  IOSTemplate
-//
-//  Created by DatNV on 19/12/25.
-//
-
 import SwiftUI
+
+@main
+struct iOSTemplateApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
+    }
+}
 
 struct ContentView: View {
     var body: some View {
@@ -13,12 +15,8 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("Hello, iOS Template!")
         }
         .padding()
     }
-}
-
-#Preview {
-    ContentView()
 }
