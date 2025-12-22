@@ -7,52 +7,186 @@ struct RootView: View {
     @Perception.Bindable var store: StoreOf<AppReducer>
     
     var body: some View {
-        TabView(selection: $store.selectedTab.sending(\.tabChanged)) {
-            ForEach(AppState.Tab.allCases, id: \.self) { tab in
-                tabContent(for: tab)
-                    .tabItem {
-                        Label(tab.title, systemImage: tab.icon)
-                    }
-                    .tag(tab)
+        WithPerceptionTracking {
+            TabView(selection: $store.selectedTab.sending(\.tabChanged)) {
+                ForEach(AppState.Tab.allCases, id: \.self) { tab in
+                    tabView(for: tab)
+                        .tabItem {
+                            Label(tab.title, systemImage: tab.icon)
+                        }
+                        .tag(tab)
+                }
             }
-        }
-        .onAppear {
-            store.send(.onAppear)
+            .sheet(
+                item: Binding(
+                    get: { store.presentedDestination },
+                    set: { newValue in
+                        if newValue == nil {
+                            store.send(.dismiss)
+                        }
+                    }
+                )
+            ) { destination in
+                modalView(for: destination)
+            }
+            .onAppear {
+                store.send(.onAppear)
+            }
+            .onOpenURL { url in
+                if let deepLink = DeepLink(url: url) {
+                    store.send(.handleDeepLink(deepLink))
+                }
+            }
         }
     }
     
-    /// Nội dung cho mỗi tab
+    // MARK: - Tab View
     @ViewBuilder
-    private func tabContent(for tab: AppState.Tab) -> some View {
+    private func tabView(for tab: AppState.Tab) -> some View {
         NavigationStack {
-            VStack(spacing: 20) {
-                Image(systemName: tab.icon)
-                    .font(.system(size: 60))
-                    .foregroundStyle(.tint)
-                
-                Text(tab.title)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                
-                Text("Coming soon...")
-                    .foregroundStyle(.secondary)
-                
-                // Debug info
-                VStack(alignment: .leading, spacing: 8) {
-                    Text("Debug Info:")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                    Text("Network: \(store.isConnected ? "Connected ✅" : "Disconnected ❌")")
-                        .font(.caption)
-                    Text("Version: \(store.appVersion)")
-                        .font(.caption)
+            tabRootContent(for: tab)
+                .navigationTitle(tab.title)
+        }
+    }
+    
+    // MARK: - Tab Root Content
+    @ViewBuilder
+    private func tabRootContent(for tab: AppState.Tab) -> some View {
+        VStack(spacing: 20) {
+            Image(systemName: tab.icon)
+                .font(.system(size: 60))
+                .foregroundStyle(.tint)
+            
+            Text(tab.title)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+            
+            Text("Tab root screen")
+                .foregroundStyle(.secondary)
+            
+            // Demo navigation buttons
+            VStack(spacing: 12) {
+                NavigationLink(value: Destination.settings) {
+                    Text("Open Settings")
+                        .frame(maxWidth: .infinity)
                 }
-                .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(8)
+                .buttonStyle(.borderedProminent)
+                
+                Button("Show About (Modal)") {
+                    store.send(.present(.about))
+                }
+                .buttonStyle(.bordered)
+                
+                NavigationLink(value: Destination.privacyPolicy) {
+                    Text("Privacy Policy")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+            }
+            
+            // Debug info
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Debug Info:")
+                    .font(.caption)
+                    .fontWeight(.bold)
+                Text("Network: \(store.isConnected ? "Connected ✅" : "Disconnected ❌")")
+                    .font(.caption)
+                Text("Version: \(store.appVersion)")
+                    .font(.caption)
             }
             .padding()
-            .navigationTitle(tab.title)
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(8)
+        }
+        .padding()
+        .navigationDestination(for: Destination.self) { destination in
+            destinationView(for: destination)
+        }
+    }
+    
+    // MARK: - Destination View
+    @ViewBuilder
+    private func destinationView(for destination: Destination) -> some View {
+        VStack(spacing: 20) {
+            Image(systemName: iconForDestination(destination))
+                .font(.system(size: 60))
+                .foregroundStyle(.tint)
+            
+            Text(destination.title)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+            
+            destinationDescription(for: destination)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            
+            // Nested navigation (nếu không phải onboarding)
+            if destination != .onboarding {
+                VStack(spacing: 12) {
+                    NavigationLink(value: Destination.settings) {
+                        Text("Open Settings")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+            }
+        }
+        .padding()
+        .navigationTitle(destination.title)
+    }
+    
+    // MARK: - Modal View
+    @ViewBuilder
+    private func modalView(for destination: Destination) -> some View {
+        NavigationStack {
+            destinationView(for: destination)
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") {
+                            store.send(.dismiss)
+                        }
+                    }
+                }
+        }
+    }
+    
+    // MARK: - Helpers
+    @ViewBuilder
+    private func destinationDescription(for destination: Destination) -> some View {
+        switch destination {
+        case .webView(let url, _):
+            Text("URL: \(url.absoluteString)")
+        case .onboarding:
+            Text("First time user experience")
+        case .settings:
+            Text("App preferences and configurations")
+        case .privacyPolicy:
+            Text("How we handle your data")
+        case .termsOfService:
+            Text("Terms and conditions")
+        case .about:
+            Text("About this app")
+        default:
+            Text("Common screen for all apps")
+        }
+    }
+    
+    private func iconForDestination(_ destination: Destination) -> String {
+        switch destination {
+        case .onboarding, .welcome:
+            return "hand.wave"
+        case .settings, .settingsTheme, .settingsLanguage, .settingsNotifications:
+            return "gear"
+        case .about:
+            return "info.circle"
+        case .privacyPolicy:
+            return "hand.raised"
+        case .termsOfService:
+            return "doc.text"
+        case .licenses:
+            return "list.bullet"
+        case .webView:
+            return "safari"
         }
     }
 }

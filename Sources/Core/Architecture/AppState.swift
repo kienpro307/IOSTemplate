@@ -8,6 +8,9 @@ public struct AppState: Equatable {
     /// Tab hiện tại
     public var selectedTab: Tab = .home
     
+    /// Presented destination (modal/sheet)
+    public var presentedDestination: Destination?
+    
     // MARK: - Network
     /// Có kết nối mạng không
     public var isConnected: Bool = true
@@ -15,10 +18,6 @@ public struct AppState: Equatable {
     // MARK: - App Info
     /// Phiên bản app
     public var appVersion: String = "1.0.0"
-    
-    // MARK: - Feature States (sẽ thêm sau)
-    // public var home: HomeState = .init()
-    // public var settings: SettingsState = .init()
     
     public init() {}
     

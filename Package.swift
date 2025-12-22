@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "iOSTemplate",
+    name: "IOSTemplate",
     platforms: [.iOS(.v16)],
     products: [
         .library(name: "Core", targets: ["Core"]),
@@ -17,19 +17,7 @@ let package = Package(
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", from: "4.2.0"),
     ],
     targets: [
-        // App target - Entry point
-        .executableTarget(
-            name: "App",
-            dependencies: [
-                "Core",
-                "UI", 
-                "Services",
-                "Features",
-            ],
-            path: "Sources/App"
-        ),
-        
-        // Core module
+        // MARK: - Core Module
         .target(
             name: "Core",
             dependencies: [
@@ -40,7 +28,7 @@ let package = Package(
             path: "Sources/Core"
         ),
         
-        // UI module
+        // MARK: - UI Module
         .target(
             name: "UI",
             dependencies: [
@@ -50,30 +38,44 @@ let package = Package(
             path: "Sources/UI"
         ),
         
-        // Services module
+        // MARK: - Services Module
         .target(
             name: "Services",
             dependencies: ["Core"],
             path: "Sources/Services"
         ),
         
-        // Features module
+        // MARK: - Features Module
         .target(
             name: "Features",
-            dependencies: ["Core", "UI", "Services"],
+            dependencies: [
+                "Core",
+                "UI",
+                "Services",
+            ],
             path: "Sources/Features"
         ),
         
-        // Tests
+        // MARK: - App Target
+        .executableTarget(
+            name: "App",
+            dependencies: [
+                "Core",
+                "UI",
+                "Services",
+                "Features",
+            ],
+            path: "Sources/App"
+        ),
+        
+        // MARK: - Tests
         .testTarget(
             name: "CoreTests",
-            dependencies: ["Core"],
-            path: "Tests/CoreTests"
+            dependencies: ["Core"]
         ),
         .testTarget(
             name: "FeaturesTests",
-            dependencies: ["Features"],
-            path: "Tests/FeaturesTests"
+            dependencies: ["Features"]
         ),
     ]
 )

@@ -1,15 +1,13 @@
 import ComposableArchitecture
 
-/// Reducer chính của ứng dụng - xử lý tất cả logic
+/// Reducer chính của ứng dụng
 @Reducer
 public struct AppReducer {
     public init() {}
     
-    // MARK: - State & Action types
     public typealias State = AppState
     public typealias Action = AppAction
     
-    // MARK: - Dependencies
     @Dependency(\.networkClient) var networkClient
     @Dependency(\.storageClient) var storageClient
     @Dependency(\.keychainClient) var keychainClient
@@ -19,12 +17,8 @@ public struct AppReducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                // Khởi tạo app
                 print("📱 App appeared at: \(dateClient.now())")
-                
-                // Demo: Load saved data
                 return .run { send in
-                    // Load onboarding status
                     if let hasCompleted: Bool = try? await storageClient.load(
                         forKey: StorageKey.hasCompletedOnboarding.rawValue
                     ) {
@@ -33,13 +27,30 @@ public struct AppReducer {
                 }
                 
             case .tabChanged(let tab):
-                // Chuyển tab
                 state.selectedTab = tab
                 print("📍 Tab changed to: \(tab.title)")
                 return .none
                 
+            case .present(let destination):
+                state.presentedDestination = destination
+                print("📤 Present: \(destination.title)")
+                return .none
+                
+            case .dismiss:
+                if let destination = state.presentedDestination {
+                    print("📥 Dismiss: \(destination.title)")
+                }
+                state.presentedDestination = nil
+                return .none
+                
+            case .handleDeepLink(let deepLink):
+                print("🔗 Handle deep link: \(deepLink)")
+                guard let destination = deepLink.toDestination() else {
+                    return .none
+                }
+                return .send(.present(destination))
+                
             case .networkStatusChanged(let isConnected):
-                // Cập nhật trạng thái mạng
                 state.isConnected = isConnected
                 print(isConnected ? "🌐 Connected" : "📴 Disconnected")
                 return .none
