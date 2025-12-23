@@ -1,0 +1,12 @@
+{
+  "top_rules": [],
+  "naming_conventions": [
+    "**Comments**: Vietnamese",
+    "**Documentation**: Vietnamese",
+    "**Variable names**: English"
+  ],
+  "architecture_rules": [],
+  "testing_requirements": [
+    "**test**: Th\u00eam ho\u1eb7c s\u1eeda tests"
+  ]
+}

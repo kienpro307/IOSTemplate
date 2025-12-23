@@ -1,0 +1,31 @@
+{
+  "name": "Core",
+  "purpose": "TCA foundation - State, Actions, Reducers, Store, ViewConfigs",
+  "total_files": 6,
+  "total_loc": 619,
+  "key_symbols": [
+    "function:handleNetworkAction",
+    "function:handleConfigAction",
+    "struct:MonetizationState",
+    "enum:ConnectionType",
+    "struct:AppReducer",
+    "enum:UserAction",
+    "enum:AppAction",
+    "enum:AppTab",
+    "struct:NavigationState",
+    "struct:LoginConfig"
+  ],
+  "dependencies": [
+    "ComposableArchitecture",
+    "Foundation",
+    "SwiftUI"
+  ],
+  "files": [
+    "AppState.swift",
+    "AppReducer.swift",
+    "AppAction.swift",
+    "AppStore.swift",
+    "LoginConfig.swift",
+    "OnboardingConfig.swift"
+  ]
+}

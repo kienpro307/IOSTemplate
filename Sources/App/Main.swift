@@ -2,9 +2,10 @@ import SwiftUI
 import ComposableArchitecture
 import Core
 
+/// Entry point của ứng dụng iOS
 @main
 struct iOSTemplateApp: App {
-    // Tạo Store với initial state
+    /// Store chính của ứng dụng - quản lý toàn bộ state
     let store = Store(initialState: AppState()) {
         AppReducer()
     }

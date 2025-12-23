@@ -1,0 +1,28 @@
+{
+  "name": "Storage",
+  "purpose": "Data persistence - UserDefaults, Keychain, FileStorage",
+  "total_files": 3,
+  "total_loc": 473,
+  "key_symbols": [
+    "function:save",
+    "function:saveBiometric",
+    "function:clearAllSecure",
+    "classe:SettingsManager",
+    "function:remove",
+    "function:baseURL",
+    "extension:KeychainStorage",
+    "classe:UserDefaultsStorage",
+    "function:load",
+    "function:listFiles"
+  ],
+  "dependencies": [
+    "Foundation",
+    "KeychainAccess",
+    "LocalAuthentication"
+  ],
+  "files": [
+    "FileStorage.swift",
+    "KeychainStorage.swift",
+    "UserDefaultsStorage.swift"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Utilities",
+  "purpose": "Helper functions, extensions, utilities",
+  "total_files": 3,
+  "total_loc": 468,
+  "key_symbols": [
+    "function:logInfo",
+    "function:logVerbose",
+    "function:logDebug",
+    "function:totalCacheSize",
+    "function:removeAll",
+    "function:cleanExpired",
+    "function:cacheSize",
+    "function:cacheFileURL",
+    "function:writeToFile",
+    "function:getLogFileURL"
+  ],
+  "dependencies": [
+    "Foundation",
+    "OSLog"
+  ],
+  "files": [
+    "Logger.swift",
+    "MemoryCache.swift",
+    "DiskCache.swift"
+  ]
+}

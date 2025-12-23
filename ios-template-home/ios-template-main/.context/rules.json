@@ -1,0 +1,127 @@
+{
+  "critical": [],
+  "high": [],
+  "medium": [
+    {
+      "text": "**Clarity over brevity** - Code should be self-documenting",
+      "category": "general principles",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Consistency** - Follow established patterns",
+      "category": "general principles",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Type safety** - Leverage Swift's type system",
+      "category": "general principles",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Protocol-oriented** - Prefer protocols over inheritance",
+      "category": "general principles",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Value types first** - Use struct/enum when possible",
+      "category": "general principles",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Comments**: Vietnamese",
+      "category": "language",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Code**: English",
+      "category": "language",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Documentation**: Vietnamese",
+      "category": "language",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Variable names**: English",
+      "category": "language",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Views**: < 300 lines",
+      "category": "file size limits",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Reducers**: < 400 lines",
+      "category": "file size limits",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**Services**: < 500 lines",
+      "category": "file size limits",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "If exceeding limits, split into smaller files",
+      "category": "file size limits",
+      "priority": "medium",
+      "source_file": "code-conventions.md"
+    },
+    {
+      "text": "**feat**: T\u00ednh n\u0103ng m\u1edbi",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**fix**: S\u1eeda bug",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**docs**: Thay \u0111\u1ed5i documentation",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**style**: Format code (kh\u00f4ng \u1ea3nh h\u01b0\u1edfng logic)",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**refactor**: Refactor code",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**perf**: C\u1ea3i thi\u1ec7n performance",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    },
+    {
+      "text": "**test**: Th\u00eam ho\u1eb7c s\u1eeda tests",
+      "category": "types",
+      "priority": "medium",
+      "source_file": "git-workflow.md"
+    }
+  ],
+  "low": []
+}

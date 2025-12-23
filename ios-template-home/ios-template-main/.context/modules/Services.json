@@ -1,0 +1,52 @@
+{
+  "name": "Services",
+  "purpose": "Business logic v\u00e0 external services integrations",
+  "total_files": 31,
+  "total_loc": 7258,
+  "key_symbols": [
+    "classe:AuthenticationService",
+    "function:compressImage",
+    "function:trace",
+    "function:getPerformanceDashboard",
+    "extension:\u0111\u1ec3",
+    "function:addNotificationHandler",
+    "function:startMonitoring",
+    "classe:MonitoringDashboardManager",
+    "function:authenticate",
+    "function:saveTokens"
+  ],
+  "dependencies": [
+    "AVFoundation",
+    "AppTrackingTransparency",
+    "Combine",
+    "CoreImage",
+    "CoreLocation",
+    "CoreML",
+    "FirebaseAnalytics",
+    "FirebaseCore",
+    "FirebaseCrashlytics",
+    "FirebaseMessaging"
+  ],
+  "files": [
+    "BiometricAuthenticationService.swift",
+    "LocalizationManager.swift",
+    "AuthenticationService.swift",
+    "PermissionManager.swift",
+    "ServiceProtocols.swift",
+    "MediaManager.swift",
+    "ServiceLocator.swift",
+    "DIContainer.swift",
+    "FirebaseRemoteConfigService.swift",
+    "FirebasePerformanceService.swift",
+    "FirebaseMessagingService.swift",
+    "FirebaseAnalyticsService.swift",
+    "FirebaseCrashlyticsService.swift",
+    "FirebaseConfig.swift",
+    "FirebaseManager.swift",
+    "MLServices.swift",
+    "CoreMLManager.swift",
+    "VisionService.swift",
+    "OpenAIModels.swift",
+    "AIManager.swift"
+  ]
+}

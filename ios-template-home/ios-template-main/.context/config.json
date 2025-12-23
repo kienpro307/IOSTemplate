@@ -1,0 +1,50 @@
+{
+  "project": {
+    "name": "ios-template",
+    "architecture": "TCA + Parameterized Component Pattern",
+    "root_path": "Sources/iOSTemplate"
+  },
+  "modules": [
+    "Core",
+    "Features",
+    "Services",
+    "Theme",
+    "Network",
+    "Storage",
+    "Monetization",
+    "Utilities"
+  ],
+  "indexing": {
+    "file_extensions": [".swift"],
+    "ignore_patterns": [
+      "*.generated.swift",
+      "*.pb.swift",
+      "Tests/",
+      "UITests/",
+      ".build/",
+      "DerivedData/"
+    ],
+    "max_file_size_kb": 100
+  },
+  "context_limits": {
+    "claude_max_tokens": 8000,
+    "cursor_max_tokens": 3000,
+    "claude_compression_ratio": 0.7,
+    "max_rules_for_cursor": 15
+  },
+  "rules": {
+    "source_path": ".ai/rules",
+    "priority_categories": [
+      "critical",
+      "architecture",
+      "naming",
+      "testing",
+      "documentation"
+    ]
+  },
+  "state_tracking": {
+    "todo_patterns": ["// TODO:", "// FIXME:", "// HACK:"],
+    "sprint_file": ".ai/context/current-sprint.md",
+    "track_errors": false
+  }
+}

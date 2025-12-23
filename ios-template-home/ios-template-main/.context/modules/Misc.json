@@ -1,0 +1,24 @@
+{
+  "name": "Misc",
+  "purpose": "Other files",
+  "total_files": 1,
+  "total_loc": 25,
+  "key_symbols": [
+    "classe:ComposableArchitecture",
+    "extension:iOSTemplate",
+    "struct:ComposableArchitecture",
+    "enum:iOSTemplate",
+    "function:initialize"
+  ],
+  "dependencies": [
+    "ComposableArchitecture",
+    "Foundation",
+    "Swinject",
+    "class",
+    "it",
+    "struct"
+  ],
+  "files": [
+    "iOSTemplate.swift"
+  ]
+}

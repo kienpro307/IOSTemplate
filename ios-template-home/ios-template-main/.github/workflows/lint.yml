@@ -1,0 +1,130 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  swiftlint:
+    name: SwiftLint
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: |
+          brew install swiftlint
+
+      - name: Run SwiftLint
+        run: |
+          swiftlint lint --reporter github-actions-logging
+
+      - name: SwiftLint (Strict Mode)
+        if: github.event_name == 'pull_request'
+        run: |
+          swiftlint lint --strict --reporter html > swiftlint-report.html
+
+      - name: Upload SwiftLint Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: swiftlint-report
+          path: swiftlint-report.html
+          retention-days: 7
+
+  swiftformat:
+    name: SwiftFormat Check
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install SwiftFormat
+        run: |
+          brew install swiftformat
+
+      - name: Check Formatting
+        run: |
+          swiftformat --lint Sources/ Tests/
+
+  danger:
+    name: Danger
+    runs-on: macos-14
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+
+      - name: Install Danger
+        run: |
+          gem install danger
+          gem install danger-swiftlint
+
+      - name: Run Danger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          danger
+
+  code-quality:
+    name: Code Quality Checks
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Check for Large Files
+        run: |
+          # Check for files > 1MB
+          find . -type f -size +1M -not -path "./.git/*" -not -path "./.build/*" | while read file; do
+            echo "⚠️ Large file found: $file"
+          done
+
+      - name: Check Documentation Coverage
+        run: |
+          # Check if public APIs have documentation
+          echo "Checking documentation coverage..."
+
+          # Count public declarations
+          public_count=$(grep -r "^public " Sources/ --include="*.swift" | wc -l)
+          echo "Public declarations: $public_count"
+
+          # Count documented public declarations (starting with ///)
+          documented_count=$(grep -B1 "^public " Sources/ --include="*.swift" | grep "///" | wc -l)
+          echo "Documented: $documented_count"
+
+          # Calculate percentage
+          if [ "$public_count" -gt 0 ]; then
+            percentage=$((documented_count * 100 / public_count))
+            echo "Documentation coverage: ${percentage}%"
+
+            if [ "$percentage" -lt 70 ]; then
+              echo "⚠️ Warning: Documentation coverage below 70%"
+            fi
+          fi
+
+      - name: Check for Commented Code
+        run: |
+          # Find potentially commented-out code blocks
+          commented_lines=$(grep -r "^[[:space:]]*//.*(" Sources/ --include="*.swift" | wc -l)
+          echo "Potential commented code lines: $commented_lines"
+
+          if [ "$commented_lines" -gt 100 ]; then
+            echo "⚠️ Warning: High number of commented code detected"
+          fi

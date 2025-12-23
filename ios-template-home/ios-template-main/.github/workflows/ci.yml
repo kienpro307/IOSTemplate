@@ -1,0 +1,152 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode_15.0.app/Contents/Developer
+  SCHEME: iOSTemplate
+  PLATFORM: iOS Simulator
+  DEVICE: iPhone 15 Pro
+  IOS_VERSION: "17.0"
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Cache Swift Package Manager
+        uses: actions/cache@v3
+        with:
+          path: |
+            .build
+            ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Resolve Dependencies
+        run: |
+          swift package resolve
+          swift package show-dependencies
+
+      - name: Build for Testing
+        run: |
+          xcodebuild clean build-for-testing \
+            -scheme "$SCHEME" \
+            -destination "platform=$PLATFORM,name=$DEVICE,OS=$IOS_VERSION" \
+            -enableCodeCoverage YES \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Run Unit Tests
+        run: |
+          xcodebuild test-without-building \
+            -scheme "$SCHEME" \
+            -destination "platform=$PLATFORM,name=$DEVICE,OS=$IOS_VERSION" \
+            -enableCodeCoverage YES \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty && exit ${PIPESTATUS[0]}
+
+      - name: Generate Code Coverage
+        run: |
+          xcrun llvm-cov export \
+            -format="lcov" \
+            -instr-profile=$(find ~/Library/Developer/Xcode/DerivedData -name "*.profdata" | head -n 1) \
+            $(find ~/Library/Developer/Xcode/DerivedData -name "*.xctest" | head -n 1)/Contents/MacOS/* \
+            > coverage.lcov
+
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage.lcov
+          fail_ci_if_error: false
+          verbose: true
+
+      - name: Archive Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/**/Logs/Test/*.xcresult
+
+  build-release:
+    name: Build Release Configuration
+    runs-on: macos-14
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+
+      - name: Cache Swift Package Manager
+        uses: actions/cache@v3
+        with:
+          path: |
+            .build
+            ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build Release
+        run: |
+          swift build -c release
+
+      - name: Archive Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-build
+          path: .build/release/
+          retention-days: 7
+
+  security-scan:
+    name: Security Scan
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Security Audit
+        run: |
+          # Check for hardcoded secrets
+          if grep -r "sk_live_" . --exclude-dir=".git" --exclude-dir=".github"; then
+            echo "⚠️ Warning: Potential API keys found"
+            exit 1
+          fi
+
+          # Check for TODO/FIXME in critical files
+          if grep -r "TODO\|FIXME" Sources/ --include="*.swift" | grep -i "security\|password\|token"; then
+            echo "⚠️ Warning: Security-related TODOs found"
+          fi
+
+      - name: Dependency Vulnerability Check
+        run: |
+          echo "Checking Swift Package dependencies..."
+          swift package show-dependencies --format json > dependencies.json
+
+          # Check for known vulnerable packages
+          # (This is a placeholder - integrate with actual vulnerability database)
+          echo "✓ Dependency check complete"
