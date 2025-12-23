@@ -14,14 +14,7 @@
 
 | ID | Task | Phase | Dependencies |
 |----|------|-------|--------------|
-| P0-004 | SwiftLint Setup | 0 | P0-001 |
-| P2-003 | Logger System | 2 | - |
-
-## Ưu tiên P2 (Medium)
-
-| ID | Task | Phase | Dependencies |
-|----|------|-------|--------------|
-| Logger | Logger System (Bonus) | 2 | - |
+| P3-001 | Firebase Setup | 3 | P0-003 |
 
 ## Đợi Phase sau
 

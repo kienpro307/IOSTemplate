@@ -39,15 +39,40 @@ function_body_length:
 type_name:
   min_length: 3
   max_length: 50
+  excluded:
+    - ID
+    - URL
+    - API
+    - UI
 
 identifier_name:
   min_length: 2
   max_length: 50
+  excluded:
+    - id
+    - ID
+    - x
+    - y
+    - z
+    - r
+    - g
+    - b
+    - a
+    - i
+    - j
+    - k
+    - db
+    - vc
+    - to
+    - at
+    - me
 
 excluded:
   - DerivedData
   - .build
   - Pods
   - Tests
+  - ios-template-docs
+  - ios-template-home
 
 reporter: "xcode"

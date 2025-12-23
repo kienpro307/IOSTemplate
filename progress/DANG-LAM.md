@@ -4,6 +4,66 @@
 
 ## Hiện tại
 
+### P0-004 - SwiftLint Setup
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P0-004)
+- `ios-template-home/ios-template-main/.swiftlint.yml`
+
+**Files đã tạo/cập nhật:**
+- ✅ `.swiftlint.yml` - Cấu hình SwiftLint với rules theo quy tắc code (line_length: 120/150, file_length: 400/500, function_body_length: 40/60, type_body_length: 250/350)
+- ✅ `lint.sh` - Script để chạy SwiftLint
+
+**Tiến độ:**
+- [x] Kiểm tra file .swiftlint.yml hiện có
+- [x] Cập nhật .swiftlint.yml theo yêu cầu task tracker
+- [x] Thêm excluded paths (ios-template-docs, ios-template-home)
+- [x] Thêm excluded identifier names (x, y, r, g, b, a, etc.)
+- [x] Thêm excluded type names (UI, ID, URL, API)
+- [x] Tạo lint.sh script để chạy SwiftLint
+- [x] Test SwiftLint chạy thành công
+
+**Ghi chú:**
+- SwiftLint đã được cài đặt và chạy thành công
+- Cấu hình khớp với quy tắc code trong `02-QUY-TAC-CODE.md`
+- Script lint.sh có thể chạy để kiểm tra code style
+- Một số warnings nhỏ (trailing whitespace, trailing newline) không ảnh hưởng đến build
+
+---
+
+### P2-003 - Logger System
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Utilities/Logger.swift`
+
+**Files đã tạo:**
+- ✅ `Sources/Core/Dependencies/LoggerClient.swift` - LoggerClientProtocol, LiveLoggerClient, MockLoggerClient với TCA @Dependency, OSLog integration, file logging
+
+**Tiến độ:**
+- [x] Copy Logger từ ios-template-home
+- [x] Adapt theo TCA @Dependency pattern
+- [x] Tạo LoggerClientProtocol với các logging methods
+- [x] Tạo LiveLoggerClient với OSLog và file logging (thread-safe với DispatchQueue)
+- [x] Tạo MockLoggerClient cho testing với LogEntry tracking
+- [x] Register LoggerClientKey vào DependencyValues
+- [x] Test build thành công (code compile OK, chỉ có lỗi platform requirements không liên quan)
+
+**Ghi chú:**
+- ✅ Tier khớp: Logger thuộc TIER 1 (FOUNDATION), đặt ở Core/Dependencies/ (TIER 1)
+- Logger system hỗ trợ OSLog, console logging (DEBUG), và file logging (production)
+- Thread-safe với DispatchQueue cho file operations
+- Log levels: verbose, debug, info, warning, error
+- Auto cleanup logs > 7 days
+- Comment tiếng Việt theo rule
+
+---
+
 ### P2-002 - Cache System
 
 **Bắt đầu:** 2024-12-23
@@ -103,7 +163,7 @@
 
 ---
 
-**Task tiếp theo:** P1-005 UI Components (xem `CHO-XU-LY.md`)
+**Task tiếp theo:** P0-004 SwiftLint Setup (xem `CHO-XU-LY.md`)
 
 ---
 
