@@ -4,6 +4,72 @@
 
 ## Hiện tại
 
+### P2-002 - Cache System
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** 🔄 Đang làm
+
+**Reference:**
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Utilities/Cache/MemoryCache.swift`
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Utilities/Cache/DiskCache.swift`
+
+**Files đã tạo:**
+- ✅ `Sources/Core/Cache/MemoryCache.swift` - Memory cache sử dụng NSCache với expiration support
+- ✅ `Sources/Core/Cache/DiskCache.swift` - Disk cache với FileManager, expiration, cleanup
+- ✅ `Sources/Core/Dependencies/CacheClient.swift` - CacheClientProtocol, LiveCacheClient, MockCacheClient với TCA @Dependency
+
+**Tiến độ:**
+- [x] Copy MemoryCache từ ios-template-home
+- [x] Copy DiskCache từ ios-template-home
+- [x] Adapt theo TCA @Dependency pattern
+- [x] Tạo CacheClientProtocol với generic support
+- [x] Tạo LiveCacheClient với type-erased approach (Data encoding)
+- [x] Tạo MockCacheClient cho testing
+- [x] Register CacheClientKey vào DependencyValues
+- [ ] Test build thành công
+- [ ] Cập nhật progress files
+
+**Ghi chú:**
+- ✅ Tier khớp: Cache thuộc TIER 1 (FOUNDATION), đặt ở Core/ (TIER 1)
+- Cache system hỗ trợ memory + disk cache với expiration
+- Type-erased approach để hỗ trợ generic types
+- Comment tiếng Việt theo rule
+
+---
+
+### P2-004 - Error Handling System
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/01-KIEN-TRUC/06-XU-LY-LOI.md`
+
+**Files đã tạo:**
+- ✅ `Sources/Core/Errors/AppError.swift` - Root error type với NetworkError, DataError, BusinessError, SystemError
+- ✅ `Sources/Core/Errors/DataError.swift` - Lỗi dữ liệu (decoding, encoding, database, notFound, invalidData)
+- ✅ `Sources/Core/Errors/BusinessError.swift` - Lỗi nghiệp vụ (insufficientBalance, limitExceeded, invalidInput, etc.)
+- ✅ `Sources/Core/Errors/SystemError.swift` - Lỗi hệ thống (unknown, configuration, permission, memory, fileSystem)
+- ✅ `Sources/Core/Errors/ErrorMapper.swift` - Helper để map các error sang AppError
+
+**Tiến độ:**
+- [x] Tạo AppError enum làm root error type
+- [x] Tạo DataError enum
+- [x] Tạo BusinessError enum
+- [x] Tạo SystemError enum
+- [x] Tạo ErrorMapper helper
+- [x] Tích hợp với NetworkError và KeychainError
+- [ ] Test build thành công
+- [ ] Cập nhật progress files
+
+**Ghi chú:**
+- Error system đã hoàn chỉnh với user-friendly messages
+- ErrorMapper hỗ trợ map tự động từ các error types khác nhau
+- Có thể retry cho network và data errors
+- Severity levels (low, medium, high) để xác định cách hiển thị UI
+
+---
+
 ### P1-004 - Theme System
 
 **Bắt đầu:** 2024-12-23

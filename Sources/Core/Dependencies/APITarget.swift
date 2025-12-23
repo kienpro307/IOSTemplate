@@ -172,7 +172,7 @@ extension APITarget: TargetType {
     }
 
     public var headers: [String: String]? {
-        var headers = [
+        let headers = [
             "Content-Type": "application/json",
             "Accept": "application/json"
         ]

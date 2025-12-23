@@ -7,14 +7,14 @@
 ```
 Phase 0: Chuẩn bị         [████████░░] 75%  (3/4 tasks)
 Phase 1: Nền tảng         [██████████] 100% (6/6 tasks) ✅
-Phase 2: Core Services    [████░░░░░░] 25%  (1/4 tasks)
+Phase 2: Core Services    [██████████] 75%  (3/4 tasks)
 Phase 3: Firebase         [░░░░░░░░░░] 0%   (0/5 tasks)
 Phase 4: Features         [░░░░░░░░░░] 0%   (0/5 tasks)
 Phase 5: Monetization     [░░░░░░░░░░] 0%   (0/2 tasks)
 Phase 6: Testing          [░░░░░░░░░░] 0%   (0/2 tasks)
 Phase 7: Documentation    [░░░░░░░░░░] 0%   (0/2 tasks)
 ─────────────────────────────────────────
-TỔNG:                     [███░░░░░░░] 33%  (10/30 tasks)
+TỔNG:                     [███░░░░░░░] 40%  (12/30 tasks)
 ```
 
 **Cập nhật:** December 23, 2024
@@ -25,10 +25,10 @@ TỔNG:                     [███░░░░░░░] 33%  (10/30 tasks)
 
 | Metric | Giá trị |
 |--------|---------|
-| Tasks hoàn thành | 10/30 |
-| Thời gian đã làm | ~10 giờ |
-| Thời gian còn lại | ~70 giờ |
-| Phase hiện tại | Phase 2 - Core Services (25%) |
+| Tasks hoàn thành | 12/30 |
+| Thời gian đã làm | ~14 giờ |
+| Thời gian còn lại | ~66 giờ |
+| Phase hiện tại | Phase 2 - Core Services (75%) |
 
 ---
 
@@ -52,13 +52,13 @@ TỔNG:                     [███░░░░░░░] 33%  (10/30 tasks)
 | ID | Task | Deliverables |
 |----|------|--------------|
 | P2-001 | Network Layer với Moya | NetworkClient.swift, APITarget.swift với Moya, plugins, TokenProvider, error mapping (comment tiếng Việt) |
+| P2-002 | Cache System | MemoryCache.swift, DiskCache.swift, CacheClient.swift với TCA @Dependency, type-erased approach, memory + disk cache |
+| P2-004 | Error Handling System | AppError.swift, DataError.swift, BusinessError.swift, SystemError.swift, ErrorMapper.swift với user-friendly messages, retry support, severity levels |
 
 ### Tiếp theo ⭐
 
 | ID | Task | Phase | Dependencies |
 |----|------|-------|--------------|
-| P2-004 | Error Handling System | 2 | P1-001 |
-| P2-002 | Cache System | 2 | P2-001 |
 | P2-003 | Logger System | 2 | - |
 | P0-004 | SwiftLint Setup | 0 | P0-001 |
 
@@ -121,7 +121,7 @@ TỔNG:                     [███░░░░░░░] 33%  (10/30 tasks)
 
 ### 🔄 In Progress
 - [x] M9: Network layer complete (Phase 2) ✅
-- [ ] M10: Error Handling System (Phase 2) ← **NEXT**
+- [x] M10: Error Handling System (Phase 2) ✅
 
 ### ⏳ Upcoming
 - [ ] M9: Network layer complete (Phase 2)
@@ -133,4 +133,4 @@ TỔNG:                     [███░░░░░░░] 33%  (10/30 tasks)
 ---
 
 **📅 Last Updated:** December 23, 2024
-**🎯 Current Focus:** Phase 2 - Error Handling System (P2-004)
+**🎯 Current Focus:** Phase 2 - Logger System (P2-003)

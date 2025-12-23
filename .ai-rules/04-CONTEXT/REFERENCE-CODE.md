@@ -269,5 +269,71 @@ public enum SecureStorageKey {
 
 ---
 
+---
+
+## ⭐ CHIẾN LƯỢC SỬ DỤNG REFERENCE CODE
+
+### Quy tắc BẮT BUỘC khi làm task:
+
+```
+Bước 1: Kiểm tra ios-template-home
+    ├── Có code tương tự? → Copy và adapt
+    └── Không có? → Bước 2
+
+Bước 2: Kiểm tra ios-template-docs
+    ├── Có spec? → Tự tạo theo spec
+    └── Không có? → Tự tạo theo best practices
+```
+
+### 1. Khi CÓ Reference Code (Copy & Adapt)
+
+**Ví dụ:**
+- Theme System → Copy từ `ios-template-home/Theme/`
+- Network Layer → Copy từ `ios-template-home/Network/`
+- Storage → Copy từ `ios-template-home/Storage/`
+
+**Quy trình:**
+1. Tìm file trong `ios-template-home/ios-template-main/Sources/iOSTemplate/`
+2. Copy code
+3. **Adapt bắt buộc:**
+   - Thay Singleton → @Dependency
+   - Thay Combine → TCA Effect
+   - Đảm bảo `public` modifiers cho multi-module
+   - Sửa comment sang tiếng Việt
+4. Test và update progress
+
+**KHÔNG BAO GIỜ copy nguyên code mà không adapt!**
+
+### 2. Khi KHÔNG có Reference Code (Tự Tạo)
+
+**Ví dụ:**
+- Error Handling System → Tự tạo theo spec trong `ios-template-docs/01-KIEN-TRUC/06-XU-LY-LOI.md`
+- Navigation System → Tự tạo theo spec trong docs
+
+**Quy trình:**
+1. Đọc spec trong `ios-template-docs/`
+2. Tự implement theo spec đó
+3. Tuân thủ TCA pattern và SOLID principles
+4. Comment tiếng Việt
+5. Test và update progress
+
+### Checklist trước khi code:
+
+- [ ] ✅ Đã kiểm tra `ios-template-home/` có code tương tự?
+- [ ] ✅ Nếu có → Copy và adapt theo TCA pattern
+- [ ] ✅ Nếu không → Đọc spec trong `ios-template-docs/`
+- [ ] ✅ Tự tạo theo spec hoặc best practices
+- [ ] ✅ Tuân thủ TCA @Dependency pattern
+- [ ] ✅ Comment tiếng Việt
+
+### ⚠️ LƯU Ý QUAN TRỌNG:
+
+1. **LUÔN kiểm tra ios-template-home TRƯỚC** khi tự tạo code
+2. **KHÔNG BAO GIỜ** tự tạo nếu có reference code sẵn
+3. **LUÔN** adapt code từ ios-template-home (không copy nguyên)
+4. **LUÔN** đọc spec trong ios-template-docs nếu không có reference code
+
+---
+
 **Cập nhật lần cuối:** December 23, 2024
 

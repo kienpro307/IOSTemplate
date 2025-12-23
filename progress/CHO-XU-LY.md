@@ -15,14 +15,12 @@
 | ID | Task | Phase | Dependencies |
 |----|------|-------|--------------|
 | P0-004 | SwiftLint Setup | 0 | P0-001 |
-| P2-001 | Network Layer với Moya | 2 | P1-002 |
-| P2-004 | Error Handling System | 2 | P1-001 |
+| P2-003 | Logger System | 2 | - |
 
 ## Ưu tiên P2 (Medium)
 
 | ID | Task | Phase | Dependencies |
 |----|------|-------|--------------|
-| P2-003 | Cache System | 2 | - |
 | Logger | Logger System (Bonus) | 2 | - |
 
 ## Đợi Phase sau

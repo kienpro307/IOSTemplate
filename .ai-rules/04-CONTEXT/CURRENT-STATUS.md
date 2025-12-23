@@ -15,7 +15,7 @@ Có code reference: ios-template-home (chỉ copy/paste, không viết từ đ�
 
 ## Tiến độ Chi tiết
 
-### Đã hoàn thành (9/30 tasks)
+### Đã hoàn thành (12/30 tasks)
 
 | ID | Task | Phase | Deliverables |
 |----|------|-------|--------------|
@@ -28,13 +28,15 @@ Có code reference: ios-template-home (chỉ copy/paste, không viết từ đ�
 | P1-004 | Theme System | 1 | Colors.swift, Typography.swift, Spacing.swift (comment tiếng Việt) |
 | P1-005 | UI Components | 1 | ButtonStyles.swift |
 | P1-006 | Storage Enhancement | 1 | StorageClient.swift, KeychainClient.swift với primitive types, Codable, Biometric (comment tiếng Việt) |
+| P2-001 | Network Layer với Moya | 2 | NetworkClient.swift, APITarget.swift với Moya, plugins, TokenProvider, error mapping (comment tiếng Việt) |
+| P2-002 | Cache System | 2 | MemoryCache.swift, DiskCache.swift, CacheClient.swift với TCA @Dependency, type-erased approach, memory + disk cache |
+| P2-004 | Error Handling System | 2 | AppError.swift, DataError.swift, BusinessError.swift, SystemError.swift, ErrorMapper.swift với user-friendly messages, retry support, severity levels |
 
 ### Đang làm / Tiếp theo
 
 | ID | Task | Ưu tiên | Reference từ ios-template-home |
 |----|------|---------|-------------------------------|
-| P2-001 | Network Layer với Moya | HIGH | `Network/NetworkService.swift`, `APITarget.swift` |
-| P2-004 | Error Handling System | HIGH | - |
+| P2-003 | Logger System | MEDIUM | `Utilities/Logger.swift` |
 | P0-004 | SwiftLint Setup | MEDIUM | - |
 
 ---
@@ -48,7 +50,9 @@ Sources/
 │   └── RootView.swift
 ├── Core/                   # Module Core (đã có)
 │   ├── Architecture/       # TCA setup ✅
+│   ├── Cache/             # Cache System ✅
 │   ├── Dependencies/       # DI keys ✅
+│   ├── Errors/            # Error Handling System ✅
 │   └── Navigation/         # Navigation ✅
 ├── Features/               # Module Features (skeleton)
 │   └── Features.swift
@@ -110,5 +114,5 @@ Sources/
 ---
 
 **Cập nhật lần cuối:** December 23, 2024
-**Ghi chú:** Đã hoàn thành Phase 1, đã sửa tất cả comment sang tiếng Việt theo rule
+**Ghi chú:** Đã hoàn thành Phase 1 và P2-001, P2-002, P2-004. Cache System đã hoàn chỉnh với MemoryCache, DiskCache và CacheClient theo TCA @Dependency pattern.
 
