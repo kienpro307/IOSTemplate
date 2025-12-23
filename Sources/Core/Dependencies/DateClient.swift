@@ -1,16 +1,17 @@
 import Foundation
 import ComposableArchitecture
 
-/// Protocol cho Date operations (dễ test với mock date)
+/// Protocol cho các thao tác Date (dễ test với mock date)
 public protocol DateClientProtocol: Sendable {
-    /// Lấy date hiện tại
+    /// Lấy ngày giờ hiện tại
     func now() -> Date
     
-    /// Tạo date từ string
+    /// Tạo Date từ chuỗi với định dạng cho trước
     func date(from string: String, format: String) -> Date?
 }
 
-// MARK: - Live Implementation
+// MARK: - Triển khai thực tế
+/// Triển khai thực tế sử dụng Date() của hệ thống
 public struct LiveDateClient: DateClientProtocol {
     public init() {}
     
@@ -25,8 +26,10 @@ public struct LiveDateClient: DateClientProtocol {
     }
 }
 
-// MARK: - Mock Implementation (fixed date for testing)
+// MARK: - Triển khai Mock (ngày cố định cho testing)
+/// Triển khai giả lập với ngày cố định để dễ test
 public struct MockDateClient: DateClientProtocol {
+    /// Ngày giả lập để trả về
     public var mockDate: Date
     
     public init(mockDate: Date = Date()) {
@@ -44,7 +47,7 @@ public struct MockDateClient: DateClientProtocol {
     }
 }
 
-// MARK: - Dependency Key
+// MARK: - Khóa Dependency
 private enum DateClientKey: DependencyKey {
     static let liveValue: DateClientProtocol = LiveDateClient()
     static let testValue: DateClientProtocol = MockDateClient()

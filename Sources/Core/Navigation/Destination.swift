@@ -1,27 +1,27 @@
 import Foundation
 
-/// Định nghĩa các màn hình COMMON cho tất cả apps
+/// Định nghĩa các màn hình dùng chung cho tất cả apps
 public enum Destination: Hashable, Identifiable {
-    // MARK: - Onboarding & Welcome
+    // MARK: - Giới thiệu & Chào mừng
     case onboarding
     case welcome
     
-    // MARK: - Settings
+    // MARK: - Cài đặt
     case settings
     case settingsTheme
     case settingsLanguage
     case settingsNotifications
     
-    // MARK: - Legal & Info
+    // MARK: - Pháp lý & Thông tin
     case about
     case privacyPolicy
     case termsOfService
     case licenses
     
-    // MARK: - Common Utilities
+    // MARK: - Tiện ích chung
     case webView(url: URL, title: String?)
     
-    // MARK: - Identifiable
+    // MARK: - Định danh duy nhất
     public var id: String {
         switch self {
         case .onboarding:
@@ -49,7 +49,7 @@ public enum Destination: Hashable, Identifiable {
         }
     }
     
-    // Helper properties
+    /// Tiêu đề hiển thị của màn hình
     public var title: String {
         switch self {
         case .onboarding:

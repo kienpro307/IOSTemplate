@@ -1,6 +1,6 @@
 import ComposableArchitecture
 
-/// Reducer chính của ứng dụng
+/// Reducer chính của ứng dụng - xử lý tất cả các hành động và cập nhật state
 @Reducer
 public struct AppReducer {
     public init() {}
@@ -8,9 +8,14 @@ public struct AppReducer {
     public typealias State = AppState
     public typealias Action = AppAction
     
+    // MARK: - Dependencies
+    /// Client xử lý network requests
     @Dependency(\.networkClient) var networkClient
+    /// Client lưu trữ dữ liệu (UserDefaults)
     @Dependency(\.storageClient) var storageClient
+    /// Client lưu trữ bảo mật (Keychain)
     @Dependency(\.keychainClient) var keychainClient
+    /// Client xử lý Date (dễ mock cho testing)
     @Dependency(\.dateClient) var dateClient
     
     public var body: some ReducerOf<Self> {

@@ -1,8 +1,10 @@
-// Features module - Business features
-// Module chứa các business features của app
+// MARK: - Features Module
+/// Module chứa các tính năng nghiệp vụ của ứng dụng
+/// Thêm các feature reducers, views và logic ở đây
 
 import Foundation
 
+/// Entry point cho Features module
 public struct Features {
     public init() {}
 }

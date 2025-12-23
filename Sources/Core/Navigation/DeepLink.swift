@@ -1,6 +1,6 @@
 import Foundation
 
-/// Deep link handling cho app - CHỈ COMMON LINKS
+/// Xử lý Deep Link cho ứng dụng - chỉ các link dùng chung
 public enum DeepLink: Equatable {
     case settings
     case about
@@ -8,10 +8,10 @@ public enum DeepLink: Equatable {
     case termsOfService
     case webView(url: URL)
     
-    /// Parse URL thành DeepLink
-    /// Format: myapp://settings, myapp://about, etc.
+    /// Phân tích URL thành DeepLink
+    /// Định dạng: myapp://settings, myapp://about, v.v.
     public init?(url: URL) {
-        // Kiểm tra scheme (có thể customize per app)
+        // Kiểm tra scheme (có thể tùy chỉnh theo từng app)
         guard url.scheme == "myapp" || url.scheme == "iostemplate" else {
             return nil
         }
@@ -49,7 +49,7 @@ public enum DeepLink: Equatable {
         }
     }
     
-    /// Convert DeepLink thành Destination
+    /// Chuyển đổi DeepLink thành Destination để điều hướng
     public func toDestination() -> Destination? {
         switch self {
         case .settings:

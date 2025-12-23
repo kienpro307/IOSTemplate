@@ -4,24 +4,25 @@ import Foundation
 /// Trạng thái toàn bộ ứng dụng
 @ObservableState
 public struct AppState: Equatable {
-    // MARK: - Navigation
-    /// Tab hiện tại
+    // MARK: - Điều hướng
+    /// Tab hiện tại đang được chọn
     public var selectedTab: Tab = .home
     
-    /// Presented destination (modal/sheet)
+    /// Màn hình đang hiển thị dạng modal/sheet
     public var presentedDestination: Destination?
     
-    // MARK: - Network
-    /// Có kết nối mạng không
+    // MARK: - Mạng
+    /// Trạng thái kết nối mạng
     public var isConnected: Bool = true
     
-    // MARK: - App Info
-    /// Phiên bản app
+    // MARK: - Thông tin ứng dụng
+    /// Phiên bản ứng dụng
     public var appVersion: String = "1.0.0"
     
     public init() {}
     
-    // MARK: - Tab Definition
+    // MARK: - Định nghĩa Tab
+    /// Enum định nghĩa các tab trong ứng dụng
     public enum Tab: String, CaseIterable, Equatable {
         case home = "home"
         case search = "search"

@@ -2,22 +2,23 @@ import Foundation
 import ComposableArchitecture
 import KeychainAccess
 
-/// Protocol cho Keychain operations (dữ liệu bảo mật)
+/// Protocol cho các thao tác Keychain (dữ liệu bảo mật)
 public protocol KeychainClientProtocol: Sendable {
-    /// Lưu string vào keychain
+    /// Lưu chuỗi vào Keychain
     func save(_ value: String, forKey key: String) async throws
     
-    /// Lấy string từ keychain
+    /// Lấy chuỗi từ Keychain theo key
     func load(forKey key: String) async throws -> String?
     
-    /// Xóa value theo key
+    /// Xóa giá trị theo key
     func remove(forKey key: String) async throws
     
-    /// Xóa tất cả
+    /// Xóa tất cả dữ liệu trong Keychain
     func removeAll() async throws
 }
 
-// MARK: - Keychain Keys
+// MARK: - Các khóa Keychain
+/// Định nghĩa các key thường dùng để lưu trữ trong Keychain
 public enum KeychainKey: String {
     case accessToken = "access_token"
     case refreshToken = "refresh_token"
@@ -25,8 +26,8 @@ public enum KeychainKey: String {
     case userPassword = "user_password"
 }
 
-// MARK: - Live Implementation
-/// Implementation với KeychainAccess
+// MARK: - Triển khai thực tế
+/// Triển khai thực tế với thư viện KeychainAccess
 public actor LiveKeychainClient: KeychainClientProtocol {
     private let keychain: Keychain
     
@@ -52,8 +53,8 @@ public actor LiveKeychainClient: KeychainClientProtocol {
     }
 }
 
-// MARK: - Mock Implementation
-/// Mock keychain cho testing
+// MARK: - Triển khai Mock
+/// Triển khai giả lập Keychain cho testing
 public actor MockKeychainClient: KeychainClientProtocol {
     private var storage: [String: String] = [:]
     
@@ -76,7 +77,7 @@ public actor MockKeychainClient: KeychainClientProtocol {
     }
 }
 
-// MARK: - Dependency Key
+// MARK: - Khóa Dependency
 private enum KeychainClientKey: DependencyKey {
     static let liveValue: KeychainClientProtocol = LiveKeychainClient()
     static let testValue: KeychainClientProtocol = MockKeychainClient()

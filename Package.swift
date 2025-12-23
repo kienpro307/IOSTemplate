@@ -17,7 +17,8 @@ let package = Package(
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", from: "4.2.0"),
     ],
     targets: [
-        // MARK: - Core Module
+        // MARK: - Module Core
+        // Module cốt lõi chứa architecture, dependencies và navigation
         .target(
             name: "Core",
             dependencies: [
@@ -28,7 +29,8 @@ let package = Package(
             path: "Sources/Core"
         ),
         
-        // MARK: - UI Module
+        // MARK: - Module UI
+        // Module chứa design system và UI components
         .target(
             name: "UI",
             dependencies: [
@@ -38,14 +40,16 @@ let package = Package(
             path: "Sources/UI"
         ),
         
-        // MARK: - Services Module
+        // MARK: - Module Services
+        // Module chứa tích hợp dịch vụ bên ngoài
         .target(
             name: "Services",
             dependencies: ["Core"],
             path: "Sources/Services"
         ),
         
-        // MARK: - Features Module
+        // MARK: - Module Features
+        // Module chứa các tính năng nghiệp vụ
         .target(
             name: "Features",
             dependencies: [
@@ -56,7 +60,8 @@ let package = Package(
             path: "Sources/Features"
         ),
         
-        // MARK: - App Target
+        // MARK: - Ứng dụng chính
+        // Target chính để chạy ứng dụng
         .executableTarget(
             name: "App",
             dependencies: [
@@ -69,6 +74,7 @@ let package = Package(
         ),
         
         // MARK: - Tests
+        // Các test targets
         .testTarget(
             name: "CoreTests",
             dependencies: ["Core"]

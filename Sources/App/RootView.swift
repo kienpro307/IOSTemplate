@@ -40,7 +40,7 @@ struct RootView: View {
         }
     }
     
-    // MARK: - Tab View
+    // MARK: - Hiển thị Tab
     @ViewBuilder
     private func tabView(for tab: AppState.Tab) -> some View {
         NavigationStack {
@@ -49,7 +49,7 @@ struct RootView: View {
         }
     }
     
-    // MARK: - Tab Root Content
+    // MARK: - Nội dung chính của Tab
     @ViewBuilder
     private func tabRootContent(for tab: AppState.Tab) -> some View {
         VStack(spacing: 20) {
@@ -64,7 +64,7 @@ struct RootView: View {
             Text("Tab root screen")
                 .foregroundStyle(.secondary)
             
-            // Demo navigation buttons
+            // Các nút điều hướng mẫu
             VStack(spacing: 12) {
                 NavigationLink(value: Destination.settings) {
                     Text("Open Settings")
@@ -84,7 +84,7 @@ struct RootView: View {
                 .buttonStyle(.bordered)
             }
             
-            // Debug info
+            // Thông tin debug
             VStack(alignment: .leading, spacing: 8) {
                 Text("Debug Info:")
                     .font(.caption)
@@ -104,7 +104,7 @@ struct RootView: View {
         }
     }
     
-    // MARK: - Destination View
+    // MARK: - Hiển thị màn hình đích
     @ViewBuilder
     private func destinationView(for destination: Destination) -> some View {
         VStack(spacing: 20) {
@@ -135,7 +135,7 @@ struct RootView: View {
         .navigationTitle(destination.title)
     }
     
-    // MARK: - Modal View
+    // MARK: - Hiển thị Modal
     @ViewBuilder
     private func modalView(for destination: Destination) -> some View {
         NavigationStack {
@@ -150,7 +150,7 @@ struct RootView: View {
         }
     }
     
-    // MARK: - Helpers
+    // MARK: - Các hàm tiện ích
     @ViewBuilder
     private func destinationDescription(for destination: Destination) -> some View {
         switch destination {
@@ -191,7 +191,7 @@ struct RootView: View {
     }
 }
 
-// MARK: - Preview
+// MARK: - Xem trước
 #Preview {
     RootView(
         store: Store(initialState: AppState()) {

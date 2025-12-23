@@ -1,22 +1,23 @@
 import Foundation
 import ComposableArchitecture
 
-/// Protocol cho storage operations
+/// Protocol cho các thao tác lưu trữ dữ liệu
 public protocol StorageClientProtocol: Sendable {
-    /// Lưu value cho key
+    /// Lưu giá trị cho key (hỗ trợ kiểu Codable)
     func save<T: Codable>(_ value: T, forKey key: String) async throws
     
-    /// Lấy value theo key
+    /// Lấy giá trị theo key
     func load<T: Codable>(forKey key: String) async throws -> T?
     
-    /// Xóa value theo key
+    /// Xóa giá trị theo key
     func remove(forKey key: String) async throws
     
-    /// Xóa tất cả
+    /// Xóa tất cả dữ liệu
     func removeAll() async throws
 }
 
-// MARK: - Storage Keys
+// MARK: - Các khóa Storage
+/// Định nghĩa các key thường dùng để lưu trữ
 public enum StorageKey: String {
     case userId = "user_id"
     case userName = "user_name"
@@ -26,10 +27,10 @@ public enum StorageKey: String {
     case notificationsEnabled = "notifications_enabled"
 }
 
-// MARK: - Live Implementation
-/// Implementation với UserDefaults
+// MARK: - Triển khai thực tế
+/// Triển khai thực tế với UserDefaults
 public struct LiveStorageClient: StorageClientProtocol {
-    // ✅ FIX: Wrap UserDefaults trong SendableBox
+    /// Bọc UserDefaults trong SendableBox để đảm bảo thread-safe
     private let userDefaults: SendableBox<UserDefaults>
     
     public init(userDefaults: UserDefaults = .standard) {
@@ -59,8 +60,8 @@ public struct LiveStorageClient: StorageClientProtocol {
     }
 }
 
-// MARK: - Mock Implementation
-/// Mock storage cho testing (dùng actor để thread-safe)
+// MARK: - Triển khai Mock
+/// Triển khai giả lập cho testing (dùng actor để thread-safe)
 public actor MockStorageClient: StorageClientProtocol {
     private var storage: [String: Data] = [:]
     
@@ -87,8 +88,8 @@ public actor MockStorageClient: StorageClientProtocol {
     }
 }
 
-// MARK: - Helper: Sendable Box
-/// Wrapper để làm non-Sendable type thành Sendable (an toàn vì UserDefaults đã thread-safe)
+// MARK: - Helper: Hộp Sendable
+/// Wrapper để chuyển đổi kiểu non-Sendable thành Sendable (an toàn vì UserDefaults đã thread-safe)
 private final class SendableBox<T>: @unchecked Sendable {
     let value: T
     
@@ -97,7 +98,7 @@ private final class SendableBox<T>: @unchecked Sendable {
     }
 }
 
-// MARK: - Dependency Key
+// MARK: - Khóa Dependency
 private enum StorageClientKey: DependencyKey {
     static let liveValue: any StorageClientProtocol = LiveStorageClient()
     static let testValue: any StorageClientProtocol = MockStorageClient()
