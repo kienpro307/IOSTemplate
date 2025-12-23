@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import Foundation
+import Features
 
 /// Trạng thái toàn bộ ứng dụng
 @ObservableState
@@ -10,6 +11,20 @@ public struct AppState: Equatable {
     
     /// Màn hình đang hiển thị dạng modal/sheet
     public var presentedDestination: Destination?
+    
+    // MARK: - Onboarding
+    /// Trạng thái onboarding
+    public var onboarding: OnboardingState?
+    
+    /// Đã hoàn thành onboarding chưa (load từ storage)
+    public var hasCompletedOnboarding: Bool = false
+    
+    // MARK: - Features
+    /// Trạng thái Home feature
+    public var home: HomeState = HomeState()
+    
+    /// Trạng thái Settings feature
+    public var settings: SettingsState = SettingsState()
     
     // MARK: - Mạng
     /// Trạng thái kết nối mạng

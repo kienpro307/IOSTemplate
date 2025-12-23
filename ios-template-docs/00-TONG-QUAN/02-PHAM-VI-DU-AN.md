@@ -16,7 +16,6 @@ Dự án **iOS Template** bao gồm việc xây dựng một codebase template h
 │  │  • TCA Architecture                                      │   │
 │  │  • Core Services (Network, Storage, Cache)               │   │
 │  │  • Firebase Integration                                  │   │
-│  │  • Authentication (Email, Social, Biometric)             │   │
 │  │  • In-App Purchase                                       │   │
 │  │  • Push Notifications                                    │   │
 │  │  • Localization                                          │   │
@@ -72,7 +71,6 @@ Dự án **iOS Template** bao gồm việc xây dựng một codebase template h
 | **Firebase Crashlytics** | Crash reporting | P0 |
 | **Firebase Remote Config** | Feature flags | P1 |
 | **Firebase Cloud Messaging** | Push notifications | P1 |
-| **Authentication** | Email, Google, Apple Sign-in | P0 |
 | **In-App Purchase** | StoreKit 2 integration | P1 |
 | **Advertising** | AdMob integration | P2 |
 
@@ -92,10 +90,12 @@ Dự án **iOS Template** bao gồm việc xây dựng một codebase template h
 | Feature | Mô tả | Priority |
 |---------|-------|----------|
 | **Onboarding** | First-time user experience | P1 |
-| **Authentication** | Login, Register, Forgot password | P0 |
 | **Home** | Main screen template | P1 |
 | **Settings** | App settings, Account management | P1 |
-| **Profile** | User profile template | P2 |
+
+**Lưu ý:**
+- App **KHÔNG** có Authentication
+- App **KHÔNG** có Profile
 
 ### 2.6 Development Tools
 
@@ -312,7 +312,7 @@ Loi (Core)
 - [ ] Network calls working
 - [ ] Storage working (UserDefaults, Keychain)
 - [ ] Basic UI components available
-- [ ] Authentication flow complete
+- [ ] Core features working (Onboarding, Home, Settings)
 - [ ] Unit tests passing
 
 ### 8.2 Should Have (Nên Có)

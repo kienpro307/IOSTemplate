@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import Features
 
 /// Các hành động có thể xảy ra trong ứng dụng
 @CasePathable
@@ -21,6 +22,21 @@ public enum AppAction: Equatable {
     case dismiss
     /// Xử lý deep link từ URL
     case handleDeepLink(DeepLink)
+    
+    // MARK: - Onboarding
+    /// Hiển thị onboarding (khi chưa hoàn thành)
+    case showOnboarding
+    /// Các hành động của Onboarding feature
+    case onboarding(OnboardingAction)
+    /// Onboarding đã hoàn thành
+    case onboardingCompleted
+    
+    // MARK: - Features
+    /// Các hành động của Home feature
+    case home(HomeAction)
+    
+    /// Các hành động của Settings feature
+    case settings(SettingsAction)
     
     // MARK: - Mạng
     /// Trạng thái kết nối mạng thay đổi

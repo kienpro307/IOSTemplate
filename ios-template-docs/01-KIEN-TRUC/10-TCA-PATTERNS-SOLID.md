@@ -540,9 +540,6 @@ struct AppFeature {
         Scope(state: \.home, action: \.home) {
             HomeFeature()
         }
-        Scope(state: \.profile, action: \.profile) {
-            ProfileFeature()
-        }
         Scope(state: \.settings, action: \.settings) {
             SettingsFeature()
         }

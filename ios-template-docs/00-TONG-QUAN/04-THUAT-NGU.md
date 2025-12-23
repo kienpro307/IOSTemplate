@@ -381,7 +381,6 @@ func layDuLieu() async throws -> Data {
 | Register | DangKy | Features |
 | Settings | CaiDat | Features |
 | Home | TrangChu | Features |
-| Profile | HoSo | Features |
 | Loading | DangTai | States |
 | Error | Loi | States |
 | Success | ThanhCong | States |

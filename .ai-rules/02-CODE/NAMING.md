@@ -16,7 +16,7 @@
 
 ```swift
 // PascalCase
-struct UserProfile { }
+struct HomeItem { }
 class NetworkManager { }
 ```
 

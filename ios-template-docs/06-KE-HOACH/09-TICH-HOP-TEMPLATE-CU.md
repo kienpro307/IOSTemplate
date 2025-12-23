@@ -260,7 +260,7 @@ Các components sau đợi đến Phase tương ứng:
 | Phase | Components | Notes |
 |-------|------------|-------|
 | Phase 3 | Firebase (Analytics, Crashlytics, etc.) | Thêm Firebase vào Package.swift trước |
-| Phase 4 | Onboarding, Settings, Profile | Cần TCA Reducer cho mỗi feature |
+| Phase 4 | Onboarding, Home, Settings | Cần TCA Reducer cho mỗi feature |
 | Phase 5 | IAP, AdMob | Phụ thuộc Firebase |
 
 ---

@@ -29,12 +29,11 @@ Implement core business features.
 - [ ] Notifications toggle
 - [ ] About screen
 
-### 4.5 Profile (Optional)
-- [ ] Profile view
-- [ ] Edit profile
-- [ ] Avatar display
-
 ## Deliverables
 - Onboarding works
 - Main screens functional
 - Settings configurable
+
+## Lưu Ý
+- **App không có Authentication** - Bỏ qua P4-001
+- **App không có Profile** - Không implement Profile feature

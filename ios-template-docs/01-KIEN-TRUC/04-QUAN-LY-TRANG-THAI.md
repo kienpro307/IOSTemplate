@@ -157,11 +157,11 @@ struct State: Equatable {
 
 ```swift
 @ObservableState
-struct ProfileFormState: Equatable {
+struct SettingsFormState: Equatable {
     // Fields - Các trường nhập liệu
-    var fullName: String = ""
-    var email: String = ""
-    var phone: String = ""
+    var theme: String = ""
+    var language: String = ""
+    var notificationsEnabled: Bool = true
     
     // Validation errors - Lỗi validation
     var nameError: String?

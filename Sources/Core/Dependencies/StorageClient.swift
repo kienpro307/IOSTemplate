@@ -22,10 +22,9 @@ public protocol StorageClientProtocol: Sendable {
 // MARK: - Các khóa Storage
 /// Định nghĩa các key thường dùng để lưu trữ
 public enum StorageKey: String {
-    // User
+    // User Preferences (không có profile)
     case userId = "user_id"
     case userName = "user_name"
-    public static let userProfile = "user.profile"
     public static let userPreferences = "user.preferences"
 
     // Settings

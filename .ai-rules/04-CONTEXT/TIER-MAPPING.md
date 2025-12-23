@@ -49,7 +49,7 @@ TIER 1: FOUNDATION  → Core, UI (base infrastructure)
 | `Features/Home/HomeView.swift` | TIER 3 | `Features/Home/` | Business feature - Domain |
 | `Features/Settings/SettingsView.swift` | TIER 3 | `Features/Settings/` | Business feature - Domain |
 | `Features/Onboarding/OnboardingView.swift` | TIER 3 | `Features/Onboarding/` | Business feature - Domain |
-| `Features/Profile/ProfileView.swift` | TIER 3 | `Features/Profile/` | Business feature - Domain |
+| `Features/Home/HomeView.swift` | TIER 3 | `Features/Home/` | Business feature - Domain |
 
 ### TIER 4: APPS
 

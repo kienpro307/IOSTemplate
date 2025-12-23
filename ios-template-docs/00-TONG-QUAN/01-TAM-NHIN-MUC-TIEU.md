@@ -31,7 +31,7 @@ Xây dựng một **iOS Template** hoàn chỉnh với:
 
 - Template cơ bản hoạt động với TCA
 - Tích hợp Firebase cơ bản
-- Authentication flow hoàn chỉnh
+- Core features hoàn chỉnh (Onboarding, Home, Settings)
 - 1-2 app thử nghiệm sử dụng template
 
 ### 2.2 Tầm Nhìn Trung Hạn (6 tháng)
@@ -59,7 +59,7 @@ Xây dựng một **iOS Template** hoàn chỉnh với:
 | TCA architecture hoạt động | App build & run | Phase 1 |
 | Network layer hoàn chỉnh | API calls thành công | Phase 2 |
 | Firebase integrated | Analytics tracking | Phase 3 |
-| Auth flow complete | Login/Logout work | Phase 4 |
+| Core features complete | Onboarding, Home, Settings work | Phase 4 |
 | IAP working | Test purchase OK | Phase 5 |
 | Test coverage > 80% | Code coverage report | Phase 6 |
 

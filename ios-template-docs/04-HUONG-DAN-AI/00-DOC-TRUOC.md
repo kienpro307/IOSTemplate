@@ -31,10 +31,11 @@ struct BoGiamTrangChu {
 }
 ```
 
-### 3. App Không Có Authentication
+### 3. App Không Có Authentication và Profile
 - App này **KHÔNG** có tính năng đăng nhập/đăng ký
-- **KHÔNG** tạo các tính năng liên quan đến user authentication
-- Focus vào các tính năng chính của app
+- App này **KHÔNG** có tính năng Profile user
+- **KHÔNG** tạo các tính năng liên quan đến user authentication hoặc profile
+- Focus vào các tính năng chính của app (Onboarding, Home, Settings)
 
 ---
 
@@ -112,7 +113,7 @@ Package/
 - [ ] Code dùng tiếng Anh
 - [ ] Comment dùng tiếng Việt
 - [ ] Follow TCA pattern
-- [ ] Không liên quan đến authentication
+- [ ] Không liên quan đến authentication hoặc profile
 
 ### Architecture
 - [ ] Tuân thủ SOLID principles

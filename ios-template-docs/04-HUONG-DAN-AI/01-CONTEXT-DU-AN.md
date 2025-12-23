@@ -21,6 +21,7 @@ Core → UI + Services → Features → App
 3. Mỗi feature có Reducer, View, Components, Models
 4. Test coverage > 80% cho business logic
 5. **KHÔNG có authentication** - app không yêu cầu đăng nhập
+6. **KHÔNG có Profile** - app không có tính năng profile user
 
 ## Ví Dụ Đúng
 ```swift

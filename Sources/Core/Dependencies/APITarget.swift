@@ -41,11 +41,6 @@ public enum APIEnvironment {
 
 /// Các endpoint API chính sử dụng Moya TargetType
 public enum APITarget {
-    // User
-    case getUserProfile(userID: String)
-    case updateUserProfile(userID: String, name: String)
-    case uploadAvatar(userID: String, imageData: Data)
-
     // Content
     case getPosts(page: Int, limit: Int)
     case getPost(postID: String)
@@ -71,14 +66,6 @@ extension APITarget: TargetType {
         let version = APIConfiguration.apiVersion
 
         switch self {
-        // User
-        case .getUserProfile(let userID):
-            return "/\(version)/users/\(userID)"
-        case .updateUserProfile(let userID, _):
-            return "/\(version)/users/\(userID)"
-        case .uploadAvatar(let userID, _):
-            return "/\(version)/users/\(userID)/avatar"
-
         // Posts
         case .getPosts:
             return "/\(version)/posts"
@@ -105,11 +92,11 @@ extension APITarget: TargetType {
         switch self {
         case .createPost:
             return .post
-        case .updateUserProfile, .updatePost, .uploadAvatar:
+        case .updatePost:
             return .put
         case .deletePost:
             return .delete
-        case .getUserProfile, .getPosts, .getPost, .search:
+        case .getPosts, .getPost, .search:
             return .get
         case .custom(_, let method, _):
             return method
@@ -118,21 +105,6 @@ extension APITarget: TargetType {
 
     public var task: Moya.Task {
         switch self {
-        case .updateUserProfile(_, let name):
-            return .requestParameters(
-                parameters: ["name": name],
-                encoding: JSONEncoding.default
-            )
-
-        case .uploadAvatar(_, let imageData):
-            let formData = MultipartFormData(
-                provider: .data(imageData),
-                name: "avatar",
-                fileName: "avatar.jpg",
-                mimeType: "image/jpeg"
-            )
-            return .uploadMultipart([formData])
-
         case .getPosts(let page, let limit):
             return .requestParameters(
                 parameters: ["page": page, "limit": limit],
@@ -183,16 +155,6 @@ extension APITarget: TargetType {
     public var sampleData: Data {
         // Mock data cho testing
         switch self {
-        case .getUserProfile:
-            return """
-            {
-                "id": "123",
-                "email": "test@example.com",
-                "name": "Test User",
-                "avatar_url": null
-            }
-            """.data(using: .utf8)!
-
         case .getPosts:
             return """
             {

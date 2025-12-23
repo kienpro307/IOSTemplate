@@ -1,40 +1,57 @@
 import SwiftUI
 import ComposableArchitecture
 import Core
+import Features
 
-/// Root view của app - hiển thị tab navigation
+/// Root view của app - hiển thị tab navigation hoặc onboarding
 struct RootView: View {
     @Perception.Bindable var store: StoreOf<AppReducer>
     
     var body: some View {
         WithPerceptionTracking {
-            TabView(selection: $store.selectedTab.sending(\.tabChanged)) {
-                ForEach(AppState.Tab.allCases, id: \.self) { tab in
-                    tabView(for: tab)
-                        .tabItem {
-                            Label(tab.title, systemImage: tab.icon)
-                        }
-                        .tag(tab)
-                }
-            }
-            .sheet(
-                item: Binding(
-                    get: { store.presentedDestination },
-                    set: { newValue in
-                        if newValue == nil {
-                            store.send(.dismiss)
-                        }
-                    }
+            // Hiển thị Onboarding nếu chưa hoàn thành
+            if let onboardingState = store.onboarding, !store.hasCompletedOnboarding {
+                OnboardingView(
+                    store: store.scope(
+                        state: \.onboarding!,
+                        action: { .onboarding($0) }
+                    )
                 )
-            ) { destination in
-                modalView(for: destination)
-            }
-            .onAppear {
-                store.send(.onAppear)
-            }
-            .onOpenURL { url in
-                if let deepLink = DeepLink(url: url) {
-                    store.send(.handleDeepLink(deepLink))
+                .onChange(of: store.onboarding?.hasCompleted) { _, hasCompleted in
+                    if hasCompleted == true {
+                        store.send(.onboardingCompleted)
+                    }
+                }
+            } else {
+                // Hiển thị main app với tab navigation
+                TabView(selection: $store.selectedTab.sending(\.tabChanged)) {
+                    ForEach(AppState.Tab.allCases, id: \.self) { tab in
+                        tabView(for: tab)
+                            .tabItem {
+                                Label(tab.title, systemImage: tab.icon)
+                            }
+                            .tag(tab)
+                    }
+                }
+                .sheet(
+                    item: Binding(
+                        get: { store.presentedDestination },
+                        set: { newValue in
+                            if newValue == nil {
+                                store.send(.dismiss)
+                            }
+                        }
+                    )
+                ) { destination in
+                    modalView(for: destination)
+                }
+                .onAppear {
+                    store.send(.onAppear)
+                }
+                .onOpenURL { url in
+                    if let deepLink = DeepLink(url: url) {
+                        store.send(.handleDeepLink(deepLink))
+                    }
                 }
             }
         }
@@ -56,59 +73,81 @@ struct RootView: View {
     // MARK: - Nội dung chính của Tab
     @ViewBuilder
     private func tabRootContent(for tab: AppState.Tab) -> some View {
-        VStack(spacing: 20) {
-            Image(systemName: tab.icon)
-                .font(.system(size: 60))
-                .foregroundStyle(.tint)
+        switch tab {
+        case .home:
+            // Home tab - hiển thị HomeView
+            HomeView(
+                store: store.scope(
+                    state: \.home,
+                    action: { .home($0) }
+                )
+            )
             
-            Text(tab.title)
-                .font(.largeTitle)
-                .fontWeight(.bold)
+        case .settings:
+            // Settings tab - hiển thị SettingsView
+            SettingsView(
+                store: store.scope(
+                    state: \.settings,
+                    action: { .settings($0) }
+                )
+            )
             
-            Text("Tab root screen")
-                .foregroundStyle(.secondary)
-            
-            // Các nút điều hướng mẫu
-            VStack(spacing: 12) {
-                NavigationLink(value: Destination.settings) {
-                    Text("Open Settings")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
+        case .search, .notifications:
+            // Các tab khác - hiển thị placeholder
+            VStack(spacing: 20) {
+                Image(systemName: tab.icon)
+                    .font(.system(size: 60))
+                    .foregroundStyle(.tint)
                 
-                Button("Show About (Modal)") {
-                    store.send(.present(.about))
-                }
-                .buttonStyle(.bordered)
-                
-                NavigationLink(value: Destination.privacyPolicy) {
-                    Text("Privacy Policy")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-            }
-            
-            // Thông tin debug
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Debug Info:")
-                    .font(.caption)
+                Text(tab.title)
+                    .font(.largeTitle)
                     .fontWeight(.bold)
-                Text("Network: \(store.isConnected ? "Connected ✅" : "Disconnected ❌")")
-                    .font(.caption)
-                Text("Version: \(store.appVersion)")
-                    .font(.caption)
+                
+                Text("Tab root screen")
+                    .foregroundStyle(.secondary)
+                
+                // Các nút điều hướng mẫu
+                VStack(spacing: 12) {
+                    NavigationLink(value: Destination.settings) {
+                        Text("Open Settings")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    
+                    Button("Show About (Modal)") {
+                        store.send(.present(.about))
+                    }
+                    .buttonStyle(.bordered)
+                    
+                    NavigationLink(value: Destination.privacyPolicy) {
+                        Text("Privacy Policy")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                }
+                
+                // Thông tin debug
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Debug Info:")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                    Text("Network: \(store.isConnected ? "Connected ✅" : "Disconnected ❌")")
+                        .font(.caption)
+                    Text("Version: \(store.appVersion)")
+                        .font(.caption)
+                }
+                .padding()
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(8)
-        }
-        .padding()
-        .navigationDestination(for: Destination.self) { destination in
-            destinationView(for: destination)
-                .onAppear {
-                    // Track screen vào Analytics khi destination appear
-                    store.send(.screenAppeared(destination))
-                }
+            .navigationDestination(for: Destination.self) { destination in
+                destinationView(for: destination)
+                    .onAppear {
+                        // Track screen vào Analytics khi destination appear
+                        store.send(.screenAppeared(destination))
+                    }
+            }
         }
     }
     

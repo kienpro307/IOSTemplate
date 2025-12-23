@@ -19,9 +19,10 @@ Xem chi tiết: [01-CHUNG/LIET-KE-RULES.md](01-CHUNG/LIET-KE-RULES.md)
 - Chỉ sửa khi user nói rõ: "sửa docs" hoặc "cập nhật ios-template-docs"
 - Chi tiết: [01-CHUNG/BAO-VE-DOCS.md](01-CHUNG/BAO-VE-DOCS.md)
 
-### 3. Không có Authentication
+### 3. Không có Authentication và Profile
 - App **KHÔNG** có đăng nhập/đăng ký
-- Không tạo features liên quan user auth
+- App **KHÔNG** có profile/user management
+- Không tạo features liên quan user auth hoặc profile
 
 ### 4. Architecture
 - Dùng **TCA** (The Composable Architecture)

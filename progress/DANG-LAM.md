@@ -4,6 +4,119 @@
 
 ## Hiện tại
 
+### P4-003 - Settings Feature
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P4-003)
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Features/Settings/SettingsView.swift`
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Features/Settings/SettingsState.swift` - State cho Settings feature với UserPreferences, ThemeMode, AppConfig
+- ✅ `Sources/Features/Settings/SettingsAction.swift` - Actions cho Settings feature
+- ✅ `Sources/Features/Settings/SettingsReducer.swift` - Reducer xử lý logic Settings với Storage integration và Analytics tracking
+- ✅ `Sources/Features/Settings/SettingsView.swift` - View hiển thị settings với Preferences, Notifications, About sections (loại bỏ Account và Danger Zone vì không có auth)
+- ✅ `Sources/Core/Architecture/AppState.swift` - Thêm settings state
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm settings actions
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp SettingsReducer
+- ✅ `Sources/App/RootView.swift` - Hiển thị SettingsView trong settings tab
+
+**Tiến độ:**
+- [x] Đọc và hiểu SettingsView từ ios-template-home
+- [x] Tạo SettingsState, SettingsAction, SettingsReducer theo TCA pattern
+- [x] Adapt SettingsView theo TCA pattern hiện tại (loại bỏ account section vì không có auth)
+- [x] Tích hợp Settings vào AppState và AppReducer
+- [x] Cập nhật RootView để hiển thị SettingsView trong settings tab
+- [x] Tích hợp Analytics tracking cho các actions
+- [x] Tích hợp Storage để lưu/load preferences
+
+**Ghi chú:**
+- SettingsView được adapt từ ios-template-home nhưng loại bỏ phần account và danger zone vì app không có authentication
+- Preferences (theme, language, notifications) được lưu vào Storage và tự động load khi view appear
+- Analytics tracking cho tất cả user interactions (theme changed, language changed, notifications toggled)
+- App config (version, build) được lấy từ Bundle.main
+
+---
+
+## Hiện tại
+
+### P4-002 - Home Feature
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P4-002)
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Features/Home/HomeView.swift`
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Features/Home/HomeState.swift` - State cho Home feature với QuickAction và Activity models
+- ✅ `Sources/Features/Home/HomeAction.swift` - Actions cho Home feature
+- ✅ `Sources/Features/Home/HomeReducer.swift` - Reducer xử lý logic Home với Analytics tracking
+- ✅ `Sources/Features/Home/HomeView.swift` - View hiển thị dashboard với header, welcome card, quick actions, recent activity
+- ✅ `Sources/Core/Architecture/AppState.swift` - Thêm home state
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm home actions
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp HomeReducer và handle navigation
+- ✅ `Sources/App/RootView.swift` - Hiển thị HomeView trong home tab
+
+**Tiến độ:**
+- [x] Đọc và hiểu HomeView từ ios-template-home
+- [x] Tạo HomeState, HomeAction, HomeReducer theo TCA pattern
+- [x] Adapt HomeView theo TCA pattern hiện tại (loại bỏ user profile dependency)
+- [x] Tích hợp Home vào AppState và AppReducer
+- [x] Cập nhật RootView để hiển thị HomeView trong tab
+- [x] Tích hợp Analytics tracking cho các actions
+- [x] Thêm pull-to-refresh functionality
+
+**Ghi chú:**
+- HomeView được adapt từ ios-template-home nhưng loại bỏ phần user profile vì app không có authentication
+- Quick actions và activities hiện tại là mock data, có thể thay thế bằng API data sau này
+- Analytics tracking cho tất cả user interactions
+- Pull-to-refresh được tích hợp sẵn
+
+---
+
+### P4-001 - Onboarding Feature
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P4-001)
+- `ios-template-docs/03-TINH-NANG/01-ONBOARDING.md`
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Features/Onboarding/OnboardingView.swift`
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Features/Onboarding/OnboardingConfig.swift` - Configuration cho Onboarding với customizable pages
+- ✅ `Sources/Features/Onboarding/OnboardingState.swift` - State cho Onboarding feature
+- ✅ `Sources/Features/Onboarding/OnboardingAction.swift` - Actions cho Onboarding feature
+- ✅ `Sources/Features/Onboarding/OnboardingReducer.swift` - Reducer xử lý logic Onboarding với Analytics tracking
+- ✅ `Sources/Features/Onboarding/OnboardingView.swift` - View hiển thị onboarding flow với TabView
+- ✅ `Sources/Core/Architecture/AppState.swift` - Thêm onboarding state và hasCompletedOnboarding flag
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm onboarding actions
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp OnboardingReducer và handle onboarding completion
+- ✅ `Sources/App/RootView.swift` - Hiển thị Onboarding khi chưa hoàn thành
+
+**Tiến độ:**
+- [x] Tạo OnboardingConfig và OnboardingPage models
+- [x] Tạo OnboardingState, OnboardingAction, OnboardingReducer
+- [x] Tạo OnboardingView với TabView và page navigation
+- [x] Tích hợp Onboarding vào AppState và AppReducer
+- [x] Cập nhật RootView để hiển thị Onboarding khi chưa hoàn thành
+- [x] Tích hợp Analytics tracking cho onboarding events
+- [x] Lưu trạng thái onboarding completion vào Storage
+
+**Ghi chú:**
+- Onboarding tự động hiển thị khi app khởi động nếu chưa hoàn thành
+- Onboarding state được lưu vào UserDefaults qua StorageClient
+- Analytics tracking cho các events: page_changed, skipped, completed
+- Onboarding có thể skip hoặc hoàn thành bằng cách swipe qua các pages
+- Default config có 3 pages: Welcome, Secure, Fast
+
+---
+
 ### P3-004 - Remote Config Integration
 
 **Bắt đầu:** 2024-12-23
@@ -151,8 +264,8 @@
 - [x] Implement RemoteConfig service với Firebase SDK
 - [x] Implement PushNotification service với Firebase SDK
 - [x] Tất cả services đều dùng TCA @Dependency pattern
-- [ ] Test build thành công (có lỗi platform requirements khi build cho macOS nhưng không ảnh hưởng iOS)
-- [ ] Cập nhật progress files
+- [x] Test build thành công (có warnings về unhandled files trong Firebase SDK nhưng không ảnh hưởng iOS build)
+- [x] Cập nhật progress files
 
 **Ghi chú:**
 - ✅ Tier khớp: Firebase thuộc TIER 2 (SERVICES), đặt ở Services/Firebase/ (TIER 2)
@@ -322,7 +435,7 @@
 
 ---
 
-**Task tiếp theo:** P0-004 SwiftLint Setup (xem `CHO-XU-LY.md`)
+**Task tiếp theo:** Phase 4 - Features (Onboarding, Home, Settings) - Xem `CHO-XU-LY.md`
 
 ---
 

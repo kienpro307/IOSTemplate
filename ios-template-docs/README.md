@@ -30,9 +30,10 @@
 ✅ Comment, documentation: TIẾNG VIỆT
 ```
 
-### Không Có Authentication
+### Không Có Authentication và Profile
 - App này **KHÔNG** có tính năng đăng nhập/đăng ký
-- Không tạo các tính năng liên quan đến user authentication
+- App này **KHÔNG** có tính năng Profile user
+- Không tạo các tính năng liên quan đến user authentication hoặc profile
 
 ### SOLID Principles
 - Tuân thủ **SOLID principles** (xem `01-KIEN-TRUC/10-TCA-PATTERNS-SOLID.md`)

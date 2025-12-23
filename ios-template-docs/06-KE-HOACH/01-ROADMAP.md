@@ -68,11 +68,11 @@ Phase 3: Firebase         [░░░░░░░░░░] 0%
 └── ⬜ P3-005: Push Notifications (3 giờ)
 
 Phase 4: Features         [░░░░░░░░░░] 0%
-├── ⬜ P4-001: Authentication (8 giờ)
-├── ⬜ P4-002: Onboarding (4 giờ)
-├── ⬜ P4-003: Home Screen (4 giờ)
-├── ⬜ P4-004: Settings Screen (4 giờ)
-└── ⬜ P4-005: Profile Screen (3 giờ)
+├── ⬜ P4-001: Onboarding (4 giờ)
+├── ⬜ P4-002: Home Screen (4 giờ)
+└── ⬜ P4-003: Settings Screen (4 giờ)
+
+**Lưu ý:** App không có Authentication và Profile
 
 Phase 5: Monetization     [░░░░░░░░░░] 0%
 ├── ⬜ P5-001: In-App Purchase (6 giờ)
@@ -102,7 +102,7 @@ Thời gian còn lại: ~74 giờ
 | 1 | Nền tảng | 🔄 50% | 3/6 | TCA, DI, Navigation |
 | 2 | Dịch vụ | ⬜ 0% | 0/4 | Network, Storage, Cache |
 | 3 | Firebase | ⬜ 0% | 0/5 | Analytics, Crashlytics, Remote Config |
-| 4 | Tính năng | ⬜ 0% | 0/5 | Auth, Home, Settings |
+| 4 | Tính năng | ⬜ 0% | 0/3 | Onboarding, Home, Settings |
 | 5 | Monetization | ⬜ 0% | 0/2 | IAP, AdMob |
 | 6 | Testing | ⬜ 0% | 0/2 | Tests, Coverage |
 | 7 | Documentation | ⬜ 0% | 0/2 | CI/CD, Docs |
@@ -178,7 +178,7 @@ Thời gian còn lại: ~74 giờ
 ### ⏳ Upcoming
 - [ ] M9: Network layer complete (Phase 2)
 - [ ] M10: Firebase integrated (Phase 3)
-- [ ] M11: Authentication working (Phase 4)
+- [ ] M11: Core features working (Phase 4)
 - [ ] M12: Test coverage > 80% (Phase 6)
 - [ ] M13: Production ready
 

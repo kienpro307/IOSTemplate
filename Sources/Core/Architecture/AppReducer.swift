@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import Services
+import Features
 
 /// Reducer chính của ứng dụng - xử lý tất cả các hành động và cập nhật state
 @Reducer
@@ -44,8 +45,13 @@ public struct AppReducer {
                     // Check onboarding status
                     if let hasCompleted: Bool = try? await storageClient.load(
                         forKey: StorageKey.hasCompletedOnboarding.rawValue
-                    ) {
+                    ), hasCompleted {
                         print("✅ Onboarding completed: \(hasCompleted)")
+                        await send(.onboardingCompleted)
+                    } else {
+                        // Chưa hoàn thành onboarding - hiển thị onboarding
+                        print("📚 Show onboarding")
+                        await send(.showOnboarding)
                     }
                     
                     // Request push notification permission (optional, không block)
@@ -165,7 +171,59 @@ public struct AppReducer {
                     print("📲 FCM Token received: \(token)")
                 }
                 return .none
+                
+            case .showOnboarding:
+                // Hiển thị onboarding nếu chưa có
+                if state.onboarding == nil {
+                    state.onboarding = OnboardingState(config: .default)
+                }
+                return .none
+                
+            case .onboarding(let action):
+                // Handle onboarding actions
+                switch action {
+                case .complete, .skip:
+                    // Onboarding hoàn thành hoặc skip - cập nhật state
+                    // OnboardingReducer đã lưu vào storage và track analytics
+                    // Chỉ cần cập nhật AppState
+                    return .send(.onboardingCompleted)
+                default:
+                    // Các action khác được handle bởi OnboardingReducer
+                    return .none
+                }
+                
+            case .onboardingCompleted:
+                // Onboarding đã hoàn thành - ẩn onboarding và hiển thị main app
+                state.hasCompletedOnboarding = true
+                state.onboarding = nil
+                print("✅ Onboarding completed - showing main app")
+                return .none
+                
+            case .home(let action):
+                // Handle home actions
+                switch action {
+                case .notificationTapped:
+                    // Navigate to notifications tab
+                    state.selectedTab = .notifications
+                    return .none
+                default:
+                    // Các action khác được handle bởi HomeReducer
+                    return .none
+                }
+                
+            case .settings(let action):
+                // Các action của Settings được handle bởi SettingsReducer
+                return .none
             }
+        }
+        .ifLet(\.onboarding, action: \.onboarding) {
+            OnboardingReducer()
+        }
+        .ifLet(\.home, action: \.home) {
+            HomeReducer()
+        }
+        .ifLet(\.settings, action: \.settings) {
+            SettingsReducer()
         }
     }
 }

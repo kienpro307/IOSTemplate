@@ -8,11 +8,14 @@ Module chứa các business features của app.
 Features/
 ├── Onboarding/          # Onboarding flow
 ├── Home/                # Home screen
-├── Search/              # Search feature
-├── Notifications/       # Notifications
-├── Settings/            # Settings
-└── Profile/             # Profile (optional)
+├── Search/              # Search feature (optional)
+├── Notifications/       # Notifications (optional)
+└── Settings/            # Settings
 ```
+
+**Lưu ý:**
+- App **KHÔNG** có Authentication
+- App **KHÔNG** có Profile
 
 ## Feature Template
 ```
@@ -26,4 +29,5 @@ FeatureName/
 ## Lưu Ý
 - Code dùng tiếng Anh
 - Comment dùng tiếng Việt
-- App không có authentication
+- App **KHÔNG** có authentication
+- App **KHÔNG** có profile

@@ -24,13 +24,13 @@ Phase 5: Monetization     [░░░░░░░░░░] 0%   (0/2 tasks)
 Phase 6: Testing          [░░░░░░░░░░] 0%   (0/2 tasks)
 Phase 7: Documentation    [░░░░░░░░░░] 0%   (0/2 tasks)
 ─────────────────────────────────────────
-TỔNG:                     [██░░░░░░░░] 20%  (6/30 tasks)
+TỔNG:                     [██░░░░░░░░] 21%  (6/28 tasks)
 ```
 
 **📅 Ngày cập nhật:** December 23, 2024
 **👤 Người thực hiện:** AI + Developer
 **⏱️ Thời gian đã làm:** ~6 giờ
-**⏱️ Thời gian còn lại:** ~74 giờ
+**⏱️ Thời gian còn lại:** ~66 giờ
 
 ---
 
@@ -922,28 +922,9 @@ Thời gian ước tính: 3 giờ
 
 ## 🔵 PHASE 4: FEATURES
 
-### TASK 4.1: Authentication Feature
-```yaml
-ID: P4-001
-Tên: Tạo Auth Module hoàn chỉnh
-Trạng thái: ⬜ Chưa làm
-Ưu tiên: P0 (Critical)
-Phụ thuộc: P1-003, P2-001
-Thời gian ước tính: 8 giờ
+**Lưu ý:** App **KHÔNG** có Authentication và Profile. Bỏ qua P4-001 và P4-005.
 
-Files cần tạo:
-  - TinhNang/XacThuc/DangNhap/DangNhapReducer.swift
-  - TinhNang/XacThuc/DangNhap/DangNhapView.swift
-  - TinhNang/XacThuc/DangKy/DangKyReducer.swift
-  - TinhNang/XacThuc/DangKy/DangKyView.swift
-  - TinhNang/XacThuc/QuenMatKhau/QuenMatKhauReducer.swift
-  - TinhNang/XacThuc/QuenMatKhau/QuenMatKhauView.swift
-  - DichVu/XacThuc/DichVuXacThuc.swift
-  - DichVu/XacThuc/NhaCungCap/GoogleAuth.swift
-  - DichVu/XacThuc/NhaCungCap/AppleAuth.swift
-```
-
-### TASK 4.2: Onboarding Feature
+### TASK 4.1: Onboarding Feature
 ```yaml
 ID: P4-002
 Tên: Tạo Onboarding Flow
@@ -973,16 +954,6 @@ Phụ thuộc: P1-006
 Thời gian ước tính: 4 giờ
 ```
 
-### TASK 4.5: Profile Feature
-```yaml
-ID: P4-005
-Tên: Tạo Profile Screen
-Trạng thái: ⬜ Chưa làm
-Ưu tiên: P2 (Medium)
-Phụ thuộc: P4-001
-Thời gian ước tính: 3 giờ
-```
-
 ---
 
 ## 🔵 PHASE 5: MONETIZATION
@@ -993,7 +964,7 @@ ID: P5-001
 Tên: Tích hợp StoreKit 2
 Trạng thái: ⬜ Chưa làm
 Ưu tiên: P1 (High)
-Phụ thuộc: P4-001
+Phụ thuộc: P1-006 (Storage)
 Thời gian ước tính: 6 giờ
 ```
 
@@ -1017,7 +988,7 @@ ID: P6-001
 Tên: Viết Unit Tests cho Reducers
 Trạng thái: ⬜ Chưa làm
 Ưu tiên: P1 (High)
-Phụ thuộc: P4-001
+Phụ thuộc: P4-001, P4-002, P4-003 (Features)
 Thời gian ước tính: 6 giờ
 ```
 
@@ -1027,7 +998,7 @@ ID: P6-002
 Tên: Viết UI Tests cho Critical Paths
 Trạng thái: ⬜ Chưa làm
 Ưu tiên: P2 (Medium)
-Phụ thuộc: P4-001
+Phụ thuộc: P4-001, P4-002, P4-003 (Features)
 Thời gian ước tính: 4 giờ
 ```
 
@@ -1065,11 +1036,11 @@ Thời gian ước tính: 2 giờ
 | Phase 1 | 6 | 3 | 3 | 0 |
 | Phase 2 | 4 | 2 | 1 | 1 |
 | Phase 3 | 5 | 0 | 3 | 2 |
-| Phase 4 | 5 | 1 | 3 | 1 |
+| Phase 4 | 3 | 0 | 3 | 0 |
 | Phase 5 | 2 | 0 | 1 | 1 |
 | Phase 6 | 2 | 0 | 1 | 1 |
 | Phase 7 | 2 | 0 | 0 | 2 |
-| **TỔNG** | **30** | **9** | **13** | **8** |
+| **TỔNG** | **28** | **8** | **13** | **7** |
 
 **Thời gian ước tính tổng: ~80 giờ (10 ngày làm việc)**
 
