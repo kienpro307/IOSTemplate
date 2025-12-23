@@ -126,13 +126,34 @@ Bạn muốn chọn option nào? (A/B/C)
 
 Trước khi code, phải check:
 
+### Bước 1: Đọc Docs (BẮT BUỘC)
+- [ ] ✅ Đã đọc TẤT CẢ file HIGH priority trong `ios-template-docs/`?
+- [ ] ✅ Đã đọc file liên quan đến task trong `ios-template-docs/`?
+- [ ] ✅ Đã đọc `ios-template-docs/01-KIEN-TRUC/08-MULTI-MODULE-ARCHITECTURE.md`?
+- [ ] ✅ Đã đọc `ios-template-docs/02-MO-DUN/00-TONG-QUAN-MO-DUN.md`?
+- [ ] ✅ Đã đọc module README liên quan (Core/UI/Services/Features)?
+
+### Bước 2: Kiểm tra Kiến trúc
 - [ ] ✅ Đã xác định module đang làm?
 - [ ] ✅ Đã xác định tier của module đó?
+- [ ] ✅ Đã so sánh với cấu trúc trong `ios-template-docs/02-MO-DUN/`?
+- [ ] ✅ Cấu trúc file/folder có đúng theo docs không?
+
+### Bước 3: Kiểm tra Tier (nếu copy code)
 - [ ] ✅ Nếu copy code → Đã kiểm tra tier của code cũ?
 - [ ] ✅ Tier có khớp không?
 - [ ] ✅ Nếu không khớp → Đã cảnh báo và hỏi user?
 - [ ] ✅ Đã chờ user quyết định trước khi tiếp tục?
+
+### Bước 4: Kiểm tra Dependencies
 - [ ] ✅ Dependencies có đúng không? (không vi phạm dependency rules)
+- [ ] ✅ Package.swift có đúng dependencies theo docs không?
+- [ ] ✅ Module dependencies có đúng theo tier không?
+
+### Bước 5: So sánh với Docs
+- [ ] ✅ Code structure có khớp với `ios-template-docs/02-MO-DUN/[MODULE]/README.md`?
+- [ ] ✅ Naming convention có đúng theo `ios-template-docs/04-HUONG-DAN-AI/03-QUY-TAC-DAT-TEN.md`?
+- [ ] ✅ Code style có đúng theo `ios-template-docs/04-HUONG-DAN-AI/02-QUY-TAC-CODE.md`?
 
 ---
 
@@ -146,11 +167,53 @@ Trước khi code, phải check:
 
 ---
 
+## So sánh với Docs
+
+### Kiểm tra Module Structure
+
+Trước khi tạo/sửa code trong module, phải so sánh với docs:
+
+#### Core Module (TIER 1)
+- Xem: `ios-template-docs/02-MO-DUN/01-LOI/README.md`
+- Cấu trúc phải khớp với docs
+
+#### UI Module (TIER 1)
+- Xem: `ios-template-docs/02-MO-DUN/02-GIAO-DIEN/README.md`
+- Cấu trúc phải khớp với docs
+
+#### Services Module (TIER 2)
+- Xem: `ios-template-docs/02-MO-DUN/03-DICH-VU/README.md`
+- **QUAN TRỌNG:** Phải có cấu trúc:
+  ```
+  Services/
+  ├── Firebase/
+  │   ├── Analytics.swift
+  │   ├── Crashlytics.swift
+  │   ├── RemoteConfig.swift
+  │   └── PushNotification.swift
+  ├── Payment/
+  │   └── PaymentService.swift
+  └── Ads/
+      └── AdService.swift
+  ```
+
+#### Features Module (TIER 3)
+- Xem: `ios-template-docs/02-MO-DUN/04-TINH-NANG/README.md`
+- Cấu trúc phải khớp với docs
+
+### Kiểm tra Package.swift
+
+- Dependencies phải đúng theo `ios-template-docs/02-MO-DUN/03-DICH-VU/README.md`:
+  - Firebase SDK 11.0+
+  - StoreKit 2
+  - Google Mobile Ads SDK
+
 ## Tài Liệu Tham Khảo
 
 - [TIER-MAPPING.md](../04-CONTEXT/TIER-MAPPING.md) - Mapping tier chi tiết
 - [08-MULTI-MODULE-ARCHITECTURE.md](../../ios-template-docs/01-KIEN-TRUC/08-MULTI-MODULE-ARCHITECTURE.md) - Kiến trúc 4-tier
 - [01-KIEN-TRUC-TONG-THE.md](../../ios-template-docs/01-KIEN-TRUC/01-KIEN-TRUC-TONG-THE.md) - Kiến trúc tổng thể
+- [DOC-READING-CHECKLIST.md](DOC-READING-CHECKLIST.md) - Checklist đọc docs
 
 ---
 

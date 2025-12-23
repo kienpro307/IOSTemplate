@@ -31,6 +31,73 @@ Xem chi tiết: [01-CHUNG/LIET-KE-RULES.md](01-CHUNG/LIET-KE-RULES.md)
 
 ---
 
+## ⚠️⚠️ BẮT BUỘC: ĐỌC TẤT CẢ FILE TRONG ios-template-docs
+
+**QUAN TRỌNG NHẤT:** Trước khi bắt đầu MỌI session, AI PHẢI đọc TẤT CẢ file trong `ios-template-docs/`.
+
+### Tại sao quan trọng?
+
+- Kiến trúc dự án được định nghĩa trong `ios-template-docs/`
+- Mọi quy tắc code, naming, structure đều ở đó
+- Không đọc docs → Code sai kiến trúc → Phải sửa lại → Lãng phí thời gian
+
+### Checklist đọc docs
+
+Xem file: [01-CHUNG/DOC-READING-CHECKLIST.md](01-CHUNG/DOC-READING-CHECKLIST.md)
+
+**Tóm tắt:** Có tổng cộng **44 file markdown** trong `ios-template-docs/` cần đọc.
+
+### Thứ tự ưu tiên đọc:
+
+1. **🔴 HIGH Priority (BẮT BUỘC đọc trước mỗi session):**
+   - `ios-template-docs/README.md` - Tổng quan
+   - `ios-template-docs/04-HUONG-DAN-AI/00-DOC-TRUOC.md` - Hướng dẫn AI
+   - `ios-template-docs/01-KIEN-TRUC/08-MULTI-MODULE-ARCHITECTURE.md` - Kiến trúc 4-tier
+   - `ios-template-docs/01-KIEN-TRUC/01-KIEN-TRUC-TONG-THE.md` - Kiến trúc tổng thể
+   - `ios-template-docs/02-MO-DUN/00-TONG-QUAN-MO-DUN.md` - Tổng quan modules
+   - `ios-template-docs/02-MO-DUN/01-LOI/README.md` - Core module
+   - `ios-template-docs/02-MO-DUN/02-GIAO-DIEN/README.md` - UI module
+   - `ios-template-docs/02-MO-DUN/03-DICH-VU/README.md` - Services module
+   - `ios-template-docs/02-MO-DUN/04-TINH-NANG/README.md` - Features module
+
+2. **🟡 MEDIUM Priority (Đọc khi làm task liên quan):**
+   - `ios-template-docs/01-KIEN-TRUC/02-KIEN-TRUC-TCA.md` - TCA architecture
+   - `ios-template-docs/01-KIEN-TRUC/10-TCA-PATTERNS-SOLID.md` - TCA patterns
+   - `ios-template-docs/04-HUONG-DAN-AI/02-QUY-TAC-CODE.md` - Quy tắc code
+   - `ios-template-docs/04-HUONG-DAN-AI/03-QUY-TAC-DAT-TEN.md` - Quy tắc đặt tên
+   - `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` - Task tracker
+
+3. **🟢 LOW Priority (Đọc khi cần):**
+   - Các file còn lại trong `ios-template-docs/`
+
+### Quy trình đọc docs:
+
+```
+Bắt đầu session mới
+    ↓
+1. Đọc file này (00-DOC-TRUOC.md)
+    ↓
+2. Đọc DOC-READING-CHECKLIST.md
+    ↓
+3. Đọc TẤT CẢ file HIGH priority (9 files)
+    ↓
+4. Xác định task cần làm
+    ↓
+5. Đọc file MEDIUM priority liên quan đến task
+    ↓
+6. Bắt đầu làm task (luôn bám sát theo docs)
+```
+
+### ⚠️ LƯU Ý QUAN TRỌNG:
+
+- **KHÔNG ĐƯỢC** bỏ qua việc đọc docs
+- **KHÔNG ĐƯỢC** tự ý làm theo cách khác với docs
+- **PHẢI** bám sát theo kiến trúc trong `ios-template-docs/01-KIEN-TRUC/`
+- **PHẢI** kiểm tra tier mapping trước khi copy code
+- **PHẢI** tuân thủ cấu trúc module trong `ios-template-docs/02-MO-DUN/`
+
+---
+
 ## Context Dự án ⭐ QUAN TRỌNG
 
 Trước khi làm task, đọc context hiện tại:

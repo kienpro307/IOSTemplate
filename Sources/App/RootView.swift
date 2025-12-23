@@ -46,6 +46,10 @@ struct RootView: View {
         NavigationStack {
             tabRootContent(for: tab)
                 .navigationTitle(tab.title)
+                .onAppear {
+                    // Track tab screen vào Analytics khi tab appear
+                    store.send(.tabAppeared(tab))
+                }
         }
     }
     
@@ -101,6 +105,10 @@ struct RootView: View {
         .padding()
         .navigationDestination(for: Destination.self) { destination in
             destinationView(for: destination)
+                .onAppear {
+                    // Track screen vào Analytics khi destination appear
+                    store.send(.screenAppeared(destination))
+                }
         }
     }
     

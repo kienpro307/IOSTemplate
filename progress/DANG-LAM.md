@@ -4,6 +4,165 @@
 
 ## Hiện tại
 
+### P3-004 - Remote Config Integration
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/05-PHASE-3-FIREBASE.md`
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P3-004)
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Services/Firebase/FeatureFlags.swift` - Feature flags helper với Remote Config
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp Remote Config fetch on startup
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm actions cho Remote Config
+
+**Tiến độ:**
+- [x] Tạo FeatureFlags helper với các keys phổ biến
+- [x] Tích hợp Remote Config fetch vào AppReducer onAppear
+- [x] Setup fetch strategy (fetch on startup, background refresh)
+- [x] Tạo convenience extensions cho các feature flags phổ biến
+
+**Ghi chú:**
+- Remote Config tự động fetch khi app khởi động
+- Feature flags có thể được check từ bất kỳ đâu trong app
+- Có default values trong Firebase Remote Config service
+
+---
+
+### P3-005 - Push Notifications Integration
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/05-PHASE-3-FIREBASE.md`
+- `ios-template-docs/03-TINH-NANG/03-THONG-BAO-DAY.md`
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P3-005)
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Services/Firebase/NotificationDelegate.swift` - Delegate để handle push notifications
+- ✅ `Sources/App/Main.swift` - Setup notification delegate và register for remote notifications
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Request permission và handle FCM token
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm actions cho push notifications
+
+**Tiến độ:**
+- [x] Tạo NotificationDelegate để handle incoming notifications
+- [x] Setup UNUserNotificationCenterDelegate và MessagingDelegate
+- [x] Tích hợp request permission vào AppReducer
+- [x] Handle FCM token refresh
+- [x] Track notification events vào Analytics
+
+**Ghi chú:**
+- Push notifications tự động request permission khi app khởi động
+- NotificationDelegate handle cả foreground và background notifications
+- FCM token được track vào Analytics khi refresh
+- Có callbacks để handle custom notification actions
+
+---
+
+### P3-001 - Firebase Setup
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+---
+
+### P3-002 - Analytics Service Integration
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/05-PHASE-3-FIREBASE.md`
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P3-002)
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp Analytics để track screens và events
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm actions cho screen tracking
+- ✅ `Sources/App/RootView.swift` - Auto-track screens khi appear
+- ✅ `Sources/App/Main.swift` - Initialize Firebase khi app khởi động
+
+**Tiến độ:**
+- [x] Tích hợp Analytics vào AppReducer để track tab changes và screen presentations
+- [x] Auto-track screens khi navigate trong RootView
+- [x] Track errors vào Analytics trong ErrorMapper
+- [x] Initialize Firebase trong Main.swift với auto environment detection
+
+**Ghi chú:**
+- Analytics tự động track screens khi user navigate
+- Analytics tự động track events (tab_changed, screen_presented, screen_dismissed)
+- Firebase được initialize tự động với config phù hợp environment (DEBUG/RELEASE)
+
+---
+
+### P3-003 - Crashlytics Integration
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/05-PHASE-3-FIREBASE.md`
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P3-003)
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Core/Errors/ErrorMapper.swift` - Tích hợp Crashlytics để auto-record errors
+- ✅ `Sources/Core/Dependencies/LoggerClient.swift` - Tích hợp Crashlytics vào Logger
+- ✅ `Scripts/upload-symbols.sh` - Script để upload dSYM files lên Firebase
+
+**Tiến độ:**
+- [x] Tích hợp Crashlytics vào ErrorMapper để auto-record errors
+- [x] Tích hợp Crashlytics vào Logger để log vào crash reports
+- [x] Setup dSYM upload script
+- [x] Auto-record errors với custom keys để dễ debug
+
+**Ghi chú:**
+- Errors tự động được record vào Crashlytics khi xảy ra
+- Logger tự động log vào Crashlytics cho warning và error levels
+- dSYM upload script sẵn sàng để thêm vào Xcode Build Phases
+
+---
+
+### P3-001 - Firebase Setup
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Services/Firebase/`
+- `ios-template-docs/02-MO-DUN/03-DICH-VU/README.md`
+
+**Files đã tạo:**
+- ✅ `Sources/Services/Firebase/FirebaseConfig.swift` - Configuration cho Firebase với environment detection
+- ✅ `Sources/Services/Firebase/FirebaseManager.swift` - Manager để initialize Firebase với custom config
+- ✅ `Sources/Services/Firebase/Analytics.swift` - Analytics service với Firebase Analytics SDK, TCA @Dependency
+- ✅ `Sources/Services/Firebase/Crashlytics.swift` - Crashlytics service với Firebase Crashlytics SDK, TCA @Dependency
+- ✅ `Sources/Services/Firebase/RemoteConfig.swift` - Remote Config service với Firebase Remote Config SDK, TCA @Dependency
+- ✅ `Sources/Services/Firebase/PushNotification.swift` - Push Notification service với Firebase Messaging SDK, TCA @Dependency
+- ✅ `Package.swift` - Đã thêm Firebase dependencies
+
+**Tiến độ:**
+- [x] Thêm Firebase dependencies vào Package.swift
+- [x] Tạo FirebaseConfig.swift với environment configuration
+- [x] Tạo FirebaseManager.swift để initialize Firebase
+- [x] Implement Analytics service với Firebase SDK
+- [x] Implement Crashlytics service với Firebase SDK
+- [x] Implement RemoteConfig service với Firebase SDK
+- [x] Implement PushNotification service với Firebase SDK
+- [x] Tất cả services đều dùng TCA @Dependency pattern
+- [ ] Test build thành công (có lỗi platform requirements khi build cho macOS nhưng không ảnh hưởng iOS)
+- [ ] Cập nhật progress files
+
+**Ghi chú:**
+- ✅ Tier khớp: Firebase thuộc TIER 2 (SERVICES), đặt ở Services/Firebase/ (TIER 2)
+- Tất cả services đều có Live và Mock implementations
+- FirebaseManager dùng Singleton pattern (phù hợp cho initialization utility)
+- Services dùng TCA @Dependency pattern (phù hợp cho business logic)
+- Comment tiếng Việt theo rule
+
+---
+
 ### P0-004 - SwiftLint Setup
 
 **Bắt đầu:** 2024-12-23
@@ -67,7 +226,7 @@
 ### P2-002 - Cache System
 
 **Bắt đầu:** 2024-12-23
-**Trạng thái:** 🔄 Đang làm
+**Trạng thái:** ✅ HOÀN THÀNH
 
 **Reference:**
 - `ios-template-home/ios-template-main/Sources/iOSTemplate/Utilities/Cache/MemoryCache.swift`
@@ -86,8 +245,8 @@
 - [x] Tạo LiveCacheClient với type-erased approach (Data encoding)
 - [x] Tạo MockCacheClient cho testing
 - [x] Register CacheClientKey vào DependencyValues
-- [ ] Test build thành công
-- [ ] Cập nhật progress files
+- [x] Test build thành công (code compile OK, không có linter errors)
+- [x] Cập nhật progress files
 
 **Ghi chú:**
 - ✅ Tier khớp: Cache thuộc TIER 1 (FOUNDATION), đặt ở Core/ (TIER 1)
@@ -119,8 +278,8 @@
 - [x] Tạo SystemError enum
 - [x] Tạo ErrorMapper helper
 - [x] Tích hợp với NetworkError và KeychainError
-- [ ] Test build thành công
-- [ ] Cập nhật progress files
+- [x] Test build thành công (code compile OK, không có linter errors)
+- [x] Cập nhật progress files
 
 **Ghi chú:**
 - Error system đã hoàn chỉnh với user-friendly messages

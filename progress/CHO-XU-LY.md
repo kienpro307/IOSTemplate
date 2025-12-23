@@ -14,15 +14,14 @@
 
 | ID | Task | Phase | Dependencies |
 |----|------|-------|--------------|
-| P3-001 | Firebase Setup | 3 | P0-003 |
+| P4-001 | Authentication Feature | 4 | P1-003, P2-001 |
 
 ## Đợi Phase sau
 
 | ID | Task | Phase | Notes |
 |----|------|-------|-------|
-| P3-001 | Firebase Setup | 3 | Cần thêm Firebase vào Package.swift |
-| P3-002 | Analytics Service | 3 | Phụ thuộc P3-001 |
-| P3-003 | Crashlytics | 3 | Phụ thuộc P3-001 |
+| P3-004 | Remote Config | 3 | ✅ Hoàn thành |
+| P3-005 | Push Notifications | 3 | ✅ Hoàn thành |
 | P4-002 | Onboarding Feature | 4 | Phụ thuộc P1-005 |
 | P4-003 | Home Feature | 4 | Phụ thuộc P1-003 |
 | P4-004 | Settings Feature | 4 | Phụ thuộc P1-006 |

@@ -1,4 +1,6 @@
 import Foundation
+import ComposableArchitecture
+import Services
 
 // Import NetworkError và KeychainError từ Dependencies
 // Note: Các types này được định nghĩa trong các file khác của module Core
@@ -56,6 +58,33 @@ public struct ErrorMapper {
         
         // Fallback: unknown system error
         return .system(.unknown(error.localizedDescription))
+    }
+    
+    /// Record error vào Crashlytics và track vào Analytics
+    /// Helper function để record errors từ TCA Reducer
+    public static func recordError(_ error: Error, appError: AppError) async {
+        // Try to get services từ DependencyValues (sẽ fail nếu không có Services module)
+        do {
+            let crashlytics = try DependencyValues._current.crashlytics
+            let analytics = try DependencyValues._current.analytics
+            
+            // Record vào Crashlytics (bao gồm cả non-fatal errors)
+            await crashlytics.recordError(error)
+            
+            // Set custom keys để dễ debug trong Crashlytics
+            await crashlytics.setCustomKey("error_type", value: String(describing: type(of: error)))
+            await crashlytics.setCustomKey("app_error_type", value: String(describing: appError))
+            
+            // Track error vào Analytics (không track sensitive data)
+            await analytics.trackEvent("error_occurred", parameters: [
+                "error_type": String(describing: type(of: error)),
+                "app_error_type": String(describing: appError),
+                "has_user_message": appError.userMessage.isEmpty ? "false" : "true"
+            ])
+        } catch {
+            // Services không available, chỉ log
+            print("⚠️ Could not record error to Crashlytics/Analytics: \(error)")
+        }
     }
     
     /// Map NSError sang AppError

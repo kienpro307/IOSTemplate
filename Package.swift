@@ -15,6 +15,8 @@ let package = Package(
         .package(url: "https://github.com/Moya/Moya", from: "15.0.0"),
         .package(url: "https://github.com/onevcat/Kingfisher", from: "8.0.0"),
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess", from: "4.2.0"),
+        // Firebase for analytics, crashlytics, push notifications, remote config
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "11.0.0"),
     ],
     targets: [
         // MARK: - Module Core
@@ -44,7 +46,16 @@ let package = Package(
         // Module chứa tích hợp dịch vụ bên ngoài
         .target(
             name: "Services",
-            dependencies: ["Core"],
+            dependencies: [
+                "Core",
+                // Firebase
+                .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+            ],
             path: "Sources/Services"
         ),
         
