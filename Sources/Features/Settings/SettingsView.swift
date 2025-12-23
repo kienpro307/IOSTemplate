@@ -13,6 +13,9 @@ public struct SettingsView: View {
     public var body: some View {
         WithPerceptionTracking {
             List {
+                // Premium Section
+                premiumSection
+                
                 // Preferences Section
                 preferencesSection
 
@@ -26,6 +29,45 @@ public struct SettingsView: View {
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
                 store.send(.onAppear)
+            }
+        }
+    }
+    
+    // MARK: - Premium Section
+    
+    private var premiumSection: some View {
+        Section {
+            Button {
+                store.send(.showPremium)
+            } label: {
+                HStack(spacing: Spacing.medium) {
+                    Image(systemName: "crown.fill")
+                        .font(.title2)
+                        .foregroundStyle(
+                            LinearGradient(
+                                colors: [.yellow, .orange],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Nâng cấp Premium")
+                            .font(Typography.headline)
+                            .foregroundColor(.theme.textPrimary)
+                        
+                        Text("Mở khóa tất cả tính năng")
+                            .font(Typography.caption1)
+                            .foregroundColor(.theme.textSecondary)
+                    }
+                    
+                    Spacer()
+                    
+                    Image(systemName: "chevron.right")
+                        .font(.caption)
+                        .foregroundColor(.theme.textSecondary)
+                }
+                .padding(.vertical, 4)
             }
         }
     }

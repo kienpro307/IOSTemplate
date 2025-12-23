@@ -45,6 +45,25 @@ struct RootView: View {
                 ) { destination in
                     modalView(for: destination)
                 }
+                .sheet(
+                    item: Binding(
+                        get: { store.iap },
+                        set: { newValue in
+                            if newValue == nil {
+                                store.send(.hideIAP)
+                            }
+                        }
+                    )
+                ) { _ in
+                    if let iapState = store.iap {
+                        IAPView(
+                            store: store.scope(
+                                state: \.iap!,
+                                action: { .iap($0) }
+                            )
+                        )
+                    }
+                }
                 .onAppear {
                     store.send(.onAppear)
                 }

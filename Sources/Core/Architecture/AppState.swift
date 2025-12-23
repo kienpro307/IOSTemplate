@@ -26,6 +26,9 @@ public struct AppState: Equatable {
     /// Trạng thái Settings feature
     public var settings: SettingsState = SettingsState()
     
+    /// Trạng thái IAP feature (nil khi không hiển thị)
+    public var iap: IAPState?
+    
     // MARK: - Mạng
     /// Trạng thái kết nối mạng
     public var isConnected: Bool = true

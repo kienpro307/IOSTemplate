@@ -38,6 +38,14 @@ public enum AppAction: Equatable {
     /// Các hành động của Settings feature
     case settings(SettingsAction)
     
+    // MARK: - IAP
+    /// Hiển thị IAP view
+    case showIAP
+    /// Ẩn IAP view
+    case hideIAP
+    /// Các hành động của IAP feature
+    case iap(IAPAction)
+    
     // MARK: - Mạng
     /// Trạng thái kết nối mạng thay đổi
     case networkStatusChanged(Bool)

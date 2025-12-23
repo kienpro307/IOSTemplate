@@ -212,8 +212,41 @@ public struct AppReducer {
                 }
                 
             case .settings(let action):
-                // Các action của Settings được handle bởi SettingsReducer
+                // Handle settings actions
+                switch action {
+                case .showPremium:
+                    // Navigate to IAP/Premium screen
+                    return .send(.showIAP)
+                default:
+                    // Các action khác được handle bởi SettingsReducer
+                    return .none
+                }
+                
+            case .showIAP:
+                // Hiển thị IAP view
+                state.iap = IAPState()
+                print("💎 Show IAP view")
+                return .run { _ in
+                    await analytics.trackScreen("IAP")
+                    await analytics.trackEvent("iap_screen_shown", parameters: [:])
+                }
+                
+            case .hideIAP:
+                // Ẩn IAP view
+                state.iap = nil
+                print("📥 Hide IAP view")
                 return .none
+                
+            case .iap(let action):
+                // Handle IAP actions
+                switch action {
+                case .dismiss:
+                    // Ẩn IAP view khi nhấn nút đóng
+                    return .send(.hideIAP)
+                default:
+                    // Các action khác được handle bởi IAPReducer
+                    return .none
+                }
             }
         }
         .ifLet(\.onboarding, action: \.onboarding) {
@@ -224,6 +257,9 @@ public struct AppReducer {
         }
         .ifLet(\.settings, action: \.settings) {
             SettingsReducer()
+        }
+        .ifLet(\.iap, action: \.iap) {
+            IAPReducer()
         }
     }
 }

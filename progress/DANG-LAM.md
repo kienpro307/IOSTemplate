@@ -4,6 +4,51 @@
 
 ## Hiện tại
 
+### P5-001 - In-App Purchase (IAP) Feature
+
+**Bắt đầu:** 2024-12-23
+**Trạng thái:** ✅ HOÀN THÀNH
+
+**Reference:**
+- `ios-template-docs/06-KE-HOACH/08-TASK-TRACKER.md` (P5-001)
+- `ios-template-home/ios-template-main/Sources/iOSTemplate/Monetization/IAP/`
+
+**Files đã tạo/cập nhật:**
+- ✅ `Sources/Services/Payment/IAPProduct.swift` - Định nghĩa các IAP products (consumables, non-consumables, subscriptions)
+- ✅ `Sources/Services/Payment/StoreKitManager.swift` - Manager cho StoreKit 2 operations (load products, purchase, restore)
+- ✅ `Sources/Services/Payment/PaymentService.swift` - Payment service với TCA @Dependency pattern
+- ✅ `Sources/Features/IAP/IAPState.swift` - State cho IAP feature
+- ✅ `Sources/Features/IAP/IAPAction.swift` - Actions cho IAP feature
+- ✅ `Sources/Features/IAP/IAPReducer.swift` - Reducer xử lý logic IAP với Analytics tracking
+- ✅ `Sources/Features/IAP/IAPView.swift` - View hiển thị products với purchase UI
+- ✅ `Sources/Core/Architecture/AppState.swift` - Thêm iap state
+- ✅ `Sources/Core/Architecture/AppAction.swift` - Thêm iap actions
+- ✅ `Sources/Core/Architecture/AppReducer.swift` - Tích hợp IAPReducer
+- ✅ `Sources/App/RootView.swift` - Hiển thị IAPView trong sheet
+- ✅ `Sources/Features/Settings/SettingsView.swift` - Thêm Premium button
+- ✅ `Sources/Features/Settings/SettingsAction.swift` - Thêm showPremium action
+
+**Tiến độ:**
+- [x] Tạo IAPProduct với product definitions
+- [x] Implement StoreKitManager với StoreKit 2
+- [x] Cập nhật PaymentService với real implementation
+- [x] Tạo IAPState, IAPAction, IAPReducer theo TCA pattern
+- [x] Tạo IAPView với modern UI
+- [x] Tích hợp IAP vào AppState và AppReducer
+- [x] Cập nhật RootView để hiển thị IAPView trong sheet
+- [x] Thêm Premium button trong Settings
+- [x] Tích hợp Analytics tracking cho IAP events
+
+**Ghi chú:**
+- Code được tái sử dụng từ ios-template-home/Monetization/IAP/
+- StoreKit 2 API với async/await pattern
+- Support cho consumables, non-consumables, và auto-renewable subscriptions
+- Analytics tracking cho purchase_started, purchase_success, purchase_failed, restore events
+- Premium button trong Settings để navigate đến IAP view
+- Full TCA pattern integration
+
+---
+
 ### P4-003 - Settings Feature
 
 **Bắt đầu:** 2024-12-23

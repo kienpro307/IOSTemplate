@@ -21,5 +21,8 @@ public enum SettingsAction: Equatable {
     
     /// Preferences đã được lưu vào storage
     case preferencesSaved
+    
+    /// Mở IAP/Premium screen
+    case showPremium
 }
 

@@ -24,10 +24,10 @@
 |----|------|-------|-------|
 | P3-004 | Remote Config | 3 | ✅ Hoàn thành |
 | P3-005 | Push Notifications | 3 | ✅ Hoàn thành |
-| P4-002 | Onboarding Feature | 4 | Phụ thuộc P1-005 |
-| P4-003 | Home Feature | 4 | Phụ thuộc P1-003 |
-| P4-004 | Settings Feature | 4 | Phụ thuộc P1-006 |
-| P5-001 | In-App Purchase | 5 | Phụ thuộc P1-006 (Storage) |
+| P4-002 | Onboarding Feature | 4 | ✅ Hoàn thành |
+| P4-003 | Home Feature | 4 | ✅ Hoàn thành |
+| P4-004 | Settings Feature | 4 | ✅ Hoàn thành |
+| P5-001 | In-App Purchase | 5 | ✅ Hoàn thành |
 | P5-002 | AdMob Integration | 5 | Phụ thuộc P3-001 |
 
 ---
