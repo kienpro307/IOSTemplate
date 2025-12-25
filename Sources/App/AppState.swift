@@ -36,7 +36,7 @@ public struct AppState: Equatable {
     
     // MARK: - Thông tin ứng dụng
     /// Phiên bản ứng dụng
-    public var appVersion: String = "1.0.0"
+    public var appVersion: String = "1.0.1"
     
     public init() {}
     

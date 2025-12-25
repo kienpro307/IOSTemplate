@@ -78,7 +78,7 @@ public struct AppConfig: Equatable {
         if let version = appVersion {
             self.appVersion = version
         } else {
-            self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+            self.appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.1"
         }
         
         if let build = buildNumber {
