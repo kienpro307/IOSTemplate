@@ -7,6 +7,9 @@ import Services
 /// Reducer cho In-App Purchase feature
 @Reducer
 public struct IAPReducer {
+    public typealias State = IAPState
+    public typealias Action = IAPAction
+    
     @Dependency(\.paymentService) var paymentService
     @Dependency(\.analytics) var analytics
     
@@ -17,8 +20,10 @@ public struct IAPReducer {
             switch action {
             case .onAppear:
                 // Track screen view
-                analytics.trackScreen("purchase_screen")
-                return .send(.loadProducts)
+                return .run { send in
+                    await analytics.trackScreen("purchase_screen")
+                    await send(.loadProducts)
+                }
                 
             case .loadProducts:
                 state.isLoading = true
@@ -51,23 +56,23 @@ public struct IAPReducer {
                 state.isLoading = false
                 state.errorMessage = message
                 
-                analytics.trackEvent(
-                    "iap_load_failed",
-                    parameters: ["error": message]
-                )
-                return .none
+                return .run { _ in
+                    await analytics.trackEvent(
+                        "iap_load_failed",
+                        parameters: ["error": message]
+                    )
+                }
                 
             case .purchase(let productId):
                 state.purchasingProductId = productId
                 state.errorMessage = nil
                 state.successMessage = nil
                 
-                analytics.trackEvent(
-                    "iap_purchase_started",
-                    parameters: ["product_id": productId]
-                )
-                
                 return .run { send in
+                    await analytics.trackEvent(
+                        "iap_purchase_started",
+                        parameters: ["product_id": productId]
+                    )
                     do {
                         let result = try await paymentService.purchase(productId)
                         await send(.purchaseCompleted(result))
@@ -83,40 +88,42 @@ public struct IAPReducer {
                 state.purchasedProductIDs.insert(result.productId)
                 state.successMessage = "Mua hàng thành công!"
                 
-                analytics.trackEvent(
-                    "iap_purchase_success",
-                    parameters: [
-                        "product_id": result.productId,
-                        "transaction_id": result.transactionId
-                    ]
-                )
-                
-                // Reload to update premium status
-                return .send(.loadProducts)
+                return .run { send in
+                    await analytics.trackEvent(
+                        "iap_purchase_success",
+                        parameters: [
+                            "product_id": result.productId,
+                            "transaction_id": result.transactionId
+                        ]
+                    )
+                    // Reload to update premium status
+                    await send(.loadProducts)
+                }
                 
             case .purchaseFailed(let message):
                 state.purchasingProductId = nil
                 state.errorMessage = "Mua hàng thất bại: \(message)"
                 
-                analytics.trackEvent(
-                    "iap_purchase_failed",
-                    parameters: ["error": message]
-                )
-                return .none
+                return .run { _ in
+                    await analytics.trackEvent(
+                        "iap_purchase_failed",
+                        parameters: ["error": message]
+                    )
+                }
                 
             case .purchaseCancelled:
                 state.purchasingProductId = nil
                 
-                analytics.trackEvent("iap_purchase_cancelled", parameters: [:])
-                return .none
+                return .run { _ in
+                    await analytics.trackEvent("iap_purchase_cancelled", parameters: [:])
+                }
                 
             case .restorePurchases:
                 state.isLoading = true
                 state.errorMessage = nil
                 
-                analytics.trackEvent("iap_restore_started", parameters: [:])
-                
                 return .run { send in
+                    await analytics.trackEvent("iap_restore_started", parameters: [:])
                     do {
                         let restoredProductIds = try await paymentService.restorePurchases()
                         await send(.restoreCompleted(restoredProductIds))
@@ -135,23 +142,25 @@ public struct IAPReducer {
                     state.successMessage = "Đã khôi phục \(productIds.count) giao dịch thành công!"
                 }
                 
-                analytics.trackEvent(
-                    "iap_restore_success",
-                    parameters: ["restored_count": productIds.count]
-                )
-                
-                // Reload to update premium status
-                return .send(.loadProducts)
+                return .run { send in
+                    await analytics.trackEvent(
+                        "iap_restore_success",
+                        parameters: ["restored_count": productIds.count]
+                    )
+                    // Reload to update premium status
+                    await send(.loadProducts)
+                }
                 
             case .restoreFailed(let message):
                 state.isLoading = false
                 state.errorMessage = "Khôi phục thất bại: \(message)"
                 
-                analytics.trackEvent(
-                    "iap_restore_failed",
-                    parameters: ["error": message]
-                )
-                return .none
+                return .run { _ in
+                    await analytics.trackEvent(
+                        "iap_restore_failed",
+                        parameters: ["error": message]
+                    )
+                }
                 
             case .updatePremiumStatus(let hasPremium, let hasRemovedAds):
                 state.hasPremium = hasPremium

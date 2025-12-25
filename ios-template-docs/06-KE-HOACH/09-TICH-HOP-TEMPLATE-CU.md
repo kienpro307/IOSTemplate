@@ -6,13 +6,13 @@
 
 ### 1.1 So sánh hai dự án
 
-| Khía cạnh | ios-template-home (cũ) | Dự án hiện tại |
-|-----------|------------------------|----------------|
-| Structure | Flat (1 target) | Multi-module (Core, UI, Services, Features) |
-| DI Pattern | Swinject + Singleton | TCA @Dependency |
-| Progress | ~90% hoàn thành | ~20% hoàn thành |
-| Firebase | Tích hợp sẵn | Chưa có |
-| Naming | Tiếng Anh | Tiếng Anh (code), Tiếng Việt (comment) |
+| Khía cạnh  | ios-template-home (cũ) | Dự án hiện tại                              |
+| ---------- | ---------------------- | ------------------------------------------- |
+| Structure  | Flat (1 target)        | Multi-module (Core, UI, Services, Features) |
+| DI Pattern | Swinject + Singleton   | TCA @Dependency                             |
+| Progress   | ~90% hoàn thành        | ~20% hoàn thành                             |
+| Firebase   | Tích hợp sẵn           | Chưa có                                     |
+| Naming     | Tiếng Anh              | Tiếng Anh (code), Tiếng Việt (comment)      |
 
 ### 1.2 Mục tiêu
 
@@ -63,6 +63,7 @@
 ### 3.1 Theme System (P1-004)
 
 **Reference location:**
+
 ```
 ios-template-home/ios-template-main/Sources/iOSTemplate/Theme/
 ├── Colors.swift        # 322 lines
@@ -72,6 +73,7 @@ ios-template-home/ios-template-main/Sources/iOSTemplate/Theme/
 ```
 
 **Target location:**
+
 ```
 Sources/UI/Theme/
 ├── Colors.swift
@@ -80,6 +82,7 @@ Sources/UI/Theme/
 ```
 
 **Key features to preserve:**
+
 - Adaptive colors với `Color(light:dark:)` helper
 - Material Design 3 typography scale
 - 4pt grid spacing system
@@ -87,6 +90,7 @@ Sources/UI/Theme/
 - View extensions: `.standardPadding()`, `.cardPadding()`
 
 **Adaptation notes:**
+
 - Giữ nguyên logic, chỉ thay đổi naming nếu cần
 - Thêm `public` modifier cho multi-module access
 - Đảm bảo Dark mode support
@@ -96,12 +100,14 @@ Sources/UI/Theme/
 ### 3.2 UI Components (P1-005)
 
 **Reference location:**
+
 ```
 ios-template-home/.../Theme/Components/
 └── ButtonStyles.swift   # 227 lines
 ```
 
 **Target location:**
+
 ```
 Sources/UI/Components/
 ├── ButtonStyles.swift
@@ -109,6 +115,7 @@ Sources/UI/Components/
 ```
 
 **Key features to preserve:**
+
 - `PrimaryButtonStyle`, `SecondaryButtonStyle`, `TertiaryButtonStyle`
 - `DestructiveButtonStyle`, `SmallButtonStyle`, `IconButtonStyle`
 - Loading state với ProgressView
@@ -116,6 +123,7 @@ Sources/UI/Components/
 - Disabled state handling
 
 **Button extension pattern:**
+
 ```swift
 // Giữ pattern này
 extension Button {
@@ -129,6 +137,7 @@ extension Button {
 ### 3.3 Storage Enhancement (P1-006)
 
 **Reference location:**
+
 ```
 ios-template-home/.../Storage/
 ├── UserDefaultsStorage.swift   # 166 lines
@@ -136,6 +145,7 @@ ios-template-home/.../Storage/
 ```
 
 **Current files to enhance:**
+
 ```
 Sources/Core/Dependencies/
 ├── StorageClient.swift     # Add @UserDefault wrapper
@@ -145,6 +155,7 @@ Sources/Core/Dependencies/
 **Features to add:**
 
 1. **@UserDefault property wrapper:**
+
 ```swift
 @propertyWrapper
 public struct UserDefault<T: Codable> {
@@ -155,6 +166,7 @@ public struct UserDefault<T: Codable> {
 ```
 
 2. **StorageKey enum:**
+
 ```swift
 public enum StorageKey {
     public static let hasCompletedOnboarding = "onboarding.completed"
@@ -164,6 +176,7 @@ public enum StorageKey {
 ```
 
 3. **Biometric authentication cho Keychain:**
+
 ```swift
 extension KeychainClient {
     func saveBiometric(_ value: String, forKey key: String) async throws
@@ -182,12 +195,14 @@ extension KeychainClient {
 **Target:** `Sources/Core/Utilities/Logger.swift`
 
 **Key features:**
+
 - OSLog integration
 - Log levels: verbose, debug, info, warning, error
 - File logging với auto cleanup (7 days)
 - Global log functions: `logInfo()`, `logError()`, etc.
 
 **TCA Adaptation:**
+
 ```swift
 // Thay Singleton thành DependencyKey
 public protocol LoggerClientProtocol: Sendable {
@@ -204,6 +219,7 @@ private enum LoggerClientKey: DependencyKey {
 ### 4.2 Cache System (P2-003)
 
 **Reference:**
+
 ```
 ios-template-home/.../Utilities/Cache/
 ├── MemoryCache.swift   # 175 lines
@@ -211,6 +227,7 @@ ios-template-home/.../Utilities/Cache/
 ```
 
 **Target:**
+
 ```
 Sources/Services/Cache/
 ├── MemoryCache.swift
@@ -219,6 +236,7 @@ Sources/Services/Cache/
 ```
 
 **Key features:**
+
 - `MemoryCache<Key, Value>` với NSCache
 - `DiskCache<Key, Value>` với FileManager
 - `CacheManager` combining both
@@ -230,6 +248,7 @@ Sources/Services/Cache/
 ### 4.3 Network Layer (P2-001)
 
 **Reference:**
+
 ```
 ios-template-home/.../Network/
 ├── NetworkService.swift   # 254 lines
@@ -238,6 +257,7 @@ ios-template-home/.../Network/
 ```
 
 **Target:**
+
 ```
 Sources/Services/Network/
 ├── NetworkClient.swift    # TCA Dependency
@@ -246,6 +266,7 @@ Sources/Services/Network/
 ```
 
 **Adaptation notes:**
+
 - Chuyển class → TCA DependencyKey
 - Giữ Moya integration
 - async/await cho tất cả methods
@@ -257,11 +278,11 @@ Sources/Services/Network/
 
 Các components sau đợi đến Phase tương ứng:
 
-| Phase | Components | Notes |
-|-------|------------|-------|
+| Phase   | Components                              | Notes                                 |
+| ------- | --------------------------------------- | ------------------------------------- |
 | Phase 3 | Firebase (Analytics, Crashlytics, etc.) | Thêm Firebase vào Package.swift trước |
-| Phase 4 | Onboarding, Home, Settings | Cần TCA Reducer cho mỗi feature |
-| Phase 5 | IAP, AdMob | Phụ thuộc Firebase |
+| Phase 4 | Onboarding, Home, Settings              | Cần TCA Reducer cho mỗi feature       |
+| Phase 5 | IAP, AdMob                              | Phụ thuộc Firebase                    |
 
 ---
 
@@ -281,15 +302,14 @@ Mỗi component sau khi adapt:
 
 ## 7. Related Documents
 
-| Document | Mô tả |
-|----------|-------|
-| [08-TASK-TRACKER.md](08-TASK-TRACKER.md) | Chi tiết 30 tasks |
-| [01-ROADMAP.md](01-ROADMAP.md) | Timeline tổng quan |
-| `.ai-rules/04-CONTEXT/` | Context cho AI handoff |
-| `progress/DANG-LAM.md` | Task đang thực hiện |
+| Document                                 | Mô tả                  |
+| ---------------------------------------- | ---------------------- |
+| [08-TASK-TRACKER.md](08-TASK-TRACKER.md) | Chi tiết 30 tasks      |
+| [01-ROADMAP.md](01-ROADMAP.md)           | Timeline tổng quan     |
+| `.ai-rules/04-CONTEXT/`                  | Context cho AI handoff |
+| `progress/DANG-LAM.md`                   | Task đang thực hiện    |
 
 ---
 
 **Tạo:** December 23, 2024
 **Cập nhật:** December 23, 2024
-

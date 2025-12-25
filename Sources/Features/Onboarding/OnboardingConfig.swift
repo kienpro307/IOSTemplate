@@ -1,4 +1,5 @@
 import SwiftUI
+import UI
 
 /// Configuration cho OnboardingView - cho phép customize mọi app
 ///
@@ -17,13 +18,13 @@ import SwiftUI
 /// )
 /// OnboardingView(store: store, config: bankingConfig)
 /// ```
-public struct OnboardingConfig {
+public struct OnboardingConfig: Equatable {
     // MARK: - Properties
 
     /// Danh sách pages để hiển thị
     public let pages: [OnboardingPage]
 
-    /// Background color của onboarding
+    /// Background color của onboarding (không dùng để so sánh Equatable)
     public let backgroundColor: Color
 
     /// Có hiện nút Skip không
@@ -37,6 +38,16 @@ public struct OnboardingConfig {
 
     /// Text cho nút cuối cùng (page cuối)
     public let finalButtonText: String
+    
+    // MARK: - Equatable (Color không Equatable trên iOS 16, cần custom)
+    
+    public static func == (lhs: OnboardingConfig, rhs: OnboardingConfig) -> Bool {
+        lhs.pages == rhs.pages &&
+        lhs.showSkipButton == rhs.showSkipButton &&
+        lhs.skipButtonText == rhs.skipButtonText &&
+        lhs.continueButtonText == rhs.continueButtonText &&
+        lhs.finalButtonText == rhs.finalButtonText
+    }
 
     // MARK: - Initialization
 
@@ -79,7 +90,7 @@ public struct OnboardingPage: Equatable {
     /// Description/subtitle
     public let description: String
 
-    /// Màu gradient cho icon
+    /// Màu gradient cho icon (không dùng để so sánh Equatable)
     public let color: Color
 
     /// Khởi tạo OnboardingPage
@@ -93,6 +104,14 @@ public struct OnboardingPage: Equatable {
         self.title = title
         self.description = description
         self.color = color
+    }
+    
+    // MARK: - Equatable (Color không Equatable trên iOS 16, cần custom)
+    
+    public static func == (lhs: OnboardingPage, rhs: OnboardingPage) -> Bool {
+        lhs.icon == rhs.icon &&
+        lhs.title == rhs.title &&
+        lhs.description == rhs.description
     }
 }
 

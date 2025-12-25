@@ -79,8 +79,10 @@ public struct OnboardingView: View {
                             .tag(index)
                     }
                 }
+                #if os(iOS)
                 .tabViewStyle(.page(indexDisplayMode: .always))
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
+                #endif
 
                 // Continue/Get Started button với text từ config
                 Button(

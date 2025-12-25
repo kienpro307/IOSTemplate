@@ -1,6 +1,11 @@
+import Foundation
 import ComposableArchitecture
+import Core
 import Services
 import Features
+#if os(iOS)
+import UIKit
+#endif
 
 /// Reducer chính của ứng dụng - xử lý tất cả các hành động và cập nhật state
 @Reducer
@@ -74,7 +79,7 @@ public struct AppReducer {
                     await analytics.trackScreen("Tab_\(tab.title)")
                     await analytics.trackEvent("tab_changed", parameters: [
                         "tab_name": tab.title,
-                        "tab_id": tab.id
+                        "tab_id": tab.rawValue
                     ])
                 }
                 
@@ -158,12 +163,14 @@ public struct AppReducer {
                 
             case .pushNotificationPermissionGranted(let granted):
                 print("🔔 Push notification permission: \(granted ? "granted" : "denied")")
+                #if os(iOS)
                 if granted {
                     // Register for remote notifications
                     DispatchQueue.main.async {
                         UIApplication.shared.registerForRemoteNotifications()
                     }
                 }
+                #endif
                 return .none
                 
             case .fcmTokenReceived(let token):
@@ -252,14 +259,17 @@ public struct AppReducer {
         .ifLet(\.onboarding, action: \.onboarding) {
             OnboardingReducer()
         }
-        .ifLet(\.home, action: \.home) {
-            HomeReducer()
-        }
-        .ifLet(\.settings, action: \.settings) {
-            SettingsReducer()
-        }
         .ifLet(\.iap, action: \.iap) {
             IAPReducer()
+        }
+        
+        // Note: home và settings không dùng ifLet vì chúng luôn tồn tại
+        Scope(state: \.home, action: \.home) {
+            HomeReducer()
+        }
+        
+        Scope(state: \.settings, action: \.settings) {
+            SettingsReducer()
         }
     }
 }

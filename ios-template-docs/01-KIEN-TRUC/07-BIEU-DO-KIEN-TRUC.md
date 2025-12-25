@@ -245,4 +245,4 @@ AppState
 
 ---
 
-*Biểu đồ này mô tả kiến trúc tổng quan của hệ thống. Tham khảo khi cần hiểu flow của app.*
+_Biểu đồ này mô tả kiến trúc tổng quan của hệ thống. Tham khảo khi cần hiểu flow của app._

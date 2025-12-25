@@ -15,62 +15,62 @@ TIER 1: FOUNDATION  → Core, UI (base infrastructure)
 
 ### TIER 1: FOUNDATION
 
-| ios-template-home Path | Tier | Module hiện tại | Mô tả |
-|------------------------|------|-----------------|-------|
-| `Theme/Colors.swift` | TIER 1 | `UI/Theme/` | Design system - Foundation |
-| `Theme/Typography.swift` | TIER 1 | `UI/Theme/` | Design system - Foundation |
-| `Theme/Spacing.swift` | TIER 1 | `UI/Theme/` | Design system - Foundation |
-| `Theme/Components/ButtonStyles.swift` | TIER 1 | `UI/Components/` | UI Components - Foundation |
-| `Storage/UserDefaultsStorage.swift` | TIER 1 | `Core/Dependencies/` | Storage - Foundation |
-| `Storage/KeychainStorage.swift` | TIER 1 | `Core/Dependencies/` | Storage - Foundation |
-| `Network/NetworkService.swift` | TIER 1 | `Core/Dependencies/` | Network - Foundation |
-| `Network/APITarget.swift` | TIER 1 | `Core/Dependencies/` | Network - Foundation |
-| `Utilities/Cache/MemoryCache.swift` | TIER 1 | `Core/` | Cache - Foundation |
-| `Utilities/Cache/DiskCache.swift` | TIER 1 | `Core/` | Cache - Foundation |
-| `Utilities/Logger.swift` | TIER 1 | `Core/` | Logger - Foundation |
+| ios-template-home Path                | Tier   | Module hiện tại      | Mô tả                      |
+| ------------------------------------- | ------ | -------------------- | -------------------------- |
+| `Theme/Colors.swift`                  | TIER 1 | `UI/Theme/`          | Design system - Foundation |
+| `Theme/Typography.swift`              | TIER 1 | `UI/Theme/`          | Design system - Foundation |
+| `Theme/Spacing.swift`                 | TIER 1 | `UI/Theme/`          | Design system - Foundation |
+| `Theme/Components/ButtonStyles.swift` | TIER 1 | `UI/Components/`     | UI Components - Foundation |
+| `Storage/UserDefaultsStorage.swift`   | TIER 1 | `Core/Dependencies/` | Storage - Foundation       |
+| `Storage/KeychainStorage.swift`       | TIER 1 | `Core/Dependencies/` | Storage - Foundation       |
+| `Network/NetworkService.swift`        | TIER 1 | `Core/Dependencies/` | Network - Foundation       |
+| `Network/APITarget.swift`             | TIER 1 | `Core/Dependencies/` | Network - Foundation       |
+| `Utilities/Cache/MemoryCache.swift`   | TIER 1 | `Core/`              | Cache - Foundation         |
+| `Utilities/Cache/DiskCache.swift`     | TIER 1 | `Core/`              | Cache - Foundation         |
+| `Utilities/Logger.swift`              | TIER 1 | `Core/`              | Logger - Foundation        |
 
 ### TIER 2: SERVICES
 
-| ios-template-home Path | Tier | Module hiện tại | Mô tả |
-|------------------------|------|-----------------|-------|
-| `Services/Firebase/FirebaseManager.swift` | TIER 2 | `Services/Firebase/` | Firebase integration - Services |
-| `Services/Firebase/FirebaseAnalyticsService.swift` | TIER 2 | `Services/Firebase/` | Analytics - Services |
-| `Services/Firebase/FirebaseCrashlyticsService.swift` | TIER 2 | `Services/Firebase/` | Crashlytics - Services |
-| `Services/Firebase/FirebaseRemoteConfigService.swift` | TIER 2 | `Services/Firebase/` | Remote Config - Services |
-| `Services/Firebase/FirebaseMessagingService.swift` | TIER 2 | `Services/Firebase/` | Push Notifications - Services |
-| `Monetization/IAP/IAPService.swift` | TIER 2 | `Services/Payment/` | IAP - Services |
-| `Monetization/Ads/AdMobManager.swift` | TIER 2 | `Services/Ads/` | AdMob - Services |
-| `Services/AuthenticationService.swift` | TIER 2 | `Services/Auth/` | Auth - Services (nếu cần) |
+| ios-template-home Path                                | Tier   | Module hiện tại      | Mô tả                           |
+| ----------------------------------------------------- | ------ | -------------------- | ------------------------------- |
+| `Services/Firebase/FirebaseManager.swift`             | TIER 2 | `Services/Firebase/` | Firebase integration - Services |
+| `Services/Firebase/FirebaseAnalyticsService.swift`    | TIER 2 | `Services/Firebase/` | Analytics - Services            |
+| `Services/Firebase/FirebaseCrashlyticsService.swift`  | TIER 2 | `Services/Firebase/` | Crashlytics - Services          |
+| `Services/Firebase/FirebaseRemoteConfigService.swift` | TIER 2 | `Services/Firebase/` | Remote Config - Services        |
+| `Services/Firebase/FirebaseMessagingService.swift`    | TIER 2 | `Services/Firebase/` | Push Notifications - Services   |
+| `Monetization/IAP/IAPService.swift`                   | TIER 2 | `Services/Payment/`  | IAP - Services                  |
+| `Monetization/Ads/AdMobManager.swift`                 | TIER 2 | `Services/Ads/`      | AdMob - Services                |
+| `Services/AuthenticationService.swift`                | TIER 2 | `Services/Auth/`     | Auth - Services (nếu cần)       |
 
 ### TIER 3: DOMAIN (App-specific)
 
-| ios-template-home Path | Tier | Module hiện tại | Mô tả |
-|------------------------|------|-----------------|-------|
-| `Features/Home/HomeView.swift` | TIER 3 | `Features/Home/` | Business feature - Domain |
-| `Features/Settings/SettingsView.swift` | TIER 3 | `Features/Settings/` | Business feature - Domain |
+| ios-template-home Path                     | Tier   | Module hiện tại        | Mô tả                     |
+| ------------------------------------------ | ------ | ---------------------- | ------------------------- |
+| `Features/Home/HomeView.swift`             | TIER 3 | `Features/Home/`       | Business feature - Domain |
+| `Features/Settings/SettingsView.swift`     | TIER 3 | `Features/Settings/`   | Business feature - Domain |
 | `Features/Onboarding/OnboardingView.swift` | TIER 3 | `Features/Onboarding/` | Business feature - Domain |
-| `Features/Home/HomeView.swift` | TIER 3 | `Features/Home/` | Business feature - Domain |
+| `Features/Home/HomeView.swift`             | TIER 3 | `Features/Home/`       | Business feature - Domain |
 
 ### TIER 4: APPS
 
-| ios-template-home Path | Tier | Module hiện tại | Mô tả |
-|------------------------|------|-----------------|-------|
-| `Core/AppReducer.swift` | TIER 4 | `App/` | App entry - Apps |
-| `Core/AppState.swift` | TIER 4 | `App/` | App state - Apps |
-| `Core/AppAction.swift` | TIER 4 | `App/` | App actions - Apps |
-| `Features/Root/RootView.swift` | TIER 4 | `App/` | Root view - Apps |
+| ios-template-home Path         | Tier   | Module hiện tại | Mô tả              |
+| ------------------------------ | ------ | --------------- | ------------------ |
+| `Core/AppReducer.swift`        | TIER 4 | `App/`          | App entry - Apps   |
+| `Core/AppState.swift`          | TIER 4 | `App/`          | App state - Apps   |
+| `Core/AppAction.swift`         | TIER 4 | `App/`          | App actions - Apps |
+| `Features/Root/RootView.swift` | TIER 4 | `App/`          | Root view - Apps   |
 
 ---
 
 ## Module hiện tại → Tier
 
-| Module hiện tại | Tier | Dependencies |
-|-----------------|------|--------------|
-| `Core/` | TIER 1 (FOUNDATION) | Không phụ thuộc gì |
-| `UI/` | TIER 1 (FOUNDATION) | Chỉ phụ thuộc Core |
-| `Services/` | TIER 2 (SERVICES) | Chỉ phụ thuộc Core |
-| `Features/` | TIER 3 (DOMAIN) | Phụ thuộc Core, UI, Services |
-| `App/` | TIER 4 (APPS) | Phụ thuộc tất cả |
+| Module hiện tại | Tier                | Dependencies                 |
+| --------------- | ------------------- | ---------------------------- |
+| `Core/`         | TIER 1 (FOUNDATION) | Không phụ thuộc gì           |
+| `UI/`           | TIER 1 (FOUNDATION) | Chỉ phụ thuộc Core           |
+| `Services/`     | TIER 2 (SERVICES)   | Chỉ phụ thuộc Core           |
+| `Features/`     | TIER 3 (DOMAIN)     | Phụ thuộc Core, UI, Services |
+| `App/`          | TIER 4 (APPS)       | Phụ thuộc tất cả             |
 
 ---
 
@@ -79,10 +79,12 @@ TIER 1: FOUNDATION  → Core, UI (base infrastructure)
 ### Khi copy code từ ios-template-home:
 
 1. **Xác định tier của code cũ:**
+
    - Tra bảng mapping ở trên
    - Xác định code thuộc TIER nào
 
 2. **Xác định tier của module đang làm:**
+
    - Xem task đang làm thuộc module nào (Core/UI/Services/Features/App)
    - Tra bảng "Module hiện tại → Tier" ở trên
 
@@ -123,4 +125,3 @@ Bạn muốn:
 ---
 
 **Cập nhật lần cuối:** December 23, 2024
-

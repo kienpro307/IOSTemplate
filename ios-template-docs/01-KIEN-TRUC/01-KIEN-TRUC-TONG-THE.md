@@ -232,20 +232,20 @@ struct HomeReducer {
         var isLoading: Bool = false
         var error: String?
     }
-    
+
     enum Action: Equatable {
         case onAppear
         case productsResponse(Result<[Product], Error>)
         case productTapped(Product.ID)
         case delegate(Delegate)
-        
+
         enum Delegate: Equatable {
             case productSelected(Product)
         }
     }
-    
+
     @Dependency(\.productService) var productService
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -257,23 +257,23 @@ struct HomeReducer {
                 } catch: { error, send in
                     await send(.productsResponse(.failure(error)))
                 }
-                
+
             case .productsResponse(.success(let products)):
                 state.isLoading = false
                 state.products = products
                 return .none
-                
+
             case .productsResponse(.failure(let error)):
                 state.isLoading = false
                 state.error = error.localizedDescription
                 return .none
-                
+
             case .productTapped(let id):
                 guard let product = state.products.first(where: { $0.id == id }) else {
                     return .none
                 }
                 return .send(.delegate(.productSelected(product)))
-                
+
             case .delegate:
                 return .none
             }
@@ -295,19 +295,19 @@ struct AppReducer {
     struct State: Equatable {
         // Navigation
         var selectedTab: Tab = .home
-        
+
         // Feature states
         var home = HomeReducer.State()
         var search = SearchReducer.State()
         var settings = SettingsReducer.State()
-        
+
         // Onboarding (first launch)
         var onboarding: OnboardingReducer.State?
-        
+
         // Global
         var isConnected: Bool = true
     }
-    
+
     enum Tab: String, CaseIterable {
         case home
         case search
@@ -388,17 +388,17 @@ Sources/
 
 ## 8. Architecture Decisions
 
-| Decision | Choice | Reason |
-|----------|--------|--------|
-| Architecture | TCA | Testable, predictable, composable |
-| Module Strategy | **4-Tier Multi-Module** ⭐ | Scalable cho 8+ apps |
-| Repo Strategy | **Hybrid Multi-Repo** ⭐ | Balance control & independence |
-| UI Framework | SwiftUI only | Modern, declarative, future-proof |
-| Package Manager | SPM only | Native, simple, reliable |
-| Min iOS | 16.0 | NavigationStack, modern APIs |
-| Networking | Moya | Type-safe, testable |
-| State | Single source of truth | Predictable, debuggable |
-| SOLID Score | **9.8/10** ⭐ | High quality architecture |
+| Decision        | Choice                     | Reason                            |
+| --------------- | -------------------------- | --------------------------------- |
+| Architecture    | TCA                        | Testable, predictable, composable |
+| Module Strategy | **4-Tier Multi-Module** ⭐ | Scalable cho 8+ apps              |
+| Repo Strategy   | **Hybrid Multi-Repo** ⭐   | Balance control & independence    |
+| UI Framework    | SwiftUI only               | Modern, declarative, future-proof |
+| Package Manager | SPM only                   | Native, simple, reliable          |
+| Min iOS         | 16.0                       | NavigationStack, modern APIs      |
+| Networking      | Moya                       | Type-safe, testable               |
+| State           | Single source of truth     | Predictable, debuggable           |
+| SOLID Score     | **9.8/10** ⭐              | High quality architecture         |
 
 ---
 
@@ -436,13 +436,13 @@ Sources/
 
 ## 10. Related Documents
 
-| Document | Mô tả |
-|----------|-------|
+| Document                                                     | Mô tả                     |
+| ------------------------------------------------------------ | ------------------------- |
 | [Multi-Module Architecture](08-MULTI-MODULE-ARCHITECTURE.md) | Kiến trúc 4 tầng chi tiết |
-| [Startup Orchestration](09-STARTUP-ORCHESTRATION.md) | 7-step startup flow |
-| [TCA Patterns & SOLID](10-TCA-PATTERNS-SOLID.md) | Design patterns & SOLID |
-| [TCA Architecture](02-KIEN-TRUC-TCA.md) | TCA core concepts |
+| [Startup Orchestration](09-STARTUP-ORCHESTRATION.md)         | 7-step startup flow       |
+| [TCA Patterns & SOLID](10-TCA-PATTERNS-SOLID.md)             | Design patterns & SOLID   |
+| [TCA Architecture](02-KIEN-TRUC-TCA.md)                      | TCA core concepts         |
 
 ---
 
-*Kiến trúc này được thiết kế để dễ maintain, test, và scale.*
+_Kiến trúc này được thiết kế để dễ maintain, test, và scale._

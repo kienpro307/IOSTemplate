@@ -4,7 +4,9 @@ import FirebaseAnalytics
 import FirebaseCrashlytics
 import FirebaseMessaging
 import FirebaseRemoteConfig
+#if canImport(FirebasePerformance)
 import FirebasePerformance
+#endif
 
 /// Firebase Manager - Quản lý Firebase initialization và configuration
 ///
@@ -94,9 +96,11 @@ public final class FirebaseManager {
                 )
             }
 
+            #if canImport(FirebasePerformance)
             if config.isPerformanceEnabled {
                 configurePerformance()
             }
+            #endif
 
             isConfigured = true
             logInfo("✅ Firebase configured successfully with config: \(config.plistName)")
@@ -167,11 +171,13 @@ public final class FirebaseManager {
         logInfo("Firebase Remote Config configured (cache: \(cacheExpiration)s)")
     }
 
+    #if canImport(FirebasePerformance)
     private func configurePerformance() {
         // Performance Monitoring tự động enable
         // Có thể add custom traces sau
         logInfo("Firebase Performance Monitoring configured")
     }
+    #endif
 
     // MARK: - Helpers
 

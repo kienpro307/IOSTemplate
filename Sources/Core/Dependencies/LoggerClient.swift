@@ -1,7 +1,6 @@
 import Foundation
 import OSLog
 import ComposableArchitecture
-import Services
 
 /// Protocol cho các thao tác logging
 public protocol LoggerClientProtocol: Sendable {
@@ -79,8 +78,7 @@ public final class LiveLoggerClient: LoggerClientProtocol, @unchecked Sendable {
         subsystem: String? = nil,
         category: String = "General",
         minimumLogLevel: LogLevel? = nil,
-        enableFileLogging: Bool? = nil,
-        crashlytics: CrashlyticsServiceProtocol? = nil
+        enableFileLogging: Bool? = nil
     ) {
         let bundleID = Bundle.main.bundleIdentifier ?? "com.iostemplate.app"
         self.osLog = OSLog(subsystem: subsystem ?? bundleID, category: category)
@@ -98,10 +96,6 @@ public final class LiveLoggerClient: LoggerClientProtocol, @unchecked Sendable {
         #else
         self.logToFile = enableFileLogging ?? true
         #endif
-        
-        // Setup Crashlytics integration
-        // Crashlytics sẽ được inject từ bên ngoài hoặc nil nếu không có
-        self.crashlytics = crashlytics
         
         if self.logToFile {
             setupFileLogging()
@@ -164,14 +158,8 @@ public final class LiveLoggerClient: LoggerClientProtocol, @unchecked Sendable {
             }
         }
         
-        // Log to Crashlytics (chỉ log warning và error để tránh spam)
-        if let crashlytics = crashlytics, level >= .warning {
-            Task {
-                await crashlytics.setCustomKey("log_level", value: String(describing: level))
-                // Crashlytics log() method không có trong protocol, chỉ log vào custom keys
-                // Thực tế Crashlytics sẽ tự động capture logs từ OSLog
-            }
-        }
+        // Note: Crashlytics tự động capture logs từ OSLog
+        // Không cần log trực tiếp từ đây
     }
     
     // MARK: - File Logging

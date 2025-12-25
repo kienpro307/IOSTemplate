@@ -37,6 +37,7 @@ TỔNG:                     [██░░░░░░░░] 21%  (6/28 tasks)
 ## 🔵 PHASE 0: CHUẨN BỊ MÔI TRƯỜNG
 
 ### TASK 0.1: Tạo Xcode Project
+
 ```yaml
 ID: P0-001
 Tên: Khởi tạo Xcode Project
@@ -71,6 +72,7 @@ Validation:
 ```
 
 ### TASK 0.2: Cấu hình Git Repository
+
 ```yaml
 ID: P0-002
 Tên: Setup Git repository
@@ -102,25 +104,26 @@ Files cần tạo:
     DerivedData/
     *.xcuserstate
     *.xcscmblueprint
-    
+
     # Swift Package Manager
     .swiftpm/
     .build/
     Packages/
-    
+
     # CocoaPods (nếu dùng)
     Pods/
-    
+
     # Secrets
     *.plist.secret
     GoogleService-Info.plist
-    
+
     # OS
     .DS_Store
     *.swp
 ```
 
 ### TASK 0.3: Setup Swift Package Manager
+
 ```yaml
 ID: P0-003
 Tên: Tạo Package.swift structure
@@ -155,7 +158,7 @@ Output:
 Code mẫu: |
   // swift-tools-version: 5.9
   import PackageDescription
-  
+
   let package = Package(
       name: "iOSTemplate",
       platforms: [.iOS(.v16)],
@@ -192,6 +195,7 @@ Validation:
 ```
 
 ### TASK 0.4: Cấu hình SwiftLint
+
 ```yaml
 ID: P0-004
 Tên: Setup SwiftLint
@@ -211,7 +215,7 @@ File .swiftlint.yml: |
   disabled_rules:
     - trailing_comma
     - todo
-  
+
   opt_in_rules:
     - array_init
     - closure_spacing
@@ -229,23 +233,23 @@ File .swiftlint.yml: |
     - unavailable_function
     - unneeded_parentheses_in_closure_argument
     - vertical_parameter_alignment_on_call
-  
+
   line_length:
     warning: 120
     error: 150
-  
+
   file_length:
     warning: 400
     error: 500
-  
+
   type_body_length:
     warning: 250
     error: 350
-  
+
   function_body_length:
     warning: 40
     error: 60
-  
+
   excluded:
     - DerivedData
     - .build
@@ -257,6 +261,7 @@ File .swiftlint.yml: |
 ## 🔵 PHASE 1: NỀN TẢNG (FOUNDATION)
 
 ### TASK 1.1: TCA Core Setup
+
 ```yaml
 ID: P1-001
 Tên: Tạo TCA Root Architecture
@@ -289,27 +294,27 @@ Files cần tạo:
 
 Code TrangThaiUngDung.swift: |
   import ComposableArchitecture
-  
+
   @ObservableState
   public struct TrangThaiUngDung: Equatable {
       // Navigation
       public var tabHienTai: Tab = .trangChu
-      
+
       // User
       public var nguoiDung: NguoiDung?
       public var daXacThuc: Bool { nguoiDung != nil }
-      
+
       // App state
       public var coKetNoiMang: Bool = true
       public var phienBan: String = "1.0.0"
-      
+
       // Feature states
       public var dangNhap: TrangThaiDangNhap?
       public var trangChu: TrangThaiTrangChu = .init()
       public var caiDat: TrangThaiCaiDat = .init()
-      
+
       public init() {}
-      
+
       public enum Tab: String, CaseIterable, Equatable {
           case trangChu = "trang_chu"
           case timKiem = "tim_kiem"
@@ -320,36 +325,36 @@ Code TrangThaiUngDung.swift: |
 
 Code BoGiamUngDung.swift: |
   import ComposableArchitecture
-  
+
   @Reducer
   public struct BoGiamUngDung {
       public init() {}
-      
+
       public enum HanhDong: Equatable {
           case khungNhinXuatHien
           case tabThayDoi(TrangThaiUngDung.Tab)
-          
+
           case dangNhap(HanhDongDangNhap)
           case trangChu(HanhDongTrangChu)
           case caiDat(HanhDongCaiDat)
-          
+
           case ketNoiMangThayDoi(Bool)
       }
-      
+
       public var body: some ReducerOf<Self> {
           Reduce { state, action in
               switch action {
               case .khungNhinXuatHien:
                   return .none
-                  
+
               case .tabThayDoi(let tab):
                   state.tabHienTai = tab
                   return .none
-                  
+
               case .ketNoiMangThayDoi(let coKetNoi):
                   state.coKetNoiMang = coKetNoi
                   return .none
-                  
+
               default:
                   return .none
               }
@@ -367,6 +372,7 @@ Validation:
 ```
 
 ### TASK 1.2: Dependency Injection Setup
+
 ```yaml
 ID: P1-002
 Tên: Setup Dependency System
@@ -397,33 +403,33 @@ Files cần tạo:
 
 Code mẫu KhachMangKey.swift: |
   import ComposableArchitecture
-  
+
   // MARK: - Protocol
   public protocol GiaoThucKhachMang: Sendable {
       func request<T: Decodable>(_ endpoint: DiemCuoi) async throws -> T
       func upload(_ data: Data, to endpoint: DiemCuoi) async throws -> URL
   }
-  
+
   // MARK: - Live Implementation
   public struct KhachMangThuc: GiaoThucKhachMang {
       public init() {}
-      
+
       public func request<T: Decodable>(_ endpoint: DiemCuoi) async throws -> T {
           // Real implementation với Moya
       }
-      
+
       public func upload(_ data: Data, to endpoint: DiemCuoi) async throws -> URL {
           // Real implementation
       }
   }
-  
+
   // MARK: - Test Implementation
   public struct KhachMangGia: GiaoThucKhachMang {
       public var ketQuaRequest: Any?
       public var loiRequest: Error?
-      
+
       public init() {}
-      
+
       public func request<T: Decodable>(_ endpoint: DiemCuoi) async throws -> T {
           if let loi = loiRequest { throw loi }
           guard let ketQua = ketQuaRequest as? T else {
@@ -431,19 +437,19 @@ Code mẫu KhachMangKey.swift: |
           }
           return ketQua
       }
-      
+
       public func upload(_ data: Data, to endpoint: DiemCuoi) async throws -> URL {
           URL(string: "https://example.com/uploaded")!
       }
   }
-  
+
   // MARK: - Dependency Key
   public struct KhachMangKey: DependencyKey {
       public static let liveValue: GiaoThucKhachMang = KhachMangThuc()
       public static let testValue: GiaoThucKhachMang = KhachMangGia()
       public static let previewValue: GiaoThucKhachMang = KhachMangGia()
   }
-  
+
   extension DependencyValues {
       public var khachMang: GiaoThucKhachMang {
           get { self[KhachMangKey.self] }
@@ -458,6 +464,7 @@ Validation:
 ```
 
 ### TASK 1.3: Navigation System
+
 ```yaml
 ID: P1-003
 Tên: Tạo Navigation Architecture
@@ -495,20 +502,20 @@ Files cần tạo:
 
 Code DiemDen.swift: |
   import Foundation
-  
+
   public enum DiemDen: Hashable {
       // Auth
       case dangNhap
       case dangKy
       case quenMatKhau
-      
+
       // Main
       case chiTietSanPham(id: String)
       case hoSoNguoiDung(id: String)
       case caiDat
       case thongTinCaNhan
       case doiMatKhau
-      
+
       // Common
       case webView(url: URL)
       case hinhAnhToanManHinh(url: URL)
@@ -517,10 +524,10 @@ Code DiemDen.swift: |
 Code MainTabView.swift: |
   import ComposableArchitecture
   import SwiftUI
-  
+
   struct MainTabView: View {
       @Bindable var store: StoreOf<BoGiamUngDung>
-      
+
       var body: some View {
           TabView(selection: $store.tabHienTai.sending(\.tabThayDoi)) {
               NavigationStack {
@@ -530,7 +537,7 @@ Code MainTabView.swift: |
                   Label("Trang chủ", systemImage: "house")
               }
               .tag(TrangThaiUngDung.Tab.trangChu)
-              
+
               NavigationStack {
                   TimKiemView(store: store.scope(state: \.timKiem, action: \.timKiem))
               }
@@ -538,7 +545,7 @@ Code MainTabView.swift: |
                   Label("Tìm kiếm", systemImage: "magnifyingglass")
               }
               .tag(TrangThaiUngDung.Tab.timKiem)
-              
+
               NavigationStack {
                   CaiDatView(store: store.scope(state: \.caiDat, action: \.caiDat))
               }
@@ -557,6 +564,7 @@ Validation:
 ```
 
 ### TASK 1.4: Theme System
+
 ```yaml
 ID: P1-004
 Tên: Tạo Design System
@@ -577,32 +585,32 @@ Files cần tạo:
 
 Code MauSac.swift: |
   import SwiftUI
-  
+
   public enum MauSac {
       // MARK: - Primary
       public static let chinh = Color("Primary", bundle: .module)
       public static let chinhNhat = Color("PrimaryLight", bundle: .module)
       public static let chinhDam = Color("PrimaryDark", bundle: .module)
-      
+
       // MARK: - Secondary
       public static let phu = Color("Secondary", bundle: .module)
-      
+
       // MARK: - Semantic
       public static let thanhCong = Color("Success", bundle: .module)
       public static let canhBao = Color("Warning", bundle: .module)
       public static let loi = Color("Error", bundle: .module)
       public static let thongTin = Color("Info", bundle: .module)
-      
+
       // MARK: - Background
       public static let nen = Color("Background", bundle: .module)
       public static let nenPhu = Color("BackgroundSecondary", bundle: .module)
       public static let beMat = Color("Surface", bundle: .module)
-      
+
       // MARK: - Text
       public static let chuChinh = Color("TextPrimary", bundle: .module)
       public static let chuPhu = Color("TextSecondary", bundle: .module)
       public static let chuMo = Color("TextTertiary", bundle: .module)
-      
+
       // MARK: - Border
       public static let vien = Color("Border", bundle: .module)
       public static let vienNhat = Color("BorderLight", bundle: .module)
@@ -610,7 +618,7 @@ Code MauSac.swift: |
 
 Code KhoangCach.swift: |
   import SwiftUI
-  
+
   public enum KhoangCach {
       /// 4pt
       public static let xxxNho: CGFloat = 4
@@ -639,6 +647,7 @@ Validation:
 ```
 
 ### TASK 1.5: UI Components Library
+
 ```yaml
 ID: P1-005
 Tên: Tạo Base UI Components
@@ -662,13 +671,13 @@ Files cần tạo:
 
 Code NutChinh.swift: |
   import SwiftUI
-  
+
   public struct NutChinh: View {
       let tieuDe: String
       let dangTai: Bool
       let tatChuc: Bool
       let hanhDong: () -> Void
-      
+
       public init(
           _ tieuDe: String,
           dangTai: Bool = false,
@@ -680,7 +689,7 @@ Code NutChinh.swift: |
           self.tatChuc = tatChuc
           self.hanhDong = hanhDong
       }
-      
+
       public var body: some View {
           Button(action: hanhDong) {
               HStack(spacing: KhoangCach.xxNho) {
@@ -700,7 +709,7 @@ Code NutChinh.swift: |
           .disabled(tatChuc || dangTai)
       }
   }
-  
+
   #Preview {
       VStack(spacing: 16) {
           NutChinh("Đăng nhập") {}
@@ -717,6 +726,7 @@ Validation:
 ```
 
 ### TASK 1.6: Storage Wrappers
+
 ```yaml
 ID: P1-006
 Tên: Tạo Storage Wrappers
@@ -735,13 +745,13 @@ Files cần tạo:
 
 Code LuuTruNguoiDung.swift: |
   import Foundation
-  
+
   @propertyWrapper
   public struct LuuTruNguoiDung<T: Codable> {
       private let khoa: String
       private let giaTriMacDinh: T
       private let userDefaults: UserDefaults
-      
+
       public init(
           _ khoa: String,
           giaTriMacDinh: T,
@@ -751,7 +761,7 @@ Code LuuTruNguoiDung.swift: |
           self.giaTriMacDinh = giaTriMacDinh
           self.userDefaults = userDefaults
       }
-      
+
       public var wrappedValue: T {
           get {
               guard let data = userDefaults.data(forKey: khoa),
@@ -767,7 +777,7 @@ Code LuuTruNguoiDung.swift: |
           }
       }
   }
-  
+
   // Usage example:
   // @LuuTruNguoiDung("user.name", giaTriMacDinh: "")
   // var tenNguoiDung: String
@@ -775,33 +785,33 @@ Code LuuTruNguoiDung.swift: |
 Code KeychainBaoBoc.swift: |
   import Foundation
   import KeychainAccess
-  
+
   public actor KeychainBaoBoc {
       private let keychain: Keychain
-      
+
       public init(service: String = Bundle.main.bundleIdentifier ?? "com.template.ios") {
           self.keychain = Keychain(service: service)
       }
-      
+
       public enum Khoa: String {
           case accessToken = "access_token"
           case refreshToken = "refresh_token"
           case userId = "user_id"
           case pinCode = "pin_code"
       }
-      
+
       public func luu(_ giaTri: String, choKhoa khoa: Khoa) throws {
           try keychain.set(giaTri, key: khoa.rawValue)
       }
-      
+
       public func lay(_ khoa: Khoa) throws -> String? {
           try keychain.get(khoa.rawValue)
       }
-      
+
       public func xoa(_ khoa: Khoa) throws {
           try keychain.remove(khoa.rawValue)
       }
-      
+
       public func xoaTatCa() throws {
           try keychain.removeAll()
       }
@@ -818,6 +828,7 @@ Validation:
 ## 🔵 PHASE 2: CORE SERVICES
 
 ### TASK 2.1: Network Layer
+
 ```yaml
 ID: P2-001
 Tên: Tạo Network Client với Moya
@@ -826,8 +837,7 @@ Trạng thái: ⬜ Chưa làm
 Phụ thuộc: P1-002
 Thời gian ước tính: 4 giờ
 
-Files cần tạo:
-  1. Sources/Loi/Mang/DiemCuoi.swift
+Files cần tạo: 1. Sources/Loi/Mang/DiemCuoi.swift
   2. Sources/Loi/Mang/KhachMangThuc.swift
   3. Sources/Loi/Mang/LoiMang.swift
   4. Sources/Loi/Mang/Interceptor/AuthInterceptor.swift
@@ -835,6 +845,7 @@ Files cần tạo:
 ```
 
 ### TASK 2.2: Database Layer
+
 ```yaml
 ID: P2-002
 Tên: Setup Core Data / SwiftData
@@ -845,6 +856,7 @@ Thời gian ước tính: 3 giờ
 ```
 
 ### TASK 2.3: Cache System
+
 ```yaml
 ID: P2-003
 Tên: Implement Cache Layer
@@ -855,6 +867,7 @@ Thời gian ước tính: 2 giờ
 ```
 
 ### TASK 2.4: Error Handling
+
 ```yaml
 ID: P2-004
 Tên: Tạo Error Handling System
@@ -869,6 +882,7 @@ Thời gian ước tính: 2 giờ
 ## 🔵 PHASE 3: FIREBASE INTEGRATION
 
 ### TASK 3.1: Firebase Setup
+
 ```yaml
 ID: P3-001
 Tên: Tích hợp Firebase SDK
@@ -879,6 +893,7 @@ Thời gian ước tính: 2 giờ
 ```
 
 ### TASK 3.2: Analytics Service
+
 ```yaml
 ID: P3-002
 Tên: Implement Analytics
@@ -889,6 +904,7 @@ Thời gian ước tính: 2 giờ
 ```
 
 ### TASK 3.3: Crashlytics
+
 ```yaml
 ID: P3-003
 Tên: Setup Crashlytics
@@ -899,6 +915,7 @@ Thời gian ước tính: 1 giờ
 ```
 
 ### TASK 3.4: Remote Config
+
 ```yaml
 ID: P3-004
 Tên: Implement Remote Config
@@ -909,6 +926,7 @@ Thời gian ước tính: 2 giờ
 ```
 
 ### TASK 3.5: Push Notifications
+
 ```yaml
 ID: P3-005
 Tên: Setup FCM
@@ -925,6 +943,7 @@ Thời gian ước tính: 3 giờ
 **Lưu ý:** App **KHÔNG** có Authentication và Profile. Bỏ qua P4-001 và P4-005.
 
 ### TASK 4.1: Onboarding Feature
+
 ```yaml
 ID: P4-002
 Tên: Tạo Onboarding Flow
@@ -935,6 +954,7 @@ Thời gian ước tính: 4 giờ
 ```
 
 ### TASK 4.3: Home Feature
+
 ```yaml
 ID: P4-003
 Tên: Tạo Home Screen
@@ -945,6 +965,7 @@ Thời gian ước tính: 4 giờ
 ```
 
 ### TASK 4.4: Settings Feature
+
 ```yaml
 ID: P4-004
 Tên: Tạo Settings Screen
@@ -959,6 +980,7 @@ Thời gian ước tính: 4 giờ
 ## 🔵 PHASE 5: MONETIZATION
 
 ### TASK 5.1: In-App Purchase
+
 ```yaml
 ID: P5-001
 Tên: Tích hợp StoreKit 2
@@ -969,6 +991,7 @@ Thời gian ước tính: 6 giờ
 ```
 
 ### TASK 5.2: AdMob Integration
+
 ```yaml
 ID: P5-002
 Tên: Tích hợp Google AdMob
@@ -983,6 +1006,7 @@ Thời gian ước tính: 4 giờ
 ## 🔵 PHASE 6: TESTING
 
 ### TASK 6.1: Unit Tests
+
 ```yaml
 ID: P6-001
 Tên: Viết Unit Tests cho Reducers
@@ -993,6 +1017,7 @@ Thời gian ước tính: 6 giờ
 ```
 
 ### TASK 6.2: UI Tests
+
 ```yaml
 ID: P6-002
 Tên: Viết UI Tests cho Critical Paths
@@ -1007,6 +1032,7 @@ Thời gian ước tính: 4 giờ
 ## 🔵 PHASE 7: DOCUMENTATION & CI/CD
 
 ### TASK 7.1: CI/CD Pipeline
+
 ```yaml
 ID: P7-001
 Tên: Setup GitHub Actions
@@ -1017,6 +1043,7 @@ Thời gian ước tính: 3 giờ
 ```
 
 ### TASK 7.2: API Documentation
+
 ```yaml
 ID: P7-002
 Tên: Generate API Docs
@@ -1030,20 +1057,20 @@ Thời gian ước tính: 2 giờ
 
 ## 📊 TỔNG KẾT
 
-| Phase | Số tasks | Ưu tiên P0 | Ưu tiên P1 | Ưu tiên P2 |
-|-------|----------|------------|------------|------------|
-| Phase 0 | 4 | 3 | 1 | 0 |
-| Phase 1 | 6 | 3 | 3 | 0 |
-| Phase 2 | 4 | 2 | 1 | 1 |
-| Phase 3 | 5 | 0 | 3 | 2 |
-| Phase 4 | 3 | 0 | 3 | 0 |
-| Phase 5 | 2 | 0 | 1 | 1 |
-| Phase 6 | 2 | 0 | 1 | 1 |
-| Phase 7 | 2 | 0 | 0 | 2 |
-| **TỔNG** | **28** | **8** | **13** | **7** |
+| Phase    | Số tasks | Ưu tiên P0 | Ưu tiên P1 | Ưu tiên P2 |
+| -------- | -------- | ---------- | ---------- | ---------- |
+| Phase 0  | 4        | 3          | 1          | 0          |
+| Phase 1  | 6        | 3          | 3          | 0          |
+| Phase 2  | 4        | 2          | 1          | 1          |
+| Phase 3  | 5        | 0          | 3          | 2          |
+| Phase 4  | 3        | 0          | 3          | 0          |
+| Phase 5  | 2        | 0          | 1          | 1          |
+| Phase 6  | 2        | 0          | 1          | 1          |
+| Phase 7  | 2        | 0          | 0          | 2          |
+| **TỔNG** | **28**   | **8**      | **13**     | **7**      |
 
 **Thời gian ước tính tổng: ~80 giờ (10 ngày làm việc)**
 
 ---
 
-*File này cần được cập nhật khi hoàn thành task. AI agent nên đánh dấu task đã hoàn thành.*
+_File này cần được cập nhật khi hoàn thành task. AI agent nên đánh dấu task đã hoàn thành._

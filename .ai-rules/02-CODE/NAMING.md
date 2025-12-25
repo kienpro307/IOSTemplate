@@ -2,13 +2,13 @@
 
 ## Files
 
-| Loại | Pattern | Ví dụ |
-|------|---------|-------|
-| Reducer | `{Feature}Reducer.swift` | `HomeReducer.swift` |
-| View | `{Feature}View.swift` | `HomeView.swift` |
-| Service | `{Name}Service.swift` | `AuthService.swift` |
-| Model | `{Name}.swift` | `User.swift` |
-| Test | `{Name}Tests.swift` | `HomeReducerTests.swift` |
+| Loại    | Pattern                  | Ví dụ                    |
+| ------- | ------------------------ | ------------------------ |
+| Reducer | `{Feature}Reducer.swift` | `HomeReducer.swift`      |
+| View    | `{Feature}View.swift`    | `HomeView.swift`         |
+| Service | `{Name}Service.swift`    | `AuthService.swift`      |
+| Model   | `{Name}.swift`           | `User.swift`             |
+| Test    | `{Name}Tests.swift`      | `HomeReducerTests.swift` |
 
 ## Code
 
@@ -72,4 +72,3 @@ enum Delegate: Equatable {
 ## Chi tiết
 
 Xem: `ios-template-docs/04-HUONG-DAN-AI/03-QUY-TAC-DAT-TEN.md`
-

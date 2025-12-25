@@ -8,73 +8,88 @@ import UI
 /// View hiển thị danh sách products để purchase
 /// Tái sử dụng design từ ios-template-home/Monetization/IAP/Views/PurchaseView.swift
 public struct IAPView: View {
-    @Bindable var store: StoreOf<IAPReducer>
+    @Perception.Bindable var store: StoreOf<IAPReducer>
     
     public init(store: StoreOf<IAPReducer>) {
         self.store = store
     }
     
     public var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: Spacing.large) {
-                    // Header
-                    headerSection
-                    
-                    if store.isLoading && store.products.isEmpty {
-                        loadingView
-                    } else if store.products.isEmpty {
-                        emptyView
-                    } else {
-                        // Premium Status Banner
-                        if store.hasPremium {
-                            premiumBanner
+        WithPerceptionTracking {
+            NavigationStack {
+                ScrollView {
+                    VStack(spacing: Spacing.xl) {
+                        // Header
+                        headerSection
+                        
+                        if store.isLoading && store.products.isEmpty {
+                            loadingView
+                        } else if store.products.isEmpty {
+                            emptyView
+                        } else {
+                            // Premium Status Banner
+                            if store.hasPremium {
+                                premiumBanner
+                            }
+                            
+                            // Products Section
+                            productsSection
+                            
+                            // Subscriptions Section
+                            subscriptionsSection
+                            
+                            // Restore Button
+                            restoreButton
                         }
                         
-                        // Products Section
-                        productsSection
+                        // Error Message
+                        if let errorMessage = store.errorMessage {
+                            errorView(message: errorMessage)
+                        }
                         
-                        // Subscriptions Section
-                        subscriptionsSection
-                        
-                        // Restore Button
-                        restoreButton
+                        // Success Message
+                        if let successMessage = store.successMessage {
+                            successView(message: successMessage)
+                        }
                     }
-                    
-                    // Error Message
-                    if let errorMessage = store.errorMessage {
-                        errorView(message: errorMessage)
-                    }
-                    
-                    // Success Message
-                    if let successMessage = store.successMessage {
-                        successView(message: successMessage)
+                    .padding()
+                }
+                .navigationTitle("Premium")
+                #if os(iOS)
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            store.send(.dismiss)
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
-                .padding()
-            }
-            .navigationTitle("Premium")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        store.send(.dismiss)
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundStyle(.secondary)
+                #else
+                .toolbar {
+                    ToolbarItem(placement: .automatic) {
+                        Button {
+                            store.send(.dismiss)
+                        } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundStyle(.secondary)
+                        }
                     }
                 }
+                #endif
             }
-        }
-        .onAppear {
-            store.send(.onAppear)
+            .onAppear {
+                store.send(.onAppear)
+            }
         }
     }
     
     // MARK: - Header Section
     
     private var headerSection: some View {
-        VStack(spacing: Spacing.small) {
+        VStack(spacing: Spacing.sm) {
             Image(systemName: "crown.fill")
                 .font(.system(size: 60))
                 .foregroundStyle(
@@ -86,45 +101,45 @@ public struct IAPView: View {
                 )
             
             Text("Nâng cấp Premium")
-                .font(Typography.title1)
+                .font(.title)
                 .fontWeight(.bold)
             
             Text("Mở khóa tất cả tính năng và loại bỏ quảng cáo")
-                .font(Typography.body)
+                .font(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
-        .padding(.vertical, Spacing.medium)
+        .padding(.vertical, Spacing.md)
     }
     
     // MARK: - Loading View
     
     private var loadingView: some View {
-        VStack(spacing: Spacing.medium) {
+        VStack(spacing: Spacing.md) {
             ProgressView()
                 .scaleEffect(1.5)
             
             Text("Đang tải sản phẩm...")
-                .font(Typography.body)
+                .font(.body)
                 .foregroundStyle(.secondary)
         }
-        .padding(.vertical, Spacing.xxLarge)
+        .padding(.vertical, Spacing.xxl)
     }
     
     // MARK: - Empty View
     
     private var emptyView: some View {
-        VStack(spacing: Spacing.medium) {
+        VStack(spacing: Spacing.md) {
             Image(systemName: "cart.badge.questionmark")
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
             Text("Không có sản phẩm")
-                .font(Typography.headline)
+                .font(.headline)
                 .foregroundStyle(.secondary)
             
             Text("Không thể tải danh sách sản phẩm. Vui lòng thử lại sau.")
-                .font(Typography.body)
+                .font(.body)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
             
@@ -141,18 +156,18 @@ public struct IAPView: View {
     // MARK: - Premium Banner
     
     private var premiumBanner: some View {
-        HStack(spacing: Spacing.medium) {
+        HStack(spacing: Spacing.md) {
             Image(systemName: "checkmark.seal.fill")
                 .font(.title2)
                 .foregroundStyle(.green)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text("Premium Active")
-                    .font(Typography.headline)
+                    .font(.headline)
                     .fontWeight(.bold)
                 
                 Text("Bạn đang sử dụng phiên bản Premium")
-                    .font(Typography.caption1)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
             
@@ -160,23 +175,25 @@ public struct IAPView: View {
         }
         .padding()
         .background(Color.green.opacity(0.1))
-        .cornerRadius(CornerRadius.medium)
+        .cornerRadius(CornerRadius.md)
     }
     
     // MARK: - Products Section
     
     @ViewBuilder
     private var productsSection: some View {
-        if !store.nonSubscriptionProducts.isEmpty {
-            VStack(alignment: .leading, spacing: Spacing.medium) {
+        let nonSubProducts = store.nonSubscriptionProducts
+        if !nonSubProducts.isEmpty {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text("Mua một lần")
-                    .font(Typography.title3)
+                    .font(.title3)
                     .fontWeight(.bold)
                 
-                ForEach(store.nonSubscriptionProducts) { product in
+                ForEach(nonSubProducts) { product in
+                    let isPurchased = store.purchasedProductIDs.contains(product.id)
                     ProductRowView(
                         product: product,
-                        isPurchased: store.isPurchased(product.id),
+                        isPurchased: isPurchased,
                         isPurchasing: store.purchasingProductId == product.id
                     ) {
                         store.send(.purchase(product.id))
@@ -190,16 +207,18 @@ public struct IAPView: View {
     
     @ViewBuilder
     private var subscriptionsSection: some View {
-        if !store.subscriptionProducts.isEmpty {
-            VStack(alignment: .leading, spacing: Spacing.medium) {
+        let subProducts = store.subscriptionProducts
+        if !subProducts.isEmpty {
+            VStack(alignment: .leading, spacing: Spacing.md) {
                 Text("Đăng ký")
-                    .font(Typography.title3)
+                    .font(.title3)
                     .fontWeight(.bold)
                 
-                ForEach(store.subscriptionProducts) { product in
+                ForEach(subProducts) { product in
+                    let isActive = store.activeSubscriptions.contains { $0.id == product.id }
                     SubscriptionRowView(
                         product: product,
-                        isActive: store.isSubscriptionActive(product.id),
+                        isActive: isActive,
                         isPurchasing: store.purchasingProductId == product.id
                     ) {
                         store.send(.purchase(product.id))
@@ -222,7 +241,7 @@ public struct IAPView: View {
             .frame(maxWidth: .infinity)
             .padding()
             .background(Color.secondary.opacity(0.2))
-            .cornerRadius(CornerRadius.medium)
+            .cornerRadius(CornerRadius.md)
         }
         .disabled(store.isLoading)
     }
@@ -235,7 +254,7 @@ public struct IAPView: View {
                 .foregroundColor(.orange)
             
             Text(message)
-                .font(Typography.caption1)
+                .font(.caption)
                 .foregroundStyle(.secondary)
             
             Spacer()
@@ -249,7 +268,7 @@ public struct IAPView: View {
         }
         .padding()
         .background(Color.orange.opacity(0.1))
-        .cornerRadius(CornerRadius.small)
+        .cornerRadius(CornerRadius.sm)
     }
     
     // MARK: - Success View
@@ -260,7 +279,7 @@ public struct IAPView: View {
                 .foregroundColor(.green)
             
             Text(message)
-                .font(Typography.caption1)
+                .font(.caption)
                 .foregroundStyle(.secondary)
             
             Spacer()
@@ -274,7 +293,7 @@ public struct IAPView: View {
         }
         .padding()
         .background(Color.green.opacity(0.1))
-        .cornerRadius(CornerRadius.small)
+        .cornerRadius(CornerRadius.sm)
     }
 }
 
@@ -290,10 +309,10 @@ struct ProductRowView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.displayName)
-                    .font(Typography.headline)
+                    .font(.headline)
                 
                 Text(product.description)
-                    .font(Typography.caption1)
+                    .font(.caption)
                     .foregroundStyle(.secondary)
             }
             
@@ -308,18 +327,18 @@ struct ProductRowView: View {
             } else {
                 Button(action: onPurchase) {
                     Text(product.displayPrice)
-                        .font(Typography.headline)
-                        .padding(.horizontal, Spacing.medium)
-                        .padding(.vertical, Spacing.small)
+                        .font(.headline)
+                        .padding(.horizontal, Spacing.md)
+                        .padding(.vertical, Spacing.sm)
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(CornerRadius.small)
+                        .cornerRadius(CornerRadius.sm)
                 }
             }
         }
         .padding()
         .background(Color.secondary.opacity(0.1))
-        .cornerRadius(CornerRadius.medium)
+        .cornerRadius(CornerRadius.md)
     }
 }
 
@@ -332,15 +351,15 @@ struct SubscriptionRowView: View {
     let onSubscribe: () -> Void
     
     var body: some View {
-        VStack(alignment: .leading, spacing: Spacing.medium) {
+        VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(product.displayName)
-                        .font(Typography.headline)
+                        .font(.headline)
                     
                     if isActive {
                         Text("Đang hoạt động")
-                            .font(Typography.caption1)
+                            .font(.caption)
                             .foregroundColor(.green)
                             .fontWeight(.semibold)
                     }
@@ -350,21 +369,22 @@ struct SubscriptionRowView: View {
                 
                 VStack(alignment: .trailing) {
                     Text(product.displayPrice)
-                        .font(Typography.title3)
+                        .font(.title3)
                         .fontWeight(.bold)
                     
                     if let period = product.subscriptionPeriod {
                         Text("mỗi \(period)")
-                            .font(Typography.caption1)
+                            .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
             }
             
             Text(product.description)
-                .font(Typography.caption1)
+                .font(.caption)
                 .foregroundStyle(.secondary)
             
+            #if os(iOS)
             if !isActive {
                 if isPurchasing {
                     HStack {
@@ -376,12 +396,12 @@ struct SubscriptionRowView: View {
                 } else {
                     Button(action: onSubscribe) {
                         Text("Đăng ký")
-                            .font(Typography.headline)
+                            .font(.headline)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.blue)
                             .foregroundColor(.white)
-                            .cornerRadius(CornerRadius.small)
+                            .cornerRadius(CornerRadius.sm)
                     }
                 }
             } else {
@@ -394,14 +414,37 @@ struct SubscriptionRowView: View {
                     }
                 } label: {
                     Text("Quản lý đăng ký")
-                        .font(Typography.headline)
+                        .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.secondary.opacity(0.3))
                         .foregroundColor(.primary)
-                        .cornerRadius(CornerRadius.small)
+                        .cornerRadius(CornerRadius.sm)
                 }
             }
+            #else
+            // macOS fallback
+            if !isActive {
+                if isPurchasing {
+                    HStack {
+                        Spacer()
+                        ProgressView()
+                            .padding()
+                        Spacer()
+                    }
+                } else {
+                    Button(action: onSubscribe) {
+                        Text("Đăng ký")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(CornerRadius.sm)
+                    }
+                }
+            }
+            #endif
         }
         .padding()
         .background(
@@ -411,7 +454,7 @@ struct SubscriptionRowView: View {
                 endPoint: .bottomTrailing
             )
         )
-        .cornerRadius(CornerRadius.medium)
+        .cornerRadius(CornerRadius.md)
     }
 }
 
@@ -422,7 +465,7 @@ struct SubscriptionRowView: View {
     IAPView(
         store: Store(
             initialState: IAPState(
-                products: MockPaymentService.defaultProducts,
+                products: [],
                 hasPremium: false,
                 hasRemovedAds: false
             )
@@ -432,4 +475,3 @@ struct SubscriptionRowView: View {
     )
 }
 #endif
-

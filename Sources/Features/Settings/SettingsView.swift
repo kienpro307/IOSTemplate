@@ -26,7 +26,9 @@ public struct SettingsView: View {
                 aboutSection
             }
             .navigationTitle("Settings")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
+            #endif
             .onAppear {
                 store.send(.onAppear)
             }
@@ -40,7 +42,7 @@ public struct SettingsView: View {
             Button {
                 store.send(.showPremium)
             } label: {
-                HStack(spacing: Spacing.medium) {
+                HStack(spacing: Spacing.md) {
                     Image(systemName: "crown.fill")
                         .font(.title2)
                         .foregroundStyle(
@@ -53,11 +55,11 @@ public struct SettingsView: View {
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Nâng cấp Premium")
-                            .font(Typography.headline)
+                            .font(.headline)
                             .foregroundColor(.theme.textPrimary)
                         
                         Text("Mở khóa tất cả tính năng")
-                            .font(Typography.caption1)
+                            .font(.caption)
                             .foregroundColor(.theme.textSecondary)
                     }
                     
@@ -220,11 +222,11 @@ struct PrivacyPolicyView: View {
     var body: some View {
         ScrollView {
             Text("Privacy Policy")
-                .font(.theme.headlineLarge)
+                .font(.title)
                 .padding()
 
             Text("Your privacy policy content here...")
-                .font(.theme.bodyMedium)
+                .font(.body)
                 .padding()
         }
         .navigationTitle("Privacy Policy")
@@ -235,11 +237,11 @@ struct TermsOfServiceView: View {
     var body: some View {
         ScrollView {
             Text("Terms of Service")
-                .font(.theme.headlineLarge)
+                .font(.title)
                 .padding()
 
             Text("Your terms of service content here...")
-                .font(.theme.bodyMedium)
+                .font(.body)
                 .padding()
         }
         .navigationTitle("Terms of Service")
@@ -257,4 +259,3 @@ struct TermsOfServiceView: View {
         )
     }
 }
-

@@ -127,7 +127,7 @@ public struct LivePaymentService: PaymentServiceProtocol {
     
     public func restorePurchases() async throws -> [String] {
         try await manager.restorePurchases()
-        return Array(manager.purchasedProductIDs)
+        return await Array(manager.purchasedProductIDs)
     }
     
     public func isPurchased(_ productId: String) async -> Bool {
@@ -168,7 +168,7 @@ public struct LivePaymentService: PaymentServiceProtocol {
             return .autoRenewable
         case .nonRenewable:
             return .nonRenewable
-        @unknown default:
+        default:
             return .nonConsumable
         }
     }

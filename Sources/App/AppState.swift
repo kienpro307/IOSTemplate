@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import Foundation
+import Core
 import Features
 
 /// Trạng thái toàn bộ ứng dụng

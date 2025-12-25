@@ -3,7 +3,10 @@ import PackageDescription
 
 let package = Package(
     name: "IOSTemplate",
-    platforms: [.iOS(.v16)],
+    platforms: [
+        .iOS(.v16),
+        .macOS(.v13) // Cần cho swift test
+    ],
     products: [
         .library(name: "Core", targets: ["Core"]),
         .library(name: "UI", targets: ["UI"]),
@@ -54,7 +57,8 @@ let package = Package(
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseRemoteConfig", package: "firebase-ios-sdk"),
-                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+                // Note: FirebasePerformance chỉ available trên iOS, không support macOS
+                // .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
             ],
             path: "Sources/Services"
         ),

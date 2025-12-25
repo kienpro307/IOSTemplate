@@ -31,11 +31,15 @@ public struct HomeView: View {
                 .padding(Spacing.viewPadding)
             }
             .navigationTitle("Home")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.large)
+            #endif
             .background(Color.theme.background)
+            #if os(iOS)
             .refreshable {
                 store.send(.refresh)
             }
+            #endif
             .onAppear {
                 store.send(.onAppear)
             }
@@ -48,11 +52,12 @@ public struct HomeView: View {
         HStack {
             VStack(alignment: .leading, spacing: Spacing.xs) {
                 Text("Welcome back,")
-                    .font(.theme.bodyMedium)
+                    .font(.subheadline)
                     .foregroundColor(.theme.textSecondary)
 
                 Text("User")
-                    .font(.theme.headlineLarge)
+                    .font(.title2)
+                    .fontWeight(.bold)
                     .foregroundColor(.theme.textPrimary)
             }
 
@@ -78,14 +83,14 @@ public struct HomeView: View {
                     .foregroundColor(.theme.primary)
 
                 Text("Getting Started")
-                    .font(.theme.headlineSmall)
+                    .font(.headline)
                     .foregroundColor(.theme.textPrimary)
 
                 Spacer()
             }
 
             Text("Explore the app features and customize your experience.")
-                .font(.theme.bodyMedium)
+                .font(.body)
                 .foregroundColor(.theme.textSecondary)
                 .lineLimit(2)
 
@@ -103,7 +108,8 @@ public struct HomeView: View {
     private var quickActionsSection: some View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             Text("Quick Actions")
-                .font(.theme.titleLarge)
+                .font(.title3)
+                .fontWeight(.bold)
                 .foregroundColor(.theme.textPrimary)
 
             LazyVGrid(
@@ -130,7 +136,8 @@ public struct HomeView: View {
         VStack(alignment: .leading, spacing: Spacing.md) {
             HStack {
                 Text("Recent Activity")
-                    .font(.theme.titleLarge)
+                    .font(.title3)
+                    .fontWeight(.bold)
                     .foregroundColor(.theme.textPrimary)
 
                 Spacer()
@@ -183,7 +190,7 @@ struct QuickActionCard: View {
                     .cornerRadius(CornerRadius.md)
 
                 Text(title)
-                    .font(.theme.labelMedium)
+                    .font(.caption)
                     .foregroundColor(.theme.textPrimary)
             }
             .frame(maxWidth: .infinity)
@@ -212,11 +219,11 @@ struct ActivityRow: View {
 
                 VStack(alignment: .leading, spacing: Spacing.xs) {
                     Text(title)
-                        .font(.theme.bodyMedium)
+                        .font(.body)
                         .foregroundColor(.theme.textPrimary)
 
                     Text(subtitle)
-                        .font(.theme.caption)
+                        .font(.caption)
                         .foregroundColor(.theme.textSecondary)
                 }
 
@@ -243,4 +250,3 @@ struct ActivityRow: View {
         )
     }
 }
-

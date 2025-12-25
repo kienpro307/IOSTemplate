@@ -48,22 +48,22 @@ struct AppReducer {
         // MARK: - Navigation
         var selectedTab: Tab = .home
         var path: StackState<Destination> = StackState()
-        
+
         // MARK: - Feature States
         var home = HomeReducer.State()
         var search = SearchReducer.State()
         var settings = SettingsReducer.State()
-        
+
         // MARK: - Presented States (Optional)
         @Presents var detail: DetailReducer.State?
         @Presents var alert: AlertState<Action.Alert>?
-        
+
         // MARK: - Global States
         var isConnected: Bool = true
         var isGlobalLoading: Bool = false
         var appVersion: String = "1.0.0"
     }
-    
+
     enum Tab: String, CaseIterable, Equatable {
         case home
         case search
@@ -83,29 +83,29 @@ struct HomeReducer {
         // MARK: - Data
         var products: [Product] = []
         var categories: [Category] = []
-        
+
         // MARK: - Loading
         var loadingState: LoadingState = .idle
-        
+
         // MARK: - Pagination
         var currentPage: Int = 1
         var hasMoreData: Bool = true
-        
+
         // MARK: - Filters
         var selectedCategory: Category?
         var sortBy: SortOption = .newest
-        
+
         // MARK: - UI State
         var isRefreshing: Bool = false
     }
-    
+
     enum LoadingState: Equatable {
         case idle
         case loading
         case loaded
         case failed(String)
     }
-    
+
     enum SortOption: String, CaseIterable {
         case newest
         case priceAsc = "price_asc"
@@ -128,17 +128,17 @@ enum LoadingState<T: Equatable>: Equatable {
     case loading
     case loaded(T)
     case failed(String)
-    
+
     var isLoading: Bool {
         if case .loading = self { return true }
         return false
     }
-    
+
     var data: T? {
         if case .loaded(let data) = self { return data }
         return nil
     }
-    
+
     var error: String? {
         if case .failed(let message) = self { return message }
         return nil
@@ -162,16 +162,16 @@ struct SettingsFormState: Equatable {
     var theme: String = ""
     var language: String = ""
     var notificationsEnabled: Bool = true
-    
+
     // Validation errors - Lỗi validation
     var nameError: String?
     var emailError: String?
     var phoneError: String?
-    
+
     // Form state - Trạng thái form
     var isSubmitting: Bool = false
     var isSubmitted: Bool = false
-    
+
     // Computed validation - Kiểm tra hợp lệ
     var isValid: Bool {
         !fullName.isEmpty &&
@@ -189,22 +189,22 @@ struct SettingsFormState: Equatable {
 struct ListState: Equatable {
     // Data - Dữ liệu
     var items: IdentifiedArrayOf<Item> = []
-    
+
     // Selection - Lựa chọn
     var selectedItemID: Item.ID?
     var isSelectionMode: Bool = false
     var selectedItemIDs: Set<Item.ID> = []
-    
+
     // Pagination - Phân trang
     var page: Int = 1
     var pageSize: Int = 20
     var totalCount: Int = 0
     var hasMoreData: Bool { items.count < totalCount }
-    
+
     // Loading - Trạng thái tải
     var isLoadingMore: Bool = false
     var isRefreshing: Bool = false
-    
+
     // Search & Filter - Tìm kiếm và lọc
     var searchQuery: String = ""
     var filter: FilterOptions = .init()
@@ -220,7 +220,7 @@ struct ListState: Equatable {
 ```swift
 struct RootView: View {
     @Bindable var store: StoreOf<AppReducer>
-    
+
     var body: some View {
         TabView(selection: $store.selectedTab.sending(\.tabChanged)) {
             // Scope to child store - Scope xuống child store
@@ -232,7 +232,7 @@ struct RootView: View {
             )
             .tabItem { Label("Home", systemImage: "house") }
             .tag(AppReducer.Tab.home)
-            
+
             SettingsView(
                 store: store.scope(
                     state: \.settings,
@@ -287,7 +287,7 @@ var body: some ReducerOf<Self> {
 struct Persisted<T: Codable>: Equatable where T: Equatable {
     private let key: String
     private let defaultValue: T
-    
+
     var wrappedValue: T {
         get {
             guard let data = UserDefaults.standard.data(forKey: key),
@@ -302,7 +302,7 @@ struct Persisted<T: Codable>: Equatable where T: Equatable {
             }
         }
     }
-    
+
     init(wrappedValue: T, key: String) {
         self.key = key
         self.defaultValue = wrappedValue
@@ -355,4 +355,4 @@ struct SettingsState: Equatable {
 
 ---
 
-*State management là nền tảng của app. Thiết kế state tốt giúp app dễ debug và maintain.*
+_State management là nền tảng của app. Thiết kế state tốt giúp app dễ debug và maintain._

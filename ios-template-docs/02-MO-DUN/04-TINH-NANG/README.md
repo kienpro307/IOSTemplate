@@ -1,9 +1,11 @@
 # 🚀 Mô-đun FEATURES (Features Module)
 
 ## Tổng Quan
+
 Module chứa các business features của app.
 
 ## Cấu Trúc
+
 ```
 Features/
 ├── Onboarding/          # Onboarding flow
@@ -14,10 +16,12 @@ Features/
 ```
 
 **Lưu ý:**
+
 - App **KHÔNG** có Authentication
 - App **KHÔNG** có Profile
 
 ## Feature Template
+
 ```
 FeatureName/
 ├── [Feature]Reducer.swift   # State, Action, Reducer
@@ -27,6 +31,7 @@ FeatureName/
 ```
 
 ## Lưu Ý
+
 - Code dùng tiếng Anh
 - Comment dùng tiếng Việt
 - App **KHÔNG** có authentication

@@ -79,6 +79,10 @@ public struct SettingsReducer {
             case .preferencesSaved:
                 // Preferences đã được lưu vào storage
                 return .none
+                
+            case .showPremium:
+                // Handled by parent reducer (navigation)
+                return .none
             }
         }
     }

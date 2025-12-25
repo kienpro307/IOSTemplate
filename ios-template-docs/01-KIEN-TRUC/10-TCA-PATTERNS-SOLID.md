@@ -37,13 +37,13 @@ struct ProductFeature {
         var products: [Product] = []
         var isLoading: Bool = false
     }
-    
+
     // Action: CHỈ định nghĩa events
     enum Action {
         case loadProducts
         case productsLoaded([Product])
     }
-    
+
     // Reducer: CHỈ xử lý logic
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -80,7 +80,7 @@ struct ProductFeature {
 struct ProductFeature {
     var body: some ReducerOf<Self> {
         Reduce { state, action in /* logic */ }
-        
+
         // Thêm mới bằng composition
         AnalyticsReducer()  // ✅ Extension
     }
@@ -155,7 +155,7 @@ protocol AnalyticsServiceProtocol {
 struct ProductFeature {
     // Depend on abstraction, not implementation
     @Dependency(\.productService) var productService
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             // Dùng productService mà không cần biết implementation
@@ -201,19 +201,19 @@ struct AppFeature {
         var config = ConfigFeature.State()
         var ad = AdFeature.State()
     }
-    
+
     enum Action {
         case user(UserFeature.Action)
         case config(ConfigFeature.Action)
         case ad(AdFeature.Action)
     }
-    
+
     var body: some ReducerOf<Self> {
         // Compose children
         Scope(state: \.user, action: \.user) { UserFeature() }
         Scope(state: \.config, action: \.config) { ConfigFeature() }
         Scope(state: \.ad, action: \.ad) { AdFeature() }
-        
+
         // Parent forwards changes
         Reduce { state, action in
             switch action {
@@ -221,12 +221,12 @@ struct AppFeature {
             case .user(.delegate(.premiumStatusChanged(let isPremium))):
                 // Forward to Ad
                 return .send(.ad(.userPremiumStatusChanged(isPremium)))
-                
+
             // Config ads setting changed
             case .config(.delegate(.adsEnabledChanged(let enabled))):
                 // Forward to Ad
                 return .send(.ad(.configAdsEnabledChanged(enabled)))
-                
+
             default:
                 return .none
             }
@@ -242,27 +242,27 @@ struct AdFeature {
         // ⭐ Ad owns shouldShowAd logic
         var shouldShowAd: Bool = false
         var isInitialized: Bool = false
-        
+
         // Data received from outside
         var isPremiumUser: Bool = false
         var adsEnabledInConfig: Bool = true
-        
+
         mutating func recalculate() {
-            shouldShowAd = adsEnabledInConfig && 
-                          isInitialized && 
+            shouldShowAd = adsEnabledInConfig &&
+                          isInitialized &&
                           !isPremiumUser
         }
     }
-    
+
     enum Action {
         case initialize
         case initialized
-        
+
         // ⭐ Receive updates from parent
         case userPremiumStatusChanged(Bool)
         case configAdsEnabledChanged(Bool)
     }
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -270,12 +270,12 @@ struct AdFeature {
                 state.isInitialized = true
                 state.recalculate()
                 return .none
-                
+
             case .userPremiumStatusChanged(let isPremium):
                 state.isPremiumUser = isPremium
                 state.recalculate()  // ⭐ AdFeature owns this logic
                 return .none
-                
+
             case .configAdsEnabledChanged(let enabled):
                 state.adsEnabledInConfig = enabled
                 state.recalculate()  // ⭐ AdFeature owns this logic
@@ -287,12 +287,14 @@ struct AdFeature {
 ```
 
 **Pros:**
+
 - ✅ SOLID compliant (SRP: mỗi feature owns logic của nó)
 - ✅ Easy to understand flow
 - ✅ Easy to test
 - ✅ No circular dependencies
 
 **Cons:**
+
 - ⚠️ Parent cần biết tất cả relationships
 - ⚠️ Nhiều forwarding code
 
@@ -315,12 +317,12 @@ protocol ConfigStateReader {
 struct AdFeature {
     @Dependency(\.userStateReader) var userStateReader
     @Dependency(\.configStateReader) var configStateReader
-    
+
     @ObservableState
     struct State: Equatable {
         var shouldShowAd: Bool = false
         var isInitialized: Bool = false
-        
+
         mutating func recalculate(
             isPremium: Bool,
             adsEnabled: Bool
@@ -328,11 +330,11 @@ struct AdFeature {
             shouldShowAd = adsEnabled && isInitialized && !isPremium
         }
     }
-    
+
     enum Action {
         case checkShouldShowAd
     }
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -349,10 +351,12 @@ struct AdFeature {
 ```
 
 **Pros:**
+
 - ✅ More decoupled
 - ✅ AdFeature doesn't know about parent
 
 **Cons:**
+
 - ⚠️ More complex setup
 - ⚠️ Harder to trace data flow
 
@@ -364,11 +368,11 @@ struct AdFeature {
 
 class EventBus {
     static let shared = EventBus()
-    
+
     func publish(_ event: AppEvent) {
         // Broadcast to all subscribers
     }
-    
+
     func subscribe(to eventType: AppEvent.Type, handler: @escaping (AppEvent) -> Void) {
         // Subscribe
     }
@@ -383,11 +387,11 @@ class EventBus {
 
 ### 2.5 Pattern Comparison
 
-| Pattern | Complexity | Testability | SOLID | When to use |
-|---------|------------|-------------|-------|-------------|
-| Parent Forwards ✅ | Low | High | ✅ | Default choice |
-| Dependency Injection | Medium | High | ✅ | Complex apps |
-| Event Bus ❌ | Low | Low | ❌ | Never in TCA |
+| Pattern              | Complexity | Testability | SOLID | When to use    |
+| -------------------- | ---------- | ----------- | ----- | -------------- |
+| Parent Forwards ✅   | Low        | High        | ✅    | Default choice |
+| Dependency Injection | Medium     | High        | ✅    | Complex apps   |
+| Event Bus ❌         | Low        | Low         | ❌    | Never in TCA   |
 
 ---
 
@@ -458,15 +462,15 @@ Frameworks & Drivers        SwiftUI Views, URLSession
 
 ### 4.1 Patterns Used
 
-| Pattern | TCA Implementation | Usage |
-|---------|-------------------|-------|
-| State Machine | Reducer + State | Core pattern |
-| Command | Action enum | All user events |
-| Observer | Store subscription | View binding |
-| Factory | Dependency system | Service creation |
-| Composite | Reducer composition | Feature combination |
-| Decorator | Reducer operators | Logging, analytics |
-| Strategy | Protocol dependencies | Swappable implementations |
+| Pattern       | TCA Implementation    | Usage                     |
+| ------------- | --------------------- | ------------------------- |
+| State Machine | Reducer + State       | Core pattern              |
+| Command       | Action enum           | All user events           |
+| Observer      | Store subscription    | View binding              |
+| Factory       | Dependency system     | Service creation          |
+| Composite     | Reducer composition   | Feature combination       |
+| Decorator     | Reducer operators     | Logging, analytics        |
+| Strategy      | Protocol dependencies | Swappable implementations |
 
 ### 4.2 State Machine Pattern
 
@@ -482,12 +486,12 @@ struct AuthFeature {
         case loggedIn(User)
         case error(String)
     }
-    
+
     @ObservableState
     struct State: Equatable {
         var authState: AuthState = .loggedOut
     }
-    
+
     // Events (Transitions)
     enum Action {
         case loginTapped
@@ -495,7 +499,7 @@ struct AuthFeature {
         case loginFailure(Error)
         case logoutTapped
     }
-    
+
     // Transition Logic
     var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -504,22 +508,22 @@ struct AuthFeature {
             case (.loggedOut, .loginTapped):
                 state.authState = .loggingIn
                 return .run { /* perform login */ }
-                
+
             // loggingIn + success → loggedIn
             case (.loggingIn, .loginSuccess(let user)):
                 state.authState = .loggedIn(user)
                 return .none
-                
+
             // loggingIn + failure → error
             case (.loggingIn, .loginFailure(let error)):
                 state.authState = .error(error.localizedDescription)
                 return .none
-                
+
             // loggedIn + logout → loggedOut
             case (.loggedIn, .logoutTapped):
                 state.authState = .loggedOut
                 return .none
-                
+
             default:
                 return .none
             }
@@ -543,7 +547,7 @@ struct AppFeature {
         Scope(state: \.settings, action: \.settings) {
             SettingsFeature()
         }
-        
+
         // Core logic
         Reduce { state, action in
             // Root-level logic
@@ -615,7 +619,7 @@ struct AppFeature {
 @MainActor
 func testLoadProducts() async {
     let mockProducts = [Product.mock]
-    
+
     let store = TestStore(
         initialState: ProductFeature.State()
     ) {
@@ -623,11 +627,11 @@ func testLoadProducts() async {
     } withDependencies: {
         $0.productService.fetchProducts = { mockProducts }
     }
-    
+
     await store.send(.loadProducts) {
         $0.isLoading = true
     }
-    
+
     await store.receive(.productsLoaded(mockProducts)) {
         $0.isLoading = false
         $0.products = mockProducts
@@ -637,7 +641,7 @@ func testLoadProducts() async {
 @MainActor
 func testLoadProductsFailure() async {
     struct TestError: Error {}
-    
+
     let store = TestStore(
         initialState: ProductFeature.State()
     ) {
@@ -645,11 +649,11 @@ func testLoadProductsFailure() async {
     } withDependencies: {
         $0.productService.fetchProducts = { throw TestError() }
     }
-    
+
     await store.send(.loadProducts) {
         $0.isLoading = true
     }
-    
+
     await store.receive(.loadFailed) {
         $0.isLoading = false
         $0.error = "Failed to load"
@@ -697,7 +701,7 @@ func testLoadProductsFailure() async {
 // ❌ BEFORE: Business logic in View
 struct ProductView: View {
     @State var products: [Product] = []
-    
+
     var body: some View {
         List(products) { product in
             Text(product.name)
@@ -714,7 +718,7 @@ struct ProductView: View {
 // ✅ AFTER: Logic in Reducer
 struct ProductView: View {
     @Bindable var store: StoreOf<ProductFeature>
-    
+
     var body: some View {
         List(store.products) { product in
             Text(product.name)
@@ -777,7 +781,7 @@ Phase 4: Test
 class ProductViewModel: ObservableObject {
     @Published var products: [Product] = []
     @Published var isLoading = false
-    
+
     func loadProducts() {
         isLoading = true
         Task {
@@ -795,14 +799,14 @@ struct ProductFeature {
         var products: [Product] = []
         var isLoading = false
     }
-    
+
     enum Action {
         case loadProducts
         case productsLoaded([Product])
     }
-    
+
     @Dependency(\.apiClient) var apiClient
-    
+
     var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -836,14 +840,14 @@ struct ProductFeature {
 
 ### Recommendations
 
-| Situation | Recommendation |
-|-----------|----------------|
-| New project | Start with TCA |
-| Existing MVVM | Migrate gradually |
-| Cross-reducer data | Parent Forwards pattern |
+| Situation            | Recommendation               |
+| -------------------- | ---------------------------- |
+| New project          | Start with TCA               |
+| Existing MVVM        | Migrate gradually            |
+| Cross-reducer data   | Parent Forwards pattern      |
 | Complex dependencies | Dependency Injection pattern |
-| Testing | Always use TestStore |
+| Testing              | Always use TestStore         |
 
 ---
 
-*TCA không chỉ là architecture, mà là cách tư duy về state management đúng đắn.*
+_TCA không chỉ là architecture, mà là cách tư duy về state management đúng đắn._

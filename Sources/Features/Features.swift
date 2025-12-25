@@ -3,10 +3,7 @@
 /// Thêm các feature reducers, views và logic ở đây
 
 import Foundation
-
-// Re-export tất cả public types từ các features
-@_exported import struct ComposableArchitecture.Store
-@_exported import protocol ComposableArchitecture.Reducer
+@_exported import ComposableArchitecture
 
 // MARK: - Onboarding
 public typealias OnboardingModule = OnboardingReducer

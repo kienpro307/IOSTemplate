@@ -23,11 +23,13 @@ public struct OnboardingReducer {
                 if state.currentPage < state.config.pages.count - 1 {
                     let newPage = state.currentPage + 1
                     state.currentPage = newPage
+                    // Capture values before closure
+                    let pageTitle = state.config.pages[newPage].title
                     // Track page change vào Analytics
                     return .run { _ in
                         await analytics.trackEvent("onboarding_page_changed", parameters: [
                             "page_index": newPage,
-                            "page_title": state.config.pages[newPage].title
+                            "page_title": pageTitle
                         ])
                     }
                 }

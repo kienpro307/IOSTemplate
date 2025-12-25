@@ -11,20 +11,24 @@ Xem chi tiết: [01-CHUNG/LIET-KE-RULES.md](01-CHUNG/LIET-KE-RULES.md)
 ## Quy tắc bắt buộc
 
 ### 1. Ngôn ngữ
+
 - Code (hàm, biến, class, struct, enum): **TIẾNG ANH**
 - Comment, documentation: **TIẾNG VIỆT**
 
 ### 2. Bảo vệ docs
+
 - **KHÔNG ĐƯỢC SỬA** thư mục `ios-template-docs/`
 - Chỉ sửa khi user nói rõ: "sửa docs" hoặc "cập nhật ios-template-docs"
 - Chi tiết: [01-CHUNG/BAO-VE-DOCS.md](01-CHUNG/BAO-VE-DOCS.md)
 
 ### 3. Không có Authentication và Profile
+
 - App **KHÔNG** có đăng nhập/đăng ký
 - App **KHÔNG** có profile/user management
 - Không tạo features liên quan user auth hoặc profile
 
 ### 4. Architecture
+
 - Dùng **TCA** (The Composable Architecture)
 - Tuân thủ **SOLID principles**
 - Dùng **@Dependency** (không Singleton)
@@ -51,6 +55,7 @@ Xem file: [01-CHUNG/DOC-READING-CHECKLIST.md](01-CHUNG/DOC-READING-CHECKLIST.md)
 ### Thứ tự ưu tiên đọc:
 
 1. **🔴 HIGH Priority (BẮT BUỘC đọc trước mỗi session):**
+
    - `ios-template-docs/README.md` - Tổng quan
    - `ios-template-docs/04-HUONG-DAN-AI/00-DOC-TRUOC.md` - Hướng dẫn AI
    - `ios-template-docs/01-KIEN-TRUC/08-MULTI-MODULE-ARCHITECTURE.md` - Kiến trúc 4-tier
@@ -62,6 +67,7 @@ Xem file: [01-CHUNG/DOC-READING-CHECKLIST.md](01-CHUNG/DOC-READING-CHECKLIST.md)
    - `ios-template-docs/02-MO-DUN/04-TINH-NANG/README.md` - Features module
 
 2. **🟡 MEDIUM Priority (Đọc khi làm task liên quan):**
+
    - `ios-template-docs/01-KIEN-TRUC/02-KIEN-TRUC-TCA.md` - TCA architecture
    - `ios-template-docs/01-KIEN-TRUC/10-TCA-PATTERNS-SOLID.md` - TCA patterns
    - `ios-template-docs/04-HUONG-DAN-AI/02-QUY-TAC-CODE.md` - Quy tắc code
@@ -103,12 +109,12 @@ Bắt đầu session mới
 
 Trước khi làm task, đọc context hiện tại:
 
-| File | Mô tả |
-|------|-------|
-| [04-CONTEXT/CURRENT-STATUS.md](04-CONTEXT/CURRENT-STATUS.md) | Tình trạng dự án (tiến độ, đã làm gì) |
-| [04-CONTEXT/INTEGRATION-PLAN.md](04-CONTEXT/INTEGRATION-PLAN.md) | Kế hoạch tích hợp ios-template-home |
-| [04-CONTEXT/REFERENCE-CODE.md](04-CONTEXT/REFERENCE-CODE.md) | Code snippets để copy |
-| [04-CONTEXT/TIER-MAPPING.md](04-CONTEXT/TIER-MAPPING.md) | **⭐ Tier mapping - Kiểm tra tier trước khi copy** |
+| File                                                             | Mô tả                                              |
+| ---------------------------------------------------------------- | -------------------------------------------------- |
+| [04-CONTEXT/CURRENT-STATUS.md](04-CONTEXT/CURRENT-STATUS.md)     | Tình trạng dự án (tiến độ, đã làm gì)              |
+| [04-CONTEXT/INTEGRATION-PLAN.md](04-CONTEXT/INTEGRATION-PLAN.md) | Kế hoạch tích hợp ios-template-home                |
+| [04-CONTEXT/REFERENCE-CODE.md](04-CONTEXT/REFERENCE-CODE.md)     | Code snippets để copy                              |
+| [04-CONTEXT/TIER-MAPPING.md](04-CONTEXT/TIER-MAPPING.md)         | **⭐ Tier mapping - Kiểm tra tier trước khi copy** |
 
 ---
 
@@ -146,21 +152,22 @@ Cập nhật progress/DANG-LAM.md và 04-CONTEXT/CURRENT-STATUS.md
 
 ## Quick links
 
-| Loại | File |
-|------|------|
-| Danh mục rules | [INDEX.md](INDEX.md) |
-| Context dự án | [04-CONTEXT/](04-CONTEXT/) |
-| Quy tắc code | [02-CODE/](02-CODE/) |
-| Quy tắc task | [03-TASK/](03-TASK/) |
-| Tiến độ | [../progress/TIEN-DO.md](../progress/TIEN-DO.md) |
-| Đang làm | [../progress/DANG-LAM.md](../progress/DANG-LAM.md) |
-| Docs chi tiết | [../ios-template-docs/](../ios-template-docs/) |
+| Loại           | File                                               |
+| -------------- | -------------------------------------------------- |
+| Danh mục rules | [INDEX.md](INDEX.md)                               |
+| Context dự án  | [04-CONTEXT/](04-CONTEXT/)                         |
+| Quy tắc code   | [02-CODE/](02-CODE/)                               |
+| Quy tắc task   | [03-TASK/](03-TASK/)                               |
+| Tiến độ        | [../progress/TIEN-DO.md](../progress/TIEN-DO.md)   |
+| Đang làm       | [../progress/DANG-LAM.md](../progress/DANG-LAM.md) |
+| Docs chi tiết  | [../ios-template-docs/](../ios-template-docs/)     |
 
 ---
 
 ## Reference Code từ ios-template-home
 
 Dự án có template cũ ở `ios-template-home/` chứa code đã implement:
+
 - Theme System, UI Components
 - Network, Cache, Logger
 - Firebase, Features, Monetization
@@ -182,7 +189,7 @@ Khi làm task mới:
         └── KHÔNG → Kiểm tra ios-template-docs có spec không?
             ├── CÓ → Tự tạo theo spec trong docs
             └── KHÔNG → Tự tạo theo best practices
-    
+
     2. Kiểm tra Tier (QUAN TRỌNG):
         ├── Tier của code cũ KHỚP với tier đang làm?
         │   ├── CÓ → Copy và adapt theo TCA @Dependency pattern
@@ -197,6 +204,7 @@ Khi làm task mới:
 **⚠️ QUAN TRỌNG:** Code cũ tập trung ở 1 template, code mới chia thành 4-tier. Phải kiểm tra tier trước khi copy!
 
 **Quy trình BẮT BUỘC:**
+
 1. Tìm file tương ứng trong `ios-template-home/ios-template-main/Sources/iOSTemplate/`
 2. **KIỂM TRA TIER:**
    - Xác định tier của code cũ (xem `04-CONTEXT/TIER-MAPPING.md`)
@@ -211,6 +219,7 @@ Khi làm task mới:
 6. Test và update progress
 
 **Ví dụ đã làm (tier khớp):**
+
 - ✅ Theme System (TIER 1) → Copy vào `UI/Theme/` (TIER 1) ✅
 - ✅ Network Layer (TIER 1) → Copy vào `Core/Dependencies/` (TIER 1) ✅
 - ✅ Storage (TIER 1) → Copy vào `Core/Dependencies/` (TIER 1) ✅
@@ -218,10 +227,12 @@ Khi làm task mới:
 #### 2. **KHÔNG có Reference Code** → TỰ TẠO theo Spec
 
 **Ví dụ đã làm:**
+
 - ✅ Error Handling System → Tự tạo theo spec trong `ios-template-docs/01-KIEN-TRUC/06-XU-LY-LOI.md`
 - ✅ Navigation System → Tự tạo theo spec trong docs
 
 **Quy trình:**
+
 1. Đọc spec trong `ios-template-docs/`
 2. Tự implement theo spec đó
 3. Tuân thủ TCA pattern và SOLID principles
@@ -283,17 +294,20 @@ Khi làm task mới:
 ### Chi tiết:
 
 1. **Sau khi code xong:**
+
    - Thông báo: "Đã hoàn thành task. Vui lòng run và review code."
    - KHÔNG tự động commit/push
    - Chờ user xác nhận build success
 
 2. **Khi user báo build success:**
+
    - Tạo câu lệnh git commit theo convention
    - Commit message viết bằng **TIẾNG VIỆT**
    - Format: `<type>(<scope>): <mô tả ngắn>`
    - Ví dụ: `feat(network): thêm NetworkClient với Moya`
 
 3. **Commit message convention:**
+
    - `feat`: Tính năng mới
    - `fix`: Sửa lỗi
    - `refactor`: Refactor code
