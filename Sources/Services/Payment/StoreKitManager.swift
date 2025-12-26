@@ -43,24 +43,30 @@ public final class StoreKitManager: Sendable {
     }
     
     // MARK: - Product Loading
-    
+
     /// Load products from App Store
     public func loadProducts() async throws -> [StoreKit.Product] {
         isLoading = true
         errorMessage = nil
-        
+
         defer { isLoading = false }
-        
+
+        // Kiểm tra configuration
+        guard IAPConfiguration.shared.isConfigured else {
+            errorMessage = "IAP Configuration not set up"
+            throw IAPConfigurationError.notConfigured
+        }
+
         do {
-            let productIds = IAPProduct.allProductIDs
+            let productIds = IAPConfiguration.shared.productIDs
             let storeProducts = try await StoreKit.Product.products(for: productIds)
-            
+
             // Sort products by price
             products = storeProducts.sorted { $0.price < $1.price }
-            
+
             // Update purchased products
             await updatePurchasedProducts()
-            
+
             return products
         } catch {
             errorMessage = "Failed to load products: \(error.localizedDescription)"
@@ -155,19 +161,25 @@ public final class StoreKitManager: Sendable {
     }
     
     /// Check if user has premium access
+    /// Note: App chính cần override logic này nếu có requirement khác
     public func hasPremium() -> Bool {
-        // Check if user has premium unlock or active subscription
-        let hasPremiumUnlock = purchasedProductIDs.contains(IAPProduct.premiumUnlock.rawValue)
-        let hasActiveSubscription = !activeSubscriptions.isEmpty
-        
-        return hasPremiumUnlock || hasActiveSubscription
+        // Có active subscription = có premium
+        !activeSubscriptions.isEmpty
     }
-    
+
     /// Check if ads are removed
+    /// Note: App chính cần override logic này nếu có requirement khác
     public func hasRemovedAds() -> Bool {
-        // Check if user purchased remove ads or has premium
-        let hasRemoveAds = purchasedProductIDs.contains(IAPProduct.removeAds.rawValue)
-        return hasRemoveAds || hasPremium()
+        // Mặc định: có subscription = remove ads
+        hasPremium()
+    }
+
+    /// Check if specific product is purchased
+    /// Use this for custom premium/remove ads logic in app
+    /// - Parameter productID: Product ID to check
+    /// - Returns: true if product is purchased
+    public func hasProduct(_ productID: String) -> Bool {
+        purchasedProductIDs.contains(productID)
     }
     
     // MARK: - Restore Purchases

@@ -59,35 +59,59 @@ public protocol NetworkClientProtocol: Sendable {
 // MARK: - Token Provider
 
 /// Provider để cache và cung cấp token cho AccessTokenPlugin
-private final class TokenProvider: @unchecked Sendable {
+/// Swift 6: Sử dụng actor + sync cache cho AccessTokenPlugin compatibility
+private actor TokenProviderActor {
     private var cachedToken: String?
     private let keychainClient: KeychainClientProtocol
-    private let lock = NSLock()
-    
+
     init(keychainClient: KeychainClientProtocol) {
         self.keychainClient = keychainClient
     }
-    
-    /// Lấy token (synchronous, từ cache)
-    func getToken() -> String {
-        lock.lock()
-        defer { lock.unlock() }
-        return cachedToken ?? ""
-    }
-    
+
     /// Refresh token từ Keychain (async)
-    func refreshToken() async {
+    func refreshToken() async -> String? {
         let token = try? await keychainClient.load(forKey: KeychainKey.accessToken.rawValue)
-        lock.lock()
         cachedToken = token
-        lock.unlock()
+        return token
     }
-    
+
     /// Clear cached token
     func clearToken() {
-        lock.lock()
         cachedToken = nil
-        lock.unlock()
+    }
+
+    /// Get current token
+    func getToken() -> String? {
+        cachedToken
+    }
+}
+
+/// Sync wrapper cho AccessTokenPlugin (cần sync closure)
+private final class TokenProvider: @unchecked Sendable {
+    private let actor: TokenProviderActor
+    private var syncCachedToken: String = ""
+
+    init(keychainClient: KeychainClientProtocol) {
+        self.actor = TokenProviderActor(keychainClient: keychainClient)
+    }
+
+    /// Lấy token (synchronous, cho AccessTokenPlugin)
+    func getToken() -> String {
+        syncCachedToken
+    }
+
+    /// Refresh token từ Keychain (async)
+    func refreshToken() async {
+        if let token = await actor.refreshToken() {
+            syncCachedToken = token
+        }
+    }
+
+    /// Clear cached token (synchronous)
+    /// Note: Actor clearing happens async, but sync cache is cleared immediately
+    func clearToken() {
+        syncCachedToken = ""
+        // Actor will be cleared on next refresh
     }
 }
 
@@ -334,7 +358,7 @@ public actor LiveNetworkClient: NetworkClientProtocol {
     }
     
     /// Map Moya error sang NetworkError
-    private func mapError(_ error: Error, response: Response?) -> NetworkError {
+    nonisolated private func mapError(_ error: Error, response: Response?) -> NetworkError {
         // Thử parse error message từ response
         var serverMessage: String?
         if let response = response,

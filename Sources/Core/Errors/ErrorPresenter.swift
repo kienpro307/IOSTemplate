@@ -211,7 +211,7 @@ public extension ErrorPresentation {
         var actions: [AlertAction] = []
         
         if canRetry, let retry = retryAction {
-            actions.append(AlertAction(title: "Thử lại", role: .none, action: retry))
+            actions.append(AlertAction(title: "Thử lại", role: nil, action: retry))
         }
         
         actions.append(AlertAction(title: "Đóng", role: .cancel, action: dismissAction ?? {}))

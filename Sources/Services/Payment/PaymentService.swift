@@ -223,13 +223,17 @@ public struct MockPaymentService: PaymentServiceProtocol {
     }
     
     public func hasPremium() async -> Bool {
-        mockPurchasedProductIDs.contains(IAPProduct.premiumUnlock.rawValue) ||
-        mockPurchasedProductIDs.contains(IAPProduct.subscriptionMonthly.rawValue) ||
-        mockPurchasedProductIDs.contains(IAPProduct.subscriptionYearly.rawValue)
+        // Check if any subscription is purchased
+        let hasSubscription = mockProducts.contains { product in
+            product.productType == .autoRenewable &&
+            mockPurchasedProductIDs.contains(product.id)
+        }
+        return hasSubscription
     }
-    
+
     public func hasRemovedAds() async -> Bool {
-        await hasPremium() || mockPurchasedProductIDs.contains(IAPProduct.removeAds.rawValue)
+        // Mặc định: có subscription = remove ads
+        await hasPremium()
     }
     
     public func getActiveSubscriptions() async -> [IAPProductInfo] {
@@ -240,11 +244,60 @@ public struct MockPaymentService: PaymentServiceProtocol {
     }
     
     // MARK: - Default Mock Products
-    
+
+    /// Default mock products sử dụng IAPConfiguration
+    /// Nếu configuration chưa setup, trả về empty array
     public static var defaultProducts: [IAPProductInfo] {
+        // Nếu configuration chưa được setup, trả về empty
+        guard IAPConfiguration.shared.isConfigured else {
+            return []
+        }
+
+        // Tạo mock products từ product IDs trong configuration
+        return IAPConfiguration.shared.productIDs.enumerated().map { index, productID in
+            // Parse product type từ ID (convention: ID chứa subscription/consumable/etc)
+            let productType: IAPProductInfo.ProductType
+            let subscriptionPeriod: String?
+
+            if productID.contains("subscription") || productID.contains("sub") {
+                productType = .autoRenewable
+                if productID.contains("monthly") || productID.contains("month") {
+                    subscriptionPeriod = "month"
+                } else if productID.contains("yearly") || productID.contains("year") {
+                    subscriptionPeriod = "year"
+                } else {
+                    subscriptionPeriod = nil
+                }
+            } else if productID.contains("consumable") || productID.contains("coins") {
+                productType = .consumable
+                subscriptionPeriod = nil
+            } else {
+                productType = .nonConsumable
+                subscriptionPeriod = nil
+            }
+
+            // Generate mock price based on index
+            let price = Decimal(index + 1) * 2.99
+
+            return IAPProductInfo(
+                id: productID,
+                displayName: "Mock Product \(index + 1)",
+                description: "Mock description for \(productID)",
+                displayPrice: "$\(price)",
+                price: price,
+                productType: productType,
+                subscriptionPeriod: subscriptionPeriod
+            )
+        }
+    }
+
+    /// Backward compatibility: Default products với hardcoded IDs (deprecated)
+    /// Sử dụng cho testing khi không muốn setup configuration
+    @available(*, deprecated, message: "Use IAPConfiguration.setup() and defaultProducts instead")
+    public static var legacyDefaultProducts: [IAPProductInfo] {
         [
             IAPProductInfo(
-                id: IAPProduct.removeAds.rawValue,
+                id: "com.template.ios.removeads",
                 displayName: "Remove Ads",
                 description: "Remove all advertisements permanently",
                 displayPrice: "$2.99",
@@ -252,7 +305,7 @@ public struct MockPaymentService: PaymentServiceProtocol {
                 productType: .nonConsumable
             ),
             IAPProductInfo(
-                id: IAPProduct.premiumUnlock.rawValue,
+                id: "com.template.ios.premium",
                 displayName: "Premium Unlock",
                 description: "Unlock all premium features",
                 displayPrice: "$9.99",
@@ -260,7 +313,7 @@ public struct MockPaymentService: PaymentServiceProtocol {
                 productType: .nonConsumable
             ),
             IAPProductInfo(
-                id: IAPProduct.subscriptionMonthly.rawValue,
+                id: "com.template.ios.subscription.monthly",
                 displayName: "Monthly Subscription",
                 description: "Access all premium features for one month",
                 displayPrice: "$4.99",
@@ -269,7 +322,7 @@ public struct MockPaymentService: PaymentServiceProtocol {
                 subscriptionPeriod: "month"
             ),
             IAPProductInfo(
-                id: IAPProduct.subscriptionYearly.rawValue,
+                id: "com.template.ios.subscription.yearly",
                 displayName: "Yearly Subscription",
                 description: "Access all premium features for one year (Save 40%)",
                 displayPrice: "$29.99",
